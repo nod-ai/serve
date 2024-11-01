@@ -54,7 +54,6 @@ If you plan to develop with TorchServe and change some source code, you must ins
 3. Run the following script from the top of the source directory. NOTE: This script force re-installs `torchserve`, `torch-model-archiver` and `torch-workflow-archiver` if existing installations are found
 
     #### For Debian Based Systems/MacOS
-
     ```
     python ./ts_scripts/install_dependencies.py --environment=dev
     python ./ts_scripts/install_from_src.py --environment=dev

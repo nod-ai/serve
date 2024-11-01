@@ -211,7 +211,6 @@ def get_nvidia_driver_version():
     # Local import because ts_scripts/install_dependencies.py
     # imports a function from this module at a stage when pynvml is not yet installed
     import pynvml
-
     pynvml.nvmlInit()
     driver_version = pynvml.nvmlSystemGetDriverVersion()
     pynvml.nvmlShutdown()
@@ -222,7 +221,6 @@ def get_nvidia_driver_cuda_version():
     # Local import because ts_scripts/install_dependencies.py
     # imports a function from this module at a stage when pynvml is not yet installed
     import pynvml
-
     pynvml.nvmlInit()
     cuda = pynvml.nvmlSystemGetCudaDriverVersion()
     cuda_major = cuda // 1000
