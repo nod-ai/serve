@@ -1347,10 +1347,11 @@ public class ModelServerTest {
         // Wait till first value is read in
         int count = 0;
         while (metrics.isEmpty()) {
-            Thread.sleep(500);
+            Thread.sleep(1000);
             metrics = metricManager.getMetrics();
             Assert.assertTrue(++count < 5);
         }
+
         for (Metric metric : metrics) {
             if (metric.getMetricName().equals("CPUUtilization")) {
                 Assert.assertEquals(metric.getUnit(), "Percent");
