@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.pytorch.serve.archive.model.ModelConfig;
 import org.pytorch.serve.archive.model.ModelConfig.ParallelType;
+import org.pytorch.serve.device.AcceleratorVendor;
 import org.pytorch.serve.metrics.Metric;
 import org.pytorch.serve.metrics.MetricCache;
 import org.pytorch.serve.util.ConfigManager;
@@ -135,6 +136,8 @@ public class WorkerLifeCycle {
                 attachRunner(argl, envp, port, deviceIds);
             } else {
                 if (deviceIds != null) {
+                    AcceleratorVendor visibleDeviceEnvName =
+                            configManager.systemInfo.getAcceleratorVendor();
                     envp.add("CUDA_VISIBLE_DEVICES=" + deviceIds);
                 }
                 argl.add(EnvironmentUtils.getPythonRunTime(model));

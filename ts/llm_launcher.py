@@ -168,9 +168,8 @@ def main(args):
 
     model_store_path = Path(args.model_store)
     model_store_path.mkdir(parents=True, exist_ok=True)
-    model_snapshot_path = (
-        download_model(args.model_id) if args.engine == "trt_llm" else None
-    )
+    if args.engine == "trt_llm":
+        model_snapshot_path = download_model(args.model_id)
 
     with create_mar_file(args, model_snapshot_path):
         if args.engine == "trt_llm":
