@@ -13,7 +13,9 @@ TorchServe now enforces token authorization enabled and model API control disabl
 
 TorchServe is a flexible and easy-to-use tool for serving and scaling PyTorch models in production.
 
-Requires python >= 3.8
+Requires: 
+- python >= 3.8
+- Java >= 17
 
 ```bash
 curl http://127.0.0.1:8080/predictions/bert -T input.txt
@@ -22,7 +24,10 @@ curl http://127.0.0.1:8080/predictions/bert -T input.txt
 
 ```bash
 # Install dependencies
-# cuda is optional
+python ./ts_scripts/install_dependencies.py
+
+# Include depeendencies for accelerator support with the relevant optional flags 
+python ./ts_scripts/install_dependencies.py --rocm=rocm61
 python ./ts_scripts/install_dependencies.py --cuda=cu121
 
 # Latest release
@@ -36,7 +41,10 @@ pip install torchserve-nightly torch-model-archiver-nightly torch-workflow-archi
 
 ```bash
 # Install dependencies
-# cuda is optional
+python ./ts_scripts/install_dependencies.py
+
+# Include depeendencies for accelerator support with the relevant optional flags 
+python ./ts_scripts/install_dependencies.py --rocm=rocm61
 python ./ts_scripts/install_dependencies.py --cuda=cu121
 
 # Latest release
