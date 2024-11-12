@@ -136,9 +136,8 @@ public class WorkerLifeCycle {
                 attachRunner(argl, envp, port, deviceIds);
             } else {
                 if (deviceIds != null) {
-                    AcceleratorVendor visibleDeviceEnvName =
-                            configManager.systemInfo.getAcceleratorVendor();
-                    envp.add("CUDA_VISIBLE_DEVICES=" + deviceIds);
+                    String visibleDeviceEnvName = configManager.systemInfo.getVisibleDevicesEnvName();
+                    envp.add(visibleDeviceEnvName + "=" + deviceIds);
                 }
                 argl.add(EnvironmentUtils.getPythonRunTime(model));
             }
