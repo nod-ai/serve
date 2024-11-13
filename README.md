@@ -13,9 +13,7 @@ TorchServe now enforces token authorization enabled and model API control disabl
 
 TorchServe is a flexible and easy-to-use tool for serving and scaling PyTorch models in production.
 
-Requires: 
-- python >= 3.8
-- Java >= 17
+Requires python >= 3.8
 
 ```bash
 curl http://127.0.0.1:8080/predictions/bert -T input.txt
