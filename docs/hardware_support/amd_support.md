@@ -9,21 +9,40 @@ The current stable `major.patch` version of ROCm and the previous path version w
 
 ## Installation
 
-  1. Make sure you have **python >= 3.8 installed** on your system.
-  2. clone the repo
-    `git clone git@github.com:pytorch/serve.git`
-  3. cd into the cloned folder
-    `cd serve`
-  4. create a virtual environment for python
-    `python -m venv venv`
-  5. activate the virtual environment. If you use another shell (fish, csh, powershell) use the relevant option in from `/venv/bin/`
-    `source venv/bin/activate`
-  6. install the dependencies needed for ROCm support.
-    `python ./ts_scripts/install_dependencies.py --rocm=rocm61`
-    `python ./ts_scripts/install_from_src.py`
-  7. enable amd-smi in the python virtual environment
-    `sudo chown -R $USER:$USER /opt/rocm/share/amd_smi/`
-    `pip install -e /opt/rocm/share/amd_smi/`
+  - Make sure you have **python >= 3.8 installed** on your system.
+  - clone the repo
+    ```bash
+    git clone git@github.com:pytorch/serve.git
+    ```
+
+  - cd into the cloned folder
+
+    ```bash
+    cd serve
+    ```
+
+  - create a virtual environment for python
+
+    ```bash
+    python -m venv venv
+    ```
+
+  - activate the virtual environment. If you use another shell (fish, csh, powershell) use the relevant option in from `/venv/bin/`
+    ```bash
+    source venv/bin/activate
+    ```
+
+  - install the dependencies needed for ROCm support.
+
+    ```bash
+    python ./ts_scripts/install_dependencies.py --rocm=rocm61
+    python ./ts_scripts/install_from_src.py
+    ```
+  - enable amd-smi in the python virtual environment
+    ```bash
+    sudo chown -R $USER:$USER /opt/rocm/share/amd_smi/
+    pip install -e /opt/rocm/share/amd_smi/
+    ```
 
 ### Selecting Accelerators Using `HIP_VISIBLE_DEVICES`
 
@@ -32,7 +51,7 @@ by setting the environment variable `HIP_VISIBLE_DEVICES` to a string of 0-index
 
 If you have 8 accelerators but only want TorchServe to see the last four of them do `export HIP_VISIBLE_DEVICES=4,5,6,7`.
 
->ℹ️  Not setting `HIP_VISIBLE_DEVICES` will cause TorchServe to use all available accelerators on the system it is running on.
+>ℹ️  **Not setting** `HIP_VISIBLE_DEVICES` will cause TorchServe to use all available accelerators on the system it is running on.
 
 > ⚠️  You can run into trouble if you set `HIP_VISIBLE_DEVICES` to an empty string.
 > eg. `export HIP_VISIBLE_DEVICES=` or `export HIP_VISIBLE_DEVICES=""`
