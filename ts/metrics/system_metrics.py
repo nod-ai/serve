@@ -57,6 +57,8 @@ def collect_gpu_metrics(num_of_gpus):
     :param num_of_gpus: Total number of available GPUs.
     :return:
     """
+    if num_of_gpus <= 0:
+        return
     for gpu_index in range(num_of_gpus):
         if torch.version.cuda:
             free, total = torch.cuda.mem_get_info(gpu_index)
@@ -105,27 +107,6 @@ def collect_gpu_metrics(num_of_gpus):
         )
 
 
-def gpu_utilization(num_of_gpus):
-    """
-    Generic GPU utilization function that supports NVIDIA and AMD GPUs.
-    :param num_of_gpu: Total number of available GPUs.
-    :return:
-    """
-    if num_of_gpus <= 0:
-        return
-
-    if torch.cuda.is_available() and not (torch.version.cuda or torch.version.hip):
-        logging.error("No supported GPU detected.")
-        return
-
-    if torch.cuda.is_available() and torch.version.cuda:
-        logging.info("Collecting NVIDIA GPU metrics...")
-    elif torch.cuda.is_available() and torch.version.hip:
-        logging.info("Collecting AMD GPU metrics...")
-
-    collect_gpu_metrics(num_of_gpus)
-
-
 def collect_all(mod, num_of_gpus):
     """
     Collect all system metrics.
@@ -141,7 +122,7 @@ def collect_all(mod, num_of_gpus):
             "collect_all",
             "collect_gpu_metrics",
         ):
-            if value.__name__ == "gpu_utilization":
+            if value.__name__ == "collect_gpu_metrics":
                 value(num_of_gpus)
             else:
                 value()
