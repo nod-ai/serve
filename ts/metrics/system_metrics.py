@@ -120,7 +120,6 @@ def collect_all(mod, num_of_gpus):
         value = getattr(mod, i)
         if isinstance(value, types.FunctionType) and value.__name__ not in (
             "collect_all",
-            "collect_gpu_metrics",
         ):
             if value.__name__ == "collect_gpu_metrics":
                 value(num_of_gpus)
