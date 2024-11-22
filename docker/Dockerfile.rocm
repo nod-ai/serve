@@ -112,6 +112,7 @@ RUN \
 FROM ${BASE_IMAGE} AS production-image
 # Re-state ARG PYTHON_VERSION to make it active in this build-stage (uses default define at the top)
 ARG PYTHON_VERSION
+ARG USE_ROCM_VERSION
 ENV PYTHONUNBUFFERED TRUE
 
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -131,6 +132,15 @@ RUN --mount=type=cache,target=/var/cache/apt \
     build-essential \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
+
+RUN --mount=type=bind, from=compile-image, target=/mnt \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
+        && apt-get update \
+        && apt-get install --no-install-recommends -y amdgpu-dkms rocm \
+    else \
+        echo "Skip ROCm installation"; \
+    fi
 
 RUN useradd -m model-server \
     && mkdir -p /home/model-server/tmp
@@ -185,6 +195,14 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
+RUN --mount=type=bind, from=compile-image, target=/mnt \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
+        && apt-get update \
+        && apt-get install --no-install-recommends -y amdgpu-dkms rocm \
+    else \
+        echo "Skip ROCm installation"; \
+    fi
 
 COPY --from=compile-image /home/venv /home/venv
 
@@ -201,6 +219,7 @@ FROM ${BASE_IMAGE} as dev-image
 # Re-state ARG PYTHON_VERSION to make it active in this build-stage (uses default define at the top)
 ARG PYTHON_VERSION
 ARG BRANCH_NAME
+ARG USE_ROCM_VERSION
 ARG BUILD_FROM_SRC
 ARG LOCAL_CHANGES
 ARG BUILD_WITH_IPEX
@@ -231,6 +250,15 @@ RUN --mount=type=cache,target=/var/cache/apt \
     vim \
     numactl \
     && rm -rf /var/lib/apt/lists/*
+
+RUN --mount=type=bind, from=compile-image, target=/mnt \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
+        && apt-get update \
+        && apt-get install --no-install-recommends -y amdgpu-dkms rocm \
+    else \
+        echo "Skip ROCm installation"; \
+    fi
 
 COPY ./ /serve
 
