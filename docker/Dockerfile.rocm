@@ -133,7 +133,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
-RUN --mount=type=bind, from=compile-image, target=/mnt \
+RUN --mount=type=bind,from=compile-image,target=/mnt \
     if [ "$USE_ROCM_VERSION" ]; then \
         DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
         && apt-get update \
@@ -195,7 +195,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
-RUN --mount=type=bind, from=compile-image, target=/mnt \
+RUN --mount=type=bind,from=compile-image,target=/mnt \
     if [ "$USE_ROCM_VERSION" ]; then \
         DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
         && apt-get update \
@@ -251,7 +251,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     numactl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN --mount=type=bind, from=compile-image, target=/mnt \
+RUN --mount=type=bind,from=compile-image,target=/mnt \
     if [ "$USE_ROCM_VERSION" ]; then \
         DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
         && apt-get update \
