@@ -15,7 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.pytorch.serve.archive.model.ModelConfig;
 import org.pytorch.serve.archive.model.ModelConfig.ParallelType;
-import org.pytorch.serve.device.AcceleratorVendor;
 import org.pytorch.serve.metrics.Metric;
 import org.pytorch.serve.metrics.MetricCache;
 import org.pytorch.serve.util.ConfigManager;
@@ -136,7 +135,8 @@ public class WorkerLifeCycle {
                 attachRunner(argl, envp, port, deviceIds);
             } else {
                 if (deviceIds != null) {
-                    String visibleDeviceEnvName = configManager.systemInfo.getVisibleDevicesEnvName();
+                    String visibleDeviceEnvName =
+                            configManager.systemInfo.getVisibleDevicesEnvName();
                     envp.add(visibleDeviceEnvName + "=" + deviceIds);
                 }
                 argl.add(EnvironmentUtils.getPythonRunTime(model));

@@ -70,18 +70,20 @@ public class AppleUtil implements IAcceleratorUtility, IJsonSmiParser {
     @Override
     public List<JsonObject> extractAccelerators(JsonElement rootObject) {
         List<JsonObject> accelerators = new ArrayList<>();
-        JsonArray displaysArray = rootObject
-                .getAsJsonObject() // Gets the outer object
-                .get("SPDisplaysDataType") // Gets the "SPDisplaysDataType" element
-                .getAsJsonArray();
+        JsonArray displaysArray =
+                rootObject
+                        .getAsJsonObject() // Gets the outer object
+                        .get("SPDisplaysDataType") // Gets the "SPDisplaysDataType" element
+                        .getAsJsonArray();
         JsonObject gpuObject = displaysArray.get(0).getAsJsonObject();
         int number_of_cores = Integer.parseInt(gpuObject.get("sppci_cores").getAsString());
 
         // add the object `number_of_cores` times to maintain the exsisitng
         // functionality
-        accelerators = IntStream.range(0, number_of_cores)
-                .mapToObj(i -> gpuObject)
-                .collect(Collectors.toList());
+        accelerators =
+                IntStream.range(0, number_of_cores)
+                        .mapToObj(i -> gpuObject)
+                        .collect(Collectors.toList());
 
         return accelerators;
     }
