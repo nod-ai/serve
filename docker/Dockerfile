@@ -67,6 +67,7 @@ RUN python -m pip install -U pip setuptools
 RUN export USE_CUDA=1
 
 ARG USE_CUDA_VERSION=""
+ARG USE_ROCM_VERSION=""
 
 COPY ./ serve
 
@@ -87,6 +88,16 @@ RUN \
         if [ "$USE_CUDA_VERSION" ]; then \
             python ./ts_scripts/install_dependencies.py --cuda $USE_CUDA_VERSION;\
         # Install the binary with the latest CPU image on a CUDA base image
+        else \
+            python ./ts_scripts/install_dependencies.py;\
+        fi; \
+    elif echo "${BASE_IMAGE}" | grep -q "rocm/"; then \
+        # Install ROCm version specific binary when ROCm version is specified as a build arg
+        if [ "$USE_ROCM_VERSION" ]; then \
+            python ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION\
+            && cd /opt/rocm/share/amd_smi \
+            && python -m pip install . ;\
+        # Install the binary with the latest CPU image on a ROCm base image
         else \
             python ./ts_scripts/install_dependencies.py;\
         fi; \
