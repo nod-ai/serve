@@ -95,8 +95,6 @@ RUN \
         # Install ROCm version specific binary when ROCm version is specified as a build arg
         if [ "$USE_ROCM_VERSION" ]; then \
             python ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION\
-            && cd /opt/rocm/share/amd_smi \
-            && python -m pip install . ;\
         # Install the binary with the latest CPU image on a ROCm base image
         else \
             python ./ts_scripts/install_dependencies.py;\
@@ -238,9 +236,15 @@ RUN --mount=type=cache,target=/var/cache/apt \
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1009905
     openjdk-17-jdk \
     build-essential \
+    wget \
     curl \
     vim \
     numactl \
+    nodejs \
+    npm \
+    zip \
+    unzip \
+    && npm install -g newman@5.3.2 newman-reporter-htmlextra markdown-link-check \
     && if [ "$BUILD_WITH_IPEX" = "true" ]; then apt-get update && apt-get install -y libjemalloc-dev libgoogle-perftools-dev libomp-dev && ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so /usr/lib/libjemalloc.so && ln -s /usr/lib/x86_64-linux-gnu/libtcmalloc.so /usr/lib/libtcmalloc.so && ln -s /usr/lib/x86_64-linux-gnu/libiomp5.so /usr/lib/libiomp5.so; fi \
     && rm -rf /var/lib/apt/lists/*
 
@@ -255,6 +259,12 @@ RUN \
 COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
 WORKDIR "serve"
+
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 RUN python -m pip install -U pip setuptools \
     && python -m pip install --no-cache-dir -r requirements/developer.txt \
     && python ts_scripts/install_from_src.py \
