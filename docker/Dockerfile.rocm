@@ -277,16 +277,12 @@ WORKDIR "/serve"
 
 RUN \
     if [ "$USE_ROCM_VERSION" ]; then \
-        python ts_scripts/install_dependencies.py --environment=dev --rocm $USE_ROCM_VERSION \
-        && cd /opt/rocm/share/amd_smi \
-        && python -m pip install . ; \
-    # Install the binary with the latest CPU image on a ROCm base image
-    else \
-        python ts_scripts/install_dependencies.py --environment=dev;\
+        python -m pip install /opt/rocm/share/amd_smi ; \
     fi;
 
 RUN python -m pip install -U pip setuptools \
     && python -m pip install --no-cache-dir -r requirements/developer.txt \
+    && python ts_scripts/install_dependencies.py --environment dev \
     && python ts_scripts/install_from_src.py --environment=dev \
     && useradd -m model-server \
     && mkdir -p /home/model-server/tmp \

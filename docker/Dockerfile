@@ -94,10 +94,10 @@ RUN \
     elif echo "${BASE_IMAGE}" | grep -q "rocm/"; then \
         # Install ROCm version specific binary when ROCm version is specified as a build arg
         if [ "$USE_ROCM_VERSION" ]; then \
-            python ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION\
+            python ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION;\
         # Install the binary with the latest CPU image on a ROCm base image
         else \
-            python ./ts_scripts/install_dependencies.py;\
+            python ./ts_scripts/install_dependencies.py; \
         fi; \
     # Install the CPU binary
     else \
@@ -192,7 +192,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
-
 COPY --from=compile-image /home/venv /home/venv
 
 ENV PATH="/home/venv/bin:$PATH"
@@ -211,6 +210,7 @@ FROM ${BASE_IMAGE} as dev-image
 ARG PYTHON_VERSION
 ARG BRANCH_NAME
 ARG BUILD_FROM_SRC
+ARG USE_ROCM_VERSION
 ARG LOCAL_CHANGES
 ARG BUILD_WITH_IPEX
 ARG IPEX_VERSION=1.11.0
