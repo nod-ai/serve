@@ -46,7 +46,7 @@ The current stable `major.patch` version of ROCm and the previous path version w
 
 ### Selecting Accelerators Using `HIP_VISIBLE_DEVICES`
 
-If you have multiple accelerators on the system where you are running TorchServe yuo can select which accelerators should be visible to TorchServe
+If you have multiple accelerators on the system where you are running TorchServe you can select which accelerators should be visible to TorchServe
 by setting the environment variable `HIP_VISIBLE_DEVICES` to a string of 0-indexed comma-separated integers representing the ids of the accelerators.
 
 If you have 8 accelerators but only want TorchServe to see the last four of them do `export HIP_VISIBLE_DEVICES=4,5,6,7`.
