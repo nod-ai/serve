@@ -57,7 +57,7 @@ If you have 8 accelerators but only want TorchServe to see the last four of them
 > eg. `export HIP_VISIBLE_DEVICES=` or `export HIP_VISIBLE_DEVICES=""`
 > use `unset HIP_VISIBLE_DEVICES` if you want to remove it's effect.
 
-> ⚠️  Setting both `CUDA_VISIBLE_DEVICES` and `HIP_VISIBLE_DEVICES` may cause a unintended behaviour and should be avoided.
+> ⚠️  Setting both `CUDA_VISIBLE_DEVICES` and `HIP_VISIBLE_DEVICES` may cause unintended behaviour and should be avoided.
 > Doing so may cause an exception in the future.
 
 ## Example Usage
