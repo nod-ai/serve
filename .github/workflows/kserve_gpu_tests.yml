@@ -8,7 +8,12 @@ on:
 
 jobs:
   kserve-gpu-tests:
-    runs-on: [self-hosted, regression-test-gpu]
+    runs-on:
+      - self-hosted
+      - ${{ matrix.gpu-type }}]
+    strategy:
+      matrix:
+        gpu-type: [regression-test-gpu-cuda, regression-test-gpu-rocm]
     steps:
       - name: Clean up previous run
         run: |
