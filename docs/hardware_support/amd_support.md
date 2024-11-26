@@ -62,6 +62,6 @@ If you have 8 accelerators but only want TorchServe to see the last four of them
 
 ## Example Usage
 
-After installing TorchServe with re required dependencies for ROCm you should be ready to serve your model.
+After installing TorchServe with the required dependencies for ROCm you should be ready to serve your model.
 
 For a simple example, refer to `serve/examples/image_classifier/mnist/`.
