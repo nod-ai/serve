@@ -18,10 +18,11 @@ jobs:
   ci-gpu:
     runs-on:
       - self-hosted
+      - ci-gpu
       - ${{ matrix.gpu-type }}]
     strategy:
       matrix:
-        gpu-type: [ci-gpu-cuda, ci-gpu-rocm]
+        gpu-type: [cuda, rocm]
     steps:
       - name: Clean up previous run
         run: |
@@ -47,11 +48,11 @@ jobs:
         with:
           submodules: recursive
       - name: Install dependencies for CUDA
-        if: matrix.gpu-type == 'ci-gpu-cuda'
+        if: matrix.gpu-type == 'cuda'
         run: |
           python ts_scripts/install_dependencies.py --environment=dev --cuda=cu121
       - name: Install dependencies for ROCm
-        if: matrix.gpu-type == 'ci-gpu-rocm'
+        if: matrix.gpu-type == 'rocm'
         run: |
           python ts_scripts/install_dependencies.py --environment=dev --rocm=rocm62
       - name: Torchserve Sanity
