@@ -1,1 +1,0 @@
-pyrsmi; sys_platform == 'linux'

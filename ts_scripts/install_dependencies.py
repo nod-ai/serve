@@ -167,16 +167,6 @@ class Common:
         # developer.txt also installs packages from common.txt
         os.system(f"{sys.executable} -m pip install -U -r {requirements_file_path}")
 
-        # Install dependencies for NVIDIA GPU
-        if not isinstance(cuda_version, type(None)):
-            gpu_requirements_file = os.path.join("requirements", "common_gpu.txt")
-            os.system(f"{sys.executable} -m pip install -U -r {gpu_requirements_file}")
-
-        # Install dependencies for AMD GPU
-        if not isinstance(rocm_version, type(None)):
-            gpu_requirements_file = os.path.join("requirements", "common_rocm.txt")
-            os.system(f"{sys.executable} -m pip install -U -r {gpu_requirements_file}")
-
         # Install dependencies for Inferentia2
         if args.neuronx:
             neuronx_requirements_file = os.path.join("requirements", "neuronx.txt")
