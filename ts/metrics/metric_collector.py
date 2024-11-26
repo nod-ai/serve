@@ -15,7 +15,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--gpus",
+        "--gpu",
         action="store",
         help="number of GPUs",
         type=int
@@ -24,6 +24,6 @@ if __name__ == '__main__':
 
     logging.basicConfig(stream=sys.stdout, format="%(message)s", level=logging.INFO)
 
-    system_metrics.collect_all(sys.modules['ts.metrics.system_metrics'], arguments.gpus)
+    system_metrics.collect_all(sys.modules['ts.metrics.system_metrics'], arguments.gpu)
 
     check_process_mem_usage(sys.stdin)
