@@ -76,8 +76,7 @@ RUN cp docker/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 RUN \
     # Install ROCm version specific binary when ROCm version is specified as a build arg
     if [ "$USE_ROCM_VERSION" ]; then \
-        python ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION \
-        && python -m pip install /opt/rocm/share/amd_smi; \
+        python ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION; \
     # Install the binary with the latest CPU image on a ROCm base image
     else \
         python ./ts_scripts/install_dependencies.py;\
