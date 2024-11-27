@@ -164,6 +164,7 @@ CMD ["serve"]
 FROM ${BASE_IMAGE} AS ci-image
 # Re-state ARG PYTHON_VERSION to make it active in this build-stage (uses default define at the top)
 ARG PYTHON_VERSION
+ARG USE_ROCM_VERSION
 ARG BRANCH_NAME
 ENV PYTHONUNBUFFERED TRUE
 
@@ -197,6 +198,11 @@ COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
 
 RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
+
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        python -m pip install /opt/rocm/share/amd_smi; \
+    fi
 
 RUN mkdir /home/serve
 ENV TS_RUN_IN_DOCKER True
