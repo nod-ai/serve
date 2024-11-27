@@ -51,10 +51,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class ConfigManager {
-    // Variables that can be configured through config.properties and Environment
-    // Variables
-    // NOTE: Variables which can be configured through environment variables
-    // **SHOULD** have a
+    // Variables that can be configured through config.properties and Environment Variables
+    // NOTE: Variables which can be configured through environment variables **SHOULD** have a
     // "TS_" prefix
 
     private static final String TS_DEBUG = "debug";
