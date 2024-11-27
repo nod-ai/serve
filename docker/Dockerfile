@@ -146,11 +146,6 @@ COPY --chown=model-server --from=compile-image /home/venv /home/venv
 COPY --from=compile-image /usr/local/bin/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 ENV PATH="/home/venv/bin:$PATH"
 
-RUN \
-    if [ "$USE_ROCM_VERSION" ]; then \
-        python -m pip install /opt/rocm/share/amd_smi; \
-    fi
-
 RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh \
     && chown -R model-server /home/model-server
 
@@ -169,7 +164,6 @@ CMD ["serve"]
 FROM ${BASE_IMAGE} AS ci-image
 # Re-state ARG PYTHON_VERSION to make it active in this build-stage (uses default define at the top)
 ARG PYTHON_VERSION
-ARG USE_ROCM_VERSION
 ARG BRANCH_NAME
 ENV PYTHONUNBUFFERED TRUE
 
@@ -204,11 +198,6 @@ ENV PATH="/home/venv/bin:$PATH"
 
 RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
 
-RUN \
-    if [ "$USE_ROCM_VERSION" ]; then \
-        python -m pip install /opt/rocm/share/amd_smi; \
-    fi
-
 RUN mkdir /home/serve
 ENV TS_RUN_IN_DOCKER True
 
@@ -221,7 +210,6 @@ FROM ${BASE_IMAGE} as dev-image
 ARG PYTHON_VERSION
 ARG BRANCH_NAME
 ARG BUILD_FROM_SRC
-ARG USE_ROCM_VERSION
 ARG LOCAL_CHANGES
 ARG BUILD_WITH_IPEX
 ARG IPEX_VERSION=1.11.0
@@ -271,14 +259,9 @@ COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
 WORKDIR "serve"
 
-RUN \
-    if [ "$USE_ROCM_VERSION" ]; then \
-        python -m pip install /opt/rocm/share/amd_smi; \
-    fi
-
 RUN python -m pip install -U pip setuptools \
     && python -m pip install --no-cache-dir -r requirements/developer.txt \
-    && python ts_scripts/install_from_src.py \
+    && python ts_scripts/install_from_src.py --environment=dev\
     && useradd -m model-server \
     && mkdir -p /home/model-server/tmp \
     && cp docker/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh \
