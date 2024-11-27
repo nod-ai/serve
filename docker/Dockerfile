@@ -146,6 +146,11 @@ COPY --chown=model-server --from=compile-image /home/venv /home/venv
 COPY --from=compile-image /usr/local/bin/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 ENV PATH="/home/venv/bin:$PATH"
 
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh \
     && chown -R model-server /home/model-server
 
