@@ -99,6 +99,7 @@ FROM ${BASE_IMAGE} AS production-image
 # Re-state ARG PYTHON_VERSION to make it active in this build-stage (uses default define at the top)
 ARG PYTHON_VERSION
 ENV PYTHONUNBUFFERED TRUE
+ARG USE_ROCM_VERSION
 
 RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     apt-get update && \
@@ -125,6 +126,12 @@ COPY --chown=model-server --from=compile-image /home/venv /home/venv
 COPY --from=compile-image /usr/local/bin/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 ENV PATH="/home/venv/bin:$PATH"
 
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt install -y amd-smi-lib \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh \
     && chown -R model-server /home/model-server
 
@@ -144,6 +151,7 @@ FROM ${BASE_IMAGE} AS ci-image
 # Re-state ARG PYTHON_VERSION to make it active in this build-stage (uses default define at the top)
 ARG PYTHON_VERSION
 ARG BRANCH_NAME
+ARG USE_ROCM_VERSION
 ENV PYTHONUNBUFFERED TRUE
 
 RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
@@ -177,6 +185,12 @@ ENV PATH="/home/venv/bin:$PATH"
 
 RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
 
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt install -y amd-smi-lib \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 RUN mkdir /serve
 ENV TS_RUN_IN_DOCKER True
 
@@ -189,6 +203,7 @@ FROM ${BASE_IMAGE} as dev-image
 ARG PYTHON_VERSION
 ARG BRANCH_NAME
 ARG BUILD_FROM_SRC
+ARG USE_ROCM_VERSION
 ARG LOCAL_CHANGES
 ARG BUILD_WITH_IPEX
 ARG IPEX_VERSION=1.11.0
@@ -235,6 +250,13 @@ RUN \
 
 COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
+
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt install -y amd-smi-lib \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 WORKDIR "serve"
 
 RUN python -m pip install -U pip setuptools \
@@ -249,7 +271,6 @@ RUN python -m pip install -U pip setuptools \
     && mkdir /home/model-server/model-store && chown -R model-server /home/model-server/model-store \
     && chown -R model-server /home/venv
 EXPOSE 8080 8081 8082 7070 7071
-USER model-server
 WORKDIR /home/model-server
 ENV TEMP=/home/model-server/tmp
 ENTRYPOINT ["/usr/local/bin/dockerd-entrypoint.sh"]

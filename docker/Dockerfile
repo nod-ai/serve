@@ -120,6 +120,7 @@ FROM ${BASE_IMAGE} AS production-image
 # Re-state ARG PYTHON_VERSION to make it active in this build-stage (uses default define at the top)
 ARG PYTHON_VERSION
 ENV PYTHONUNBUFFERED TRUE
+ARG USE_ROCM_VERSION
 
 RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     apt-get update && \
@@ -146,6 +147,12 @@ COPY --chown=model-server --from=compile-image /home/venv /home/venv
 COPY --from=compile-image /usr/local/bin/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 ENV PATH="/home/venv/bin:$PATH"
 
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt install -y amd-smi-lib \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh \
     && chown -R model-server /home/model-server
 
@@ -166,13 +173,14 @@ FROM ${BASE_IMAGE} AS ci-image
 ARG PYTHON_VERSION
 ARG BRANCH_NAME
 ENV PYTHONUNBUFFERED TRUE
+ARG USE_ROCM_VERSION
 
 RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
-    apt remove -y python-pip  python3-pip && \
+    apt remove -y python-pip python3-pip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     python$PYTHON_VERSION \
     python3-distutils \
@@ -198,6 +206,12 @@ ENV PATH="/home/venv/bin:$PATH"
 
 RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
 
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt install -y amd-smi-lib \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 RUN mkdir /home/serve
 ENV TS_RUN_IN_DOCKER True
 
@@ -211,6 +225,7 @@ ARG PYTHON_VERSION
 ARG BRANCH_NAME
 ARG BUILD_FROM_SRC
 ARG LOCAL_CHANGES
+ARG USE_ROCM_VERSION
 ARG BUILD_WITH_IPEX
 ARG IPEX_VERSION=1.11.0
 ARG IPEX_URL=https://software.intel.com/ipex-whl-stable
@@ -257,6 +272,13 @@ RUN \
 
 COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
+
+RUN \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt install -y amd-smi-lib \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 WORKDIR "serve"
 
 RUN python -m pip install -U pip setuptools \
