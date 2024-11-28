@@ -147,8 +147,9 @@ COPY --chown=model-server --from=compile-image /home/venv /home/venv
 COPY --from=compile-image /usr/local/bin/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 ENV PATH="/home/venv/bin:$PATH"
 
-RUN \
+RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     if [ "$USE_ROCM_VERSION" ]; then \
+        apt-get update && \
         apt install -y amd-smi-lib \
         && python -m pip install /opt/rocm/share/amd_smi; \
     fi
@@ -206,8 +207,9 @@ ENV PATH="/home/venv/bin:$PATH"
 
 RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
 
-RUN \
+RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     if [ "$USE_ROCM_VERSION" ]; then \
+        apt-get update && \
         apt install -y amd-smi-lib \
         && python -m pip install /opt/rocm/share/amd_smi; \
     fi
@@ -273,8 +275,9 @@ RUN \
 COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
 
-RUN \
+RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     if [ "$USE_ROCM_VERSION" ]; then \
+        apt-get update && \
         apt install -y amd-smi-lib \
         && python -m pip install /opt/rocm/share/amd_smi; \
     fi
