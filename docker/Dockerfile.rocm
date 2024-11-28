@@ -62,7 +62,7 @@ ENV PATH="/home/venv/bin:$PATH"
 
 ARG USE_ROCM_VERSION=""
 
-RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
+RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     if [ -n "$USE_ROCM_VERSION" ]; then \
         apt-get update \
         && curl -O https://repo.radeon.com/amdgpu-install/6.2.2/ubuntu/noble/amdgpu-install_6.2.60202-1_all.deb \
@@ -132,7 +132,7 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
-RUN --mount=type=bind,sharing=locked,from=compile-image,target=/mnt \
+RUN --mount=type=bind,from=compile-image,target=/mnt \
     if [ "$USE_ROCM_VERSION" ]; then \
         apt-get update \
         && DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
@@ -204,7 +204,7 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
-RUN --mount=type=bind,sharing=locked,from=compile-image,target=/mnt \
+RUN --mount=type=bind,from=compile-image,target=/mnt \
     if [ "$USE_ROCM_VERSION" ]; then \
         apt-get update \
         && DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
@@ -271,7 +271,7 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     numactl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN --mount=type=bind,sharing=locked,from=compile-image,target=/mnt \
+RUN --mount=type=bind,from=compile-image,target=/mnt \
     if [ "$USE_ROCM_VERSION" ]; then \
         apt-get update \
         && DEBIAN_FRONTEND=noninteractive apt-get install -y ./mnt/amdgpu-install_6.2.60202-1_all.deb \
