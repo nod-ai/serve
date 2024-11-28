@@ -16,6 +16,7 @@
 #           https://docs.docker.com/develop/develop-images/build_enhancements/
 
 ARG BASE_IMAGE=rocm/dev-ubuntu-22.04:6.2.4
+ARG BRANCH_NAME=master
 # Note:
 # Define here the default python version to be used in all later build-stages as default.
 # ARG and ENV variables do not persist across stages (they're build-stage scoped).

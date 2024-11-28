@@ -42,7 +42,7 @@ RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
-    apt remove -y python-pip  python3-pip && \
+    apt remove -y python-pip python3-pip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         ca-certificates \
         g++ \
