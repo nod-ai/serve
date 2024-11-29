@@ -37,7 +37,7 @@ ARG BRANCH_NAME
 ARG REPO_URL=https://github.com/pytorch/serve.git
 ENV PYTHONUNBUFFERED TRUE
 
-RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
+RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
@@ -112,12 +112,12 @@ FROM ${BASE_IMAGE} AS production-image
 ARG PYTHON_VERSION
 ENV PYTHONUNBUFFERED TRUE
 
-RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
     add-apt-repository ppa:deadsnakes/ppa -y && \
-    apt remove -y python-pip  python3-pip && \
+    apt remove python-pip  python3-pip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     python$PYTHON_VERSION \
     python3-distutils \
@@ -158,12 +158,12 @@ ARG PYTHON_VERSION
 ARG BRANCH_NAME
 ENV PYTHONUNBUFFERED TRUE
 
-RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
-    apt remove -y python-pip  python3-pip && \
+    apt remove python-pip  python3-pip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     python$PYTHON_VERSION \
     python3-distutils \
@@ -207,7 +207,7 @@ ARG BUILD_WITH_IPEX
 ARG IPEX_VERSION=1.11.0
 ARG IPEX_URL=https://software.intel.com/ipex-whl-stable
 ENV PYTHONUNBUFFERED TRUE
-RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
