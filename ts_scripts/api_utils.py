@@ -109,7 +109,7 @@ def cleanup_model_store():
         os.remove(f)
 
 
-def move_logs(log_file, artifact_dir, retries=3):
+def move_logs(log_file, artifact_dir, retries=5):
     logs_dir = os.path.join("logs")
 
     if not os.path.exists(logs_dir):
@@ -133,11 +133,11 @@ def move_logs(log_file, artifact_dir, retries=3):
             else:
                 shutil.move(logs_dir, destination_dir)  # mv logs/ dir
             break
-        except Exception as exc:
+        except:
             if attempt < retries - 1:
-                time.sleep(1)
+                time.sleep(2)
             else:
-                raise exc
+                raise
 
 
 def trigger_management_tests():

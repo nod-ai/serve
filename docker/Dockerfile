@@ -77,7 +77,6 @@ RUN \
         git clone --recursive $REPO_URL -b $BRANCH_NAME serve; \
     fi
 
-
 WORKDIR "serve"
 
 RUN cp docker/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
