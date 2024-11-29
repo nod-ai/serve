@@ -15,7 +15,7 @@
 #       For reference:
 #           https://docs.docker.com/develop/develop-images/build_enhancements/
 
-ARG BASE_IMAGE=rocm/dev-ubuntu-22.04:6.2.4
+ARG BASE_IMAGE=ubuntu:22.04
 ARG BRANCH_NAME=master
 # Note:
 # Define here the default python version to be used in all later build-stages as default.
@@ -27,7 +27,7 @@ ARG BRANCH_NAME=master
 ARG PYTHON_VERSION=3.11
 
 FROM ${BASE_IMAGE} AS compile-image
-ARG BASE_IMAGE=rocm/dev-ubuntu-22.04:6.2.4
+ARG BASE_IMAGE=ubuntu:22.04
 ARG PYTHON_VERSION
 ARG BUILD_NIGHTLY
 ARG BUILD_FROM_SRC
@@ -36,12 +36,13 @@ ARG BRANCH_NAME
 ARG REPO_URL=https://github.com/pytorch/serve.git
 ENV PYTHONUNBUFFERED TRUE
 
+RUN apt-cache rdepends python-pip python3-pip
+
 RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
-    apt remove -y python-pip  python3-pip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         ca-certificates \
         g++ \
@@ -74,24 +75,35 @@ WORKDIR "/serve"
 
 RUN cp docker/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 
+RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
+    if [ -n "$ROCM_VERSION" ]; then \
+        apt-get update \
+        && wget https://repo.radeon.com/amdgpu-install/6.2.2/ubuntu/noble/amdgpu-install_6.2.60202-1_all.deb \
+        && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ./amdgpu-install_6.2.60202-1_all.deb \
+        && sudo apt-get update \
+        && sudo apt-get install --no-install-recommends -y amdgpu-dkms rocm; \
+    else \
+        echo "Skip ROCm installation"; \
+    fi
+
 RUN \
     # Install ROCm version specific binary when ROCm version is specified as a build arg
     if [ "$USE_ROCM_VERSION" ]; then \
-        python ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION; \
+        python$PYTHON_VERSION ./ts_scripts/install_dependencies.py --rocm $USE_ROCM_VERSION; \
     # Install the binary with the latest CPU image on a ROCm base image
     else \
-        python ./ts_scripts/install_dependencies.py;\
+        python$PYTHON_VERSION ./ts_scripts/install_dependencies.py;\
     fi;
 
 # Make sure latest version of torchserve is uploaded before running this
 RUN \
     if echo "$BUILD_FROM_SRC" | grep -q "true"; then \
-        python -m pip install -r requirements/developer.txt \
-        && python ts_scripts/install_from_src.py;\
+        python$PYTHON_VERSION -m pip install -r requirements/developer.txt \
+        && python$PYTHON_VERSION ts_scripts/install_from_src.py;\
     elif echo "$BUILD_NIGHTLY" | grep -q "false"; then \
-        python -m pip install --no-cache-dir torchserve torch-model-archiver torch-workflow-archiver;\
+        python$PYTHON_VERSION -m pip install --no-cache-dir torchserve torch-model-archiver torch-workflow-archiver;\
     else \
-        python -m pip install --no-cache-dir torchserve-nightly torch-model-archiver-nightly torch-workflow-archiver-nightly;\
+        python$PYTHON_VERSION -m pip install --no-cache-dir torchserve-nightly torch-model-archiver-nightly torch-workflow-archiver-nightly;\
     fi
 
 # Final image for production
@@ -106,7 +118,6 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
     add-apt-repository ppa:deadsnakes/ppa -y && \
-    apt remove -y python-pip  python3-pip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     python$PYTHON_VERSION \
     python3-setuptools \
@@ -119,19 +130,23 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
+RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
+    if [ -n "$ROCM_VERSION" ]; then \
+        apt-get update \
+        && wget https://repo.radeon.com/amdgpu-install/6.2.2/ubuntu/noble/amdgpu-install_6.2.60202-1_all.deb \
+        && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ./amdgpu-install_6.2.60202-1_all.deb \
+        && sudo apt-get update \
+        && sudo apt-get install --no-install-recommends -y amdgpu-dkms rocm; \
+    else \
+        echo "Skip ROCm installation"; \
+    fi
+
 RUN useradd -m model-server \
     && mkdir -p /home/model-server/tmp
 
 COPY --chown=model-server --from=compile-image /home/venv /home/venv
 COPY --from=compile-image /usr/local/bin/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 ENV PATH="/home/venv/bin:$PATH"
-
-RUN \
-    if [ "$USE_ROCM_VERSION" ]; then \
-        apt-get update \
-        && apt install -y amd-smi-lib \
-        && python -m pip install /opt/rocm/share/amd_smi; \
-    fi
 
 RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh \
     && chown -R model-server /home/model-server
@@ -160,7 +175,6 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     apt-get upgrade -y && \
     apt-get install software-properties-common -y && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
-    apt remove -y python-pip  python3-pip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
     python$PYTHON_VERSION \
     python3-setuptools \
@@ -180,18 +194,23 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
+RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
+    if [ -n "$ROCM_VERSION" ]; then \
+        apt-get update \
+        && wget https://repo.radeon.com/amdgpu-install/6.2.2/ubuntu/noble/amdgpu-install_6.2.60202-1_all.deb \
+        && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ./amdgpu-install_6.2.60202-1_all.deb \
+        && sudo apt-get update \
+        && sudo apt-get install --no-install-recommends -y amdgpu-dkms rocm; \
+    else \
+        echo "Skip ROCm installation"; \
+    fi
+
+
 COPY --from=compile-image /home/venv /home/venv
 
 ENV PATH="/home/venv/bin:$PATH"
 
 RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
-
-RUN \
-    if [ "$USE_ROCM_VERSION" ]; then \
-        apt-get update \
-        && apt install -y amd-smi-lib \
-        && python -m pip install /opt/rocm/share/amd_smi; \
-    fi
 
 RUN mkdir /serve
 ENV TS_RUN_IN_DOCKER True
@@ -242,6 +261,17 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     && npm install -g newman@5.3.2 newman-reporter-htmlextra markdown-link-check \
     && rm -rf /var/lib/apt/lists/*
 
+RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
+    if [ -n "$ROCM_VERSION" ]; then \
+        apt-get update \
+        && wget https://repo.radeon.com/amdgpu-install/6.2.2/ubuntu/noble/amdgpu-install_6.2.60202-1_all.deb \
+        && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ./amdgpu-install_6.2.60202-1_all.deb \
+        && sudo apt-get update \
+        && sudo apt-get install --no-install-recommends -y amdgpu-dkms rocm; \
+    else \
+        echo "Skip ROCm installation"; \
+    fi
+
 COPY ./ serve
 
 RUN \
@@ -253,18 +283,11 @@ RUN \
 COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
 
-RUN \
-    if [ "$USE_ROCM_VERSION" ]; then \
-        apt-get update \
-        && apt install -y amd-smi-lib \
-        && python -m pip install /opt/rocm/share/amd_smi; \
-    fi
-
 WORKDIR "serve"
 
-RUN python -m pip install -U pip setuptools \
-    && python -m pip install --no-cache-dir -r requirements/developer.txt \
-    && python ts_scripts/install_from_src.py --environment=dev \
+RUN python$PYTHON_VERSION -m pip install -U pip setuptools \
+    && python$PYTHON_VERSION -m pip install --no-cache-dir -r requirements/developer.txt \
+    && python$PYTHON_VERSION ts_scripts/install_from_src.py --environment=dev \
     && useradd -m model-server \
     && mkdir -p /home/model-server/tmp \
     && cp docker/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh \
