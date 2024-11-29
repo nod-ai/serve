@@ -1,0 +1,1044 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FAQ’S &mdash; PyTorch/Serve master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="apis.html" />
+    <link rel="prev" title="Serving large models with Torchserve" href="large_model_inference.html" />
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T8XT4PS');</script>
+    <!-- End Google Tag Manager -->
+  
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+
+      <div class="main-menu">
+        <ul>
+
+          <li class="main-menu-item">
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Learn
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/get-started">
+                  <span class=dropdown-title>Get Started</span>
+                  <p>Run PyTorch locally or get started quickly with one of the supported cloud platforms</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials">
+                  <span class="dropdown-title">Tutorials</span>
+                  <p>Whats new in PyTorch tutorials</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/basics/intro.html">
+                  <span class="dropdown-title">Learn the Basics</span>
+                  <p>Familiarize yourself with PyTorch concepts and modules</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/recipes/recipes_index.html">
+                  <span class="dropdown-title">PyTorch Recipes</span>
+                  <p>Bite-size, ready-to-deploy PyTorch code examples</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/introyt.html">
+                  <span class="dropdown-title">Intro to PyTorch - YouTube Series</span>
+                  <p>Master PyTorch basics with our engaging YouTube tutorial series</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Ecosystem
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem">
+                  <span class="dropdown-title">Tools</span>
+                  <p>Learn about the tools and frameworks in the PyTorch Ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class=dropdown-title>Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class=dropdown-title>Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class=dropdown-title>Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem/contributor-awards-2023">
+                  <span class="dropdown-title">Contributor Awards - 2023</span>
+                  <p>Award winners announced at this year's PyTorch Conference</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Edge
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/edge">
+                  <span class="dropdown-title">About PyTorch Edge</span>
+                  <p>Build innovative and privacy-aware AI experiences for edge devices</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/executorch-overview">
+                  <span class="dropdown-title">ExecuTorch</span>
+                  <p>End-to-end solution for enabling on-device inference capabilities across mobile and edge devices</p>
+                </a>
+              </div>
+            </div>  
+          </li>
+
+          <li class="main-menu-item">
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p>Explore the documentation for comprehensive guidance on how to use PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/pytorch-domains">
+                  <span class="dropdown-title">PyTorch Domains</span>
+                  <p>Read the PyTorch Domains documentation to learn more about domain-specific libraries</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Blogs & News 
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/blog/">
+                  <span class="dropdown-title">PyTorch Blog</span>
+                  <p>Catch up on the latest technical news and happenings</p>
+                </a>
+                 <a class="nav-dropdown-item" href="https://pytorch.org/community-blog">
+                  <span class="dropdown-title">Community Blog</span>
+                  <p>Stories from the PyTorch ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/videos">
+                  <span class="dropdown-title">Videos</span>
+                  <p>Learn about the latest PyTorch tutorials, new, and more </p>
+                <a class="nav-dropdown-item" href="https://pytorch.org/community-stories">
+                  <span class="dropdown-title">Community Stories</span>
+                  <p>Learn how our community solves real, everyday machine learning problems with PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/events">
+                  <span class="dropdown-title">Events</span>
+                  <p>Find events, webinars, and podcasts</p>
+                </a>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                About
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/foundation">
+                  <span class="dropdown-title">PyTorch Foundation</span>
+                  <p>Learn more about the PyTorch Foundation</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/governing-board">
+                  <span class="dropdown-title">Governing Board</span>
+                  <p></p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li class="main-menu-item">
+            <div class="no-dropdown">
+              <a href="https://pytorch.org/join" data-cta="join">
+                Become a Member
+              </a>
+            </div>
+          </li>
+          <li>
+           <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="github-icon">
+             </a>
+           </div>
+          </li>
+          <!--- TODO: This block adds the search icon to the nav bar. We will enable it later. 
+          <li>
+            <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="search-icon">
+             </a>
+            </div>
+          </li>
+          --->
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+      <div class="pytorch-side-scroll">
+        <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="pytorch-left-menu-search">
+            
+
+            
+              
+              
+                <div class="version">
+                  master 
+                </div>
+              
+            
+
+            
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+            
+          </div>
+
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_guide.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_coverage.html">Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_service.html">Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default_handlers.html">TorchServe default inference handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nvidia_mps.html">Running TorchServe with NVIDIA MPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snapshot.html">TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/intel_extension_for_pytorch">intel_extension_for_pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_wsl.html">TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">TorchServe Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="large_model_inference.html">Serving large models with Torchserve</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ’S</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grpc_api.html">TorchServe gRPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference_api.html">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_management_api.html">Management API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.html">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">serve</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="pytorch-container">
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="contents.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+      <li>FAQ’S</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            <a href="_sources/FAQs.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+        <div class="pytorch-content-left">
+
+        
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8XT4PS"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+              
+  <section id="faq-s">
+<h1>FAQ’S<a class="headerlink" href="#faq-s" title="Permalink to this heading">¶</a></h1>
+<p>Contents of this document.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="#general">General</a></p></li>
+<li><p><a class="reference external" href="#performance">Performance</a></p></li>
+<li><p><a class="reference external" href="#deployment-and-config">Deployment and config</a></p></li>
+<li><p><a class="reference external" href="#api">API</a></p></li>
+<li><p><a class="reference external" href="#handler">Handler</a></p></li>
+<li><p><a class="reference external" href="#model-archiver">Model-archiver</a></p></li>
+</ul>
+<section id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this heading">¶</a></h2>
+<p>Relevant documents.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/pytorch/serve#torchserve">Torchserve readme</a></p></li>
+</ul>
+<section id="does-torchserve-api-s-follow-some-rest-api-standard">
+<h3>Does Torchserve API’s follow some REST API standard?<a class="headerlink" href="#does-torchserve-api-s-follow-some-rest-api-standard" title="Permalink to this heading">¶</a></h3>
+<p>Torchserve API’s are compliant with the <a class="reference external" href="https://swagger.io/specification/">OpenAPI specification 3.0</a>.</p>
+</section>
+<section id="how-to-use-torchserve-in-production">
+<h3>How to use Torchserve in production?<a class="headerlink" href="#how-to-use-torchserve-in-production" title="Permalink to this heading">¶</a></h3>
+<p>Depending on your use case, you will be able to deploy torchserve in production using following mechanisms.</p>
+<blockquote>
+<div><p>Standalone deployment. Refer <a class="reference external" href="https://github.com/pytorch/serve/tree/master/docker#readme">TorchServe docker documentation</a> or <a class="reference internal" href="README.html"><span class="doc">TorchServe documentation</span></a>
+Cloud based deployment. Refer <a class="reference external" href="https://github.com/pytorch/serve/tree/master/kubernetes#readme">TorchServe kubernetes documentation</a> or <a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/cloudformation/README.md#cloudformation">TorchServe cloudformation documentation</a></p>
+</div></blockquote>
+</section>
+<section id="what-s-difference-between-torchserve-and-a-python-web-app-using-web-frameworks-like-flask-django">
+<h3>What’s difference between Torchserve and a python web app using web frameworks like Flask, Django?<a class="headerlink" href="#what-s-difference-between-torchserve-and-a-python-web-app-using-web-frameworks-like-flask-django" title="Permalink to this heading">¶</a></h3>
+<p>Torchserve’s main purpose is to serve models via http REST APIs, Torchserve is not a Flask app and it uses netty engine for serving http requests.</p>
+<p>Relevant issues: [<a class="reference external" href="https://github.com/pytorch/serve/issues/581">581</a>,<a class="reference external" href="https://github.com/pytorch/serve/issues/569">569</a>]</p>
+</section>
+<section id="are-there-any-sample-models-available">
+<h3>Are there any sample Models available?<a class="headerlink" href="#are-there-any-sample-models-available" title="Permalink to this heading">¶</a></h3>
+<p>Various models are provided in Torchserve out of the box. Checkout out Torchserve <a class="reference internal" href="model_zoo.html"><span class="doc">Model Zoo</span></a> for list of all available models. You can also check out the <a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples">examples</a> folder.</p>
+</section>
+<section id="does-torchserve-support-other-models-based-on-programming-languages-other-than-python">
+<h3>Does Torchserve support other models based on programming languages other than python?<a class="headerlink" href="#does-torchserve-support-other-models-based-on-programming-languages-other-than-python" title="Permalink to this heading">¶</a></h3>
+<p>No, As of now only python based models are supported.</p>
+</section>
+<section id="what-benefits-does-torchserve-have-over-aws-multi-model-server">
+<h3>What benefits does Torchserve have over AWS Multi-Model-Server?<a class="headerlink" href="#what-benefits-does-torchserve-have-over-aws-multi-model-server" title="Permalink to this heading">¶</a></h3>
+<p>Torchserve is derived from Multi-Model-Server. However, Torchserve is specifically tuned for Pytorch models. It also has new features like Snapshot and model versioning.</p>
+</section>
+<section id="how-to-decode-international-language-in-inference-response-on-client-side">
+<h3>How to decode international language in inference response on client side?<a class="headerlink" href="#how-to-decode-international-language-in-inference-response-on-client-side" title="Permalink to this heading">¶</a></h3>
+<p>By default, Torchserve uses utf-8 to encode if the inference response is string. So client can use utf-8 to decode.</p>
+<p>If a model converts international language string to bytes, client needs to use the codec mechanism specified by the model such as in https://github.com/pytorch/serve/blob/master/examples/nmt_transformer/model_handler_generalized.py</p>
+</section>
+</section>
+<section id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this heading">¶</a></h2>
+<p>Relevant documents.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="performance_guide.html"><span class="doc">Performance Guide</span></a></p></li>
+</ul>
+<section id="how-do-i-improve-torchserve-performance-on-cpu">
+<h3>How do I improve TorchServe performance on CPU?<a class="headerlink" href="#how-do-i-improve-torchserve-performance-on-cpu" title="Permalink to this heading">¶</a></h3>
+<p>CPU performance is heavily influenced by launcher core pinning. We recommend setting the following properties in your <code class="docutils literal notranslate"><span class="pre">config.properties</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">cpu_launcher_enable</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">cpu_launcher_args</span><span class="o">=</span>--use_logical_core
+</pre></div>
+</div>
+<p>More background on improving CPU performance can be found in this <a class="reference external" href="https://pytorch.org/tutorials/intermediate/torchserve_with_ipex#grokking-pytorch-intel-cpu-performance-from-first-principles">blog post</a>.</p>
+</section>
+</section>
+<section id="deployment-and-config">
+<h2>Deployment and config<a class="headerlink" href="#deployment-and-config" title="Permalink to this heading">¶</a></h2>
+<p>Relevant documents.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="configuration.html"><span class="doc">Torchserve configuration</span></a></p></li>
+<li><p><a class="reference internal" href="model_zoo.html"><span class="doc">Model zoo</span></a></p></li>
+<li><p><a class="reference internal" href="snapshot.html"><span class="doc">Snapshot</span></a></p></li>
+<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/docker/README.md#docker-readme">Docker</a></p></li>
+</ul>
+<section id="can-i-run-torchserve-apis-on-ports-other-than-the-default-8080-8081">
+<h3>Can I run Torchserve APIs on ports other than the default 8080 &amp; 8081?<a class="headerlink" href="#can-i-run-torchserve-apis-on-ports-other-than-the-default-8080-8081" title="Permalink to this heading">¶</a></h3>
+<p>Yes, Torchserve API ports are configurable using a properties file or environment variable.
+Refer to <a class="reference internal" href="configuration.html"><span class="doc">configuration</span></a> for more details.</p>
+</section>
+<section id="how-can-i-resolve-model-specific-python-dependency">
+<h3>How can I resolve model specific python dependency?<a class="headerlink" href="#how-can-i-resolve-model-specific-python-dependency" title="Permalink to this heading">¶</a></h3>
+<p>You can provide a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> while creating a mar file using “–requirements-file/ -r” flag. Also, you can add dependency files using “–extra-files” flag.
+Refer to <a class="reference internal" href="configuration.html"><span class="doc">configuration</span></a> for more details.</p>
+</section>
+<section id="can-i-deploy-torchserve-in-kubernetes">
+<h3>Can I deploy Torchserve in Kubernetes?<a class="headerlink" href="#can-i-deploy-torchserve-in-kubernetes" title="Permalink to this heading">¶</a></h3>
+<p>Yes, you can deploy Torchserve in Kubernetes using Helm charts.
+Refer <a class="reference external" href="https://github.com/pytorch/serve/blob/master/kubernetes/README.md#torchserve-kubernetes">Kubernetes deployment </a> for more details.</p>
+</section>
+<section id="can-i-deploy-torchserve-with-aws-elb-and-aws-asg">
+<h3>Can I deploy Torchserve with AWS ELB and AWS ASG?<a class="headerlink" href="#can-i-deploy-torchserve-with-aws-elb-and-aws-asg" title="Permalink to this heading">¶</a></h3>
+<p>Yes, you can deploy Torchserve on a multi-node ASG AWS EC2 cluster. There is a cloud formation template available <a class="reference external" href="https://github.com/pytorch/serve/blob/master/examples/cloudformation/ec2-asg.yaml">here</a> for this type of deployment. Refer <a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/cloudformation/README.md#multi-node-ec2-deployment-behind-elastic-loadbalancer-elb"> Multi-node EC2 deployment behind Elastic LoadBalancer (ELB)</a> more details.</p>
+</section>
+<section id="how-can-i-backup-and-restore-torchserve-state">
+<h3>How can I backup and restore Torchserve state?<a class="headerlink" href="#how-can-i-backup-and-restore-torchserve-state" title="Permalink to this heading">¶</a></h3>
+<p>TorchServe preserves server runtime configuration across sessions such that a TorchServe instance experiencing either a planned or unplanned service stop can restore its state upon restart. These saved runtime configuration files can be used for backup and restore.
+Refer to <a class="reference internal" href="snapshot.html"><span class="doc">TorchServe model snapshot</span></a> for more details.</p>
+</section>
+<section id="how-can-i-build-a-torchserve-image-from-source">
+<h3>How can I build a Torchserve image from source?<a class="headerlink" href="#how-can-i-build-a-torchserve-image-from-source" title="Permalink to this heading">¶</a></h3>
+<p>Torchserve has a utility <a class="reference external" href="https://github.com/pytorch/serve/blob/master/docker/build_image.sh">script</a> for creating docker images, the docker image can be hardware-based CPU or GPU compatible. A Torchserve docker image could be CUDA version specific as well.</p>
+<p>All these docker images can be created using <code class="docutils literal notranslate"><span class="pre">build_image.sh</span></code> with appropriate options.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">./build_image.sh</span> <span class="pre">--help</span></code> for all available options.</p>
+<p>Refer to <a class="reference external" href="https://github.com/pytorch/serve/blob/master/docker/README.md#create-torchserve-docker-image">Create Torchserve docker image from source</a> for more details.</p>
+</section>
+<section id="how-to-build-a-torchserve-image-for-a-specific-branch-or-commit-id">
+<h3>How to build a Torchserve image for a specific branch or commit id?<a class="headerlink" href="#how-to-build-a-torchserve-image-for-a-specific-branch-or-commit-id" title="Permalink to this heading">¶</a></h3>
+<p>To create a Docker image for a specific branch, use the following command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">./build_image.sh</span> <span class="pre">-b</span> <span class="pre">&lt;branch_name&gt;/&lt;commit_id&gt;</span></code></p>
+<p>To create a Docker image for a specific branch and specific tag, use the following command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">./build_image.sh</span> <span class="pre">-b</span> <span class="pre">&lt;branch_name&gt;</span> <span class="pre">-t</span> <span class="pre">&lt;tagname:latest&gt;</span></code></p>
+</section>
+<section id="what-is-the-difference-between-image-created-using-dockerfile-and-image-created-using-dockerfile-dev">
+<h3>What is the difference between image created using Dockerfile and image created using Dockerfile.dev?<a class="headerlink" href="#what-is-the-difference-between-image-created-using-dockerfile-and-image-created-using-dockerfile-dev" title="Permalink to this heading">¶</a></h3>
+<p>The image created using Dockerfile.dev has Torchserve installed from source where as image created using Dockerfile has Torchserve installed from PyPi distribution.</p>
+</section>
+<section id="what-is-the-order-of-config-property-path">
+<h3>What is the order of config.property path?<a class="headerlink" href="#what-is-the-order-of-config-property-path" title="Permalink to this heading">¶</a></h3>
+<p>TorchServe looks for the config.property file according to the order listed in the <a class="reference external" href="https://github.com/pytorch/serve/blob/master/docs/configuration.md#configproperties-file">doc</a>. There is no override mechanism.</p>
+</section>
+<section id="what-are-model-store-load-models-models">
+<h3>What are model_store, load_models, models?<a class="headerlink" href="#what-are-model-store-load-models-models" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>model_store: A mandatory argument during TorchServe start. It can be either defined in config.property or overridden by TorchServe command line option “<a class="reference internal" href="configuration.html"><span class="doc">–model-store</span></a>”.</p></li>
+<li><p>load_models: An optional argument during TorchServe start. It can be either defined in config.property or overridden by TorchServe command line option “<a class="reference internal" href="configuration.html"><span class="doc">–models</span></a>”.</p></li>
+<li><p><a class="reference internal" href="configuration.html"><span class="doc">models</span></a>: Defines a list of models’ configuration in config.property. A model’s configuration can be overridden by <a class="reference internal" href="management_api.html"><span class="doc">management API</span></a>. It does not decide which models will be loaded during TorchServe start. There is no relationship b.w “models” and “load_models” (ie. TorchServe command line option <a class="reference internal" href="configuration.html"><span class="doc">–models</span></a>).</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3><a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+</section>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h2>
+<p>Relevant documents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="rest_api.html"><span class="doc">Torchserve Rest API</span></a></p></li>
+</ul>
+<section id="what-can-i-use-other-than-curl-to-make-requests-to-torchserve">
+<h3>What can I use other than <em>curl</em> to make requests to Torchserve?<a class="headerlink" href="#what-can-i-use-other-than-curl-to-make-requests-to-torchserve" title="Permalink to this heading">¶</a></h3>
+<p>You can use any tool like Postman, Insomnia or even use a python script to do so. Find sample python script <a class="reference external" href="https://github.com/pytorch/serve/blob/master/docs/default_handlers.md#torchserve-default-inference-handlers">here</a>.</p>
+</section>
+<section id="how-can-i-add-a-custom-api-to-an-existing-framework">
+<h3>How can I add a custom API to an existing framework?<a class="headerlink" href="#how-can-i-add-a-custom-api-to-an-existing-framework" title="Permalink to this heading">¶</a></h3>
+<p>You can add a custom API using <strong>plugins SDK</strong> available in Torchserve.
+Refer to <a class="reference external" href="https://github.com/pytorch/serve/tree/master/serving-sdk">serving sdk</a> and <a class="reference external" href="https://github.com/pytorch/serve/tree/master/plugins">plugins</a> for more details.</p>
+</section>
+<section id="how-can-pass-multiple-images-in-inference-request-call-to-my-model">
+<h3>How can pass multiple images in Inference request call to my model?<a class="headerlink" href="#how-can-pass-multiple-images-in-inference-request-call-to-my-model" title="Permalink to this heading">¶</a></h3>
+<p>You can provide multiple data in a single inference request to your custom handler as a key-value pair in the <code class="docutils literal notranslate"><span class="pre">data</span></code> object.
+Refer to <a class="reference external" href="https://github.com/pytorch/serve/issues/529#issuecomment-658012913">this issue</a> for more details.</p>
+</section>
+</section>
+<section id="handler">
+<h2>Handler<a class="headerlink" href="#handler" title="Permalink to this heading">¶</a></h2>
+<p>Relevant documents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="default_handlers.html"><span class="doc">Default handlers</span></a></p></li>
+<li><p><a class="reference internal" href="custom_service.html"><span class="doc">Custom Handlers</span></a></p></li>
+</ul>
+<section id="how-do-i-return-an-image-output-for-a-model">
+<h3>How do I return an image output for a model?<a class="headerlink" href="#how-do-i-return-an-image-output-for-a-model" title="Permalink to this heading">¶</a></h3>
+<p>You would have to write a custom handler and modify the postprocessing to return the image
+Refer to <a class="reference internal" href="custom_service.html"><span class="doc">custom service documentation</span></a> for more details.</p>
+</section>
+<section id="how-to-enhance-the-default-handlers">
+<h3>How to enhance the default handlers?<a class="headerlink" href="#how-to-enhance-the-default-handlers" title="Permalink to this heading">¶</a></h3>
+<p>Write a custom handler that extends the default handler and just override the methods to be tuned.
+Refer to <a class="reference internal" href="custom_service.html"><span class="doc">custom service documentation</span></a> for more details.</p>
+</section>
+<section id="do-i-always-have-to-write-a-custom-handler-or-are-there-default-ones-that-i-can-use">
+<h3>Do I always have to write a custom handler or are there default ones that I can use?<a class="headerlink" href="#do-i-always-have-to-write-a-custom-handler-or-are-there-default-ones-that-i-can-use" title="Permalink to this heading">¶</a></h3>
+<p>Yes, you can deploy your model with no-code/ zero code by using builtin default handlers.
+Refer to <a class="reference internal" href="default_handlers.html"><span class="doc">default handlers</span></a> for more details.</p>
+</section>
+<section id="is-it-possible-to-deploy-hugging-face-models">
+<h3>Is it possible to deploy Hugging Face models?<a class="headerlink" href="#is-it-possible-to-deploy-hugging-face-models" title="Permalink to this heading">¶</a></h3>
+<p>Yes, you can deploy Hugging Face models using a custom handler.
+Refer to <a class="reference external" href="https://github.com/pytorch/serve/blob/master/examples/Huggingface_Transformers/README.md#huggingface-transformers">HuggingFace_Transformers</a> for example.</p>
+</section>
+</section>
+<section id="model-archiver">
+<h2>Model-archiver<a class="headerlink" href="#model-archiver" title="Permalink to this heading">¶</a></h2>
+<p>Relevant documents</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/model-archiver/README.md#torch-model-archiver-for-torchserve">Model-archiver </a></p></li>
+<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/docker/README.md#docker-readme">Docker Readme</a></p></li>
+</ul>
+<section id="what-is-a-mar-file">
+<h3>What is a mar file?<a class="headerlink" href="#what-is-a-mar-file" title="Permalink to this heading">¶</a></h3>
+<p>A mar file is a zip file consisting of all model artifacts with the “.mar” extension. The cmd-line utility <code class="docutils literal notranslate"><span class="pre">torch-model-archiver</span></code> is used to create a mar file.</p>
+</section>
+<section id="how-can-create-mar-file-using-torchserve-docker-container">
+<h3>How can create mar file using Torchserve docker container?<a class="headerlink" href="#how-can-create-mar-file-using-torchserve-docker-container" title="Permalink to this heading">¶</a></h3>
+<p>Yes, you create your mar file using a Torchserve container. Follow the steps given <a class="reference external" href="https://github.com/pytorch/serve/blob/master/docker/README.md#create-torch-model-archiver-from-container">here</a>.</p>
+</section>
+<section id="can-i-add-multiple-serialized-files-in-single-mar-file">
+<h3>Can I add multiple serialized files in single mar file?<a class="headerlink" href="#can-i-add-multiple-serialized-files-in-single-mar-file" title="Permalink to this heading">¶</a></h3>
+<p>Currently <code class="docutils literal notranslate"><span class="pre">torch-model-archiver</span></code> allows supplying only one serialized file with <code class="docutils literal notranslate"><span class="pre">--serialized-file</span></code> parameter while creating the mar. However, you can supply any number and any type of file with <code class="docutils literal notranslate"><span class="pre">--extra-files</span></code> flag. All the files supplied in the mar file are available in <code class="docutils literal notranslate"><span class="pre">model_dir</span></code> location which can be accessed through the context object supplied to the handler’s entry point.</p>
+<p>Sample code snippet:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">properties</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">system_properties</span>
+<span class="n">model_dir</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;model_dir&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Refer <a class="reference external" href="https://github.com/pytorch/serve/blob/master/model-archiver/README.md#torch-model-archiver-command-line-interface">Torch model archiver cli</a> for more details.
+Relevant issues: [<a class="reference external" href="https://github.com/pytorch/serve/issues/633">#633</a>]</p>
+</section>
+<section id="can-i-download-and-register-model-using-s3-presigned-v4-url">
+<h3>Can I download and register model using s3 presigned v4 url?<a class="headerlink" href="#can-i-download-and-register-model-using-s3-presigned-v4-url" title="Permalink to this heading">¶</a></h3>
+<p>You can use both s3 v2 and v4 signature URLs.
+Note: For v4 type replace <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> characters in model url with its URL encoding character in the curl command i.e.<code class="docutils literal notranslate"><span class="pre">%26</span></code>.</p>
+<p>Relevant issues: [<a class="reference external" href="https://github.com/pytorch/serve/issues/669">#669</a>]</p>
+</section>
+<section id="can-i-host-a-model-on-s3">
+<h3>Can I host a model on s3<a class="headerlink" href="#can-i-host-a-model-on-s3" title="Permalink to this heading">¶</a></h3>
+<p>A mar file can be used either locally or be publicly available via http. An S3 URI starting with s3:// will not work but that very same file can be made public and available in the s3 console or aws cli to instead get a public object URL starting with https://</p>
+</section>
+<section id="how-to-set-a-model-s-batch-size-on-sagemaker-key-parameters-for-torchserve-performance-tuning">
+<h3>How to set a model’s batch size on SageMaker?  Key parameters for TorchServe performance tuning.<a class="headerlink" href="#how-to-set-a-model-s-batch-size-on-sagemaker-key-parameters-for-torchserve-performance-tuning" title="Permalink to this heading">¶</a></h3>
+<p><a class="reference external" href="https://github.com/lxning/torchserve_perf/blob/master/torchserve_perf.ipynb">TorchServe performance tuning example</a></p>
+</section>
+</section>
+<section id="why-is-my-model-initialization-so-slow">
+<h2>Why is my model initialization so slow?<a class="headerlink" href="#why-is-my-model-initialization-so-slow" title="Permalink to this heading">¶</a></h2>
+<p>There’s a few reasons why model initialization can be slow</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.load()</span></code> overhead - not something we can improve, this will be more dramatic for larger models</p></li>
+<li><p>CUDA context launch overhead - not something we can control</p></li>
+<li><p>install_py_dep_per_model=true is intended for local development or sagemaker deployments, in other production environment you should pre install your dependencies</p></li>
+<li><p>The model archiver has an overhead to compress and decompress models, the compression is on by default because historically torchserve came out of sagemaker needs which involve loading and unloading tons of models stored in cloud buckets. But for users with smaller deployments choosing <code class="docutils literal notranslate"><span class="pre">torch-model-archiver</span> <span class="pre">--no-archive</span></code> is a good bet</p></li>
+</ol>
+</section>
+</section>
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="apis.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="large_model_inference.html" class="btn btn-neutral" title="Serving large models with Torchserve" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
+  
+
+  
+
+    <hr>
+
+  
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, PyTorch Serve Contributors.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">FAQ’S</a><ul>
+<li><a class="reference internal" href="#general">General</a><ul>
+<li><a class="reference internal" href="#does-torchserve-api-s-follow-some-rest-api-standard">Does Torchserve API’s follow some REST API standard?</a></li>
+<li><a class="reference internal" href="#how-to-use-torchserve-in-production">How to use Torchserve in production?</a></li>
+<li><a class="reference internal" href="#what-s-difference-between-torchserve-and-a-python-web-app-using-web-frameworks-like-flask-django">What’s difference between Torchserve and a python web app using web frameworks like Flask, Django?</a></li>
+<li><a class="reference internal" href="#are-there-any-sample-models-available">Are there any sample Models available?</a></li>
+<li><a class="reference internal" href="#does-torchserve-support-other-models-based-on-programming-languages-other-than-python">Does Torchserve support other models based on programming languages other than python?</a></li>
+<li><a class="reference internal" href="#what-benefits-does-torchserve-have-over-aws-multi-model-server">What benefits does Torchserve have over AWS Multi-Model-Server?</a></li>
+<li><a class="reference internal" href="#how-to-decode-international-language-in-inference-response-on-client-side">How to decode international language in inference response on client side?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#performance">Performance</a><ul>
+<li><a class="reference internal" href="#how-do-i-improve-torchserve-performance-on-cpu">How do I improve TorchServe performance on CPU?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deployment-and-config">Deployment and config</a><ul>
+<li><a class="reference internal" href="#can-i-run-torchserve-apis-on-ports-other-than-the-default-8080-8081">Can I run Torchserve APIs on ports other than the default 8080 &amp; 8081?</a></li>
+<li><a class="reference internal" href="#how-can-i-resolve-model-specific-python-dependency">How can I resolve model specific python dependency?</a></li>
+<li><a class="reference internal" href="#can-i-deploy-torchserve-in-kubernetes">Can I deploy Torchserve in Kubernetes?</a></li>
+<li><a class="reference internal" href="#can-i-deploy-torchserve-with-aws-elb-and-aws-asg">Can I deploy Torchserve with AWS ELB and AWS ASG?</a></li>
+<li><a class="reference internal" href="#how-can-i-backup-and-restore-torchserve-state">How can I backup and restore Torchserve state?</a></li>
+<li><a class="reference internal" href="#how-can-i-build-a-torchserve-image-from-source">How can I build a Torchserve image from source?</a></li>
+<li><a class="reference internal" href="#how-to-build-a-torchserve-image-for-a-specific-branch-or-commit-id">How to build a Torchserve image for a specific branch or commit id?</a></li>
+<li><a class="reference internal" href="#what-is-the-difference-between-image-created-using-dockerfile-and-image-created-using-dockerfile-dev">What is the difference between image created using Dockerfile and image created using Dockerfile.dev?</a></li>
+<li><a class="reference internal" href="#what-is-the-order-of-config-property-path">What is the order of config.property path?</a></li>
+<li><a class="reference internal" href="#what-are-model-store-load-models-models">What are model_store, load_models, models?</a></li>
+<li><a class="reference internal" href="#id1"></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api">API</a><ul>
+<li><a class="reference internal" href="#what-can-i-use-other-than-curl-to-make-requests-to-torchserve">What can I use other than <em>curl</em> to make requests to Torchserve?</a></li>
+<li><a class="reference internal" href="#how-can-i-add-a-custom-api-to-an-existing-framework">How can I add a custom API to an existing framework?</a></li>
+<li><a class="reference internal" href="#how-can-pass-multiple-images-in-inference-request-call-to-my-model">How can pass multiple images in Inference request call to my model?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#handler">Handler</a><ul>
+<li><a class="reference internal" href="#how-do-i-return-an-image-output-for-a-model">How do I return an image output for a model?</a></li>
+<li><a class="reference internal" href="#how-to-enhance-the-default-handlers">How to enhance the default handlers?</a></li>
+<li><a class="reference internal" href="#do-i-always-have-to-write-a-custom-handler-or-are-there-default-ones-that-i-can-use">Do I always have to write a custom handler or are there default ones that I can use?</a></li>
+<li><a class="reference internal" href="#is-it-possible-to-deploy-hugging-face-models">Is it possible to deploy Hugging Face models?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#model-archiver">Model-archiver</a><ul>
+<li><a class="reference internal" href="#what-is-a-mar-file">What is a mar file?</a></li>
+<li><a class="reference internal" href="#how-can-create-mar-file-using-torchserve-docker-container">How can create mar file using Torchserve docker container?</a></li>
+<li><a class="reference internal" href="#can-i-add-multiple-serialized-files-in-single-mar-file">Can I add multiple serialized files in single mar file?</a></li>
+<li><a class="reference internal" href="#can-i-download-and-register-model-using-s3-presigned-v4-url">Can I download and register model using s3 presigned v4 url?</a></li>
+<li><a class="reference internal" href="#can-i-host-a-model-on-s3">Can I host a model on s3</a></li>
+<li><a class="reference internal" href="#how-to-set-a-model-s-batch-size-on-sagemaker-key-parameters-for-torchserve-performance-tuning">How to set a model’s batch size on SageMaker?  Key parameters for TorchServe performance tuning.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#why-is-my-model-initialization-so-slow">Why is my model initialization so slow?</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+         <script src="_static/jquery.js"></script>
+         <script src="_static/underscore.js"></script>
+         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+         <script src="_static/doctools.js"></script>
+         <script src="_static/katex.min.js"></script>
+         <script src="_static/auto-render.min.js"></script>
+         <script src="_static/katex_autorenderer.js"></script>
+     
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Docs</h2>
+          <p>Access comprehensive developer documentation for PyTorch</p>
+          <a class="with-right-arrow" href="https://pytorch.org/docs/stable/index.html">View Docs</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Tutorials</h2>
+          <p>Get in-depth tutorials for beginners and advanced developers</p>
+          <a class="with-right-arrow" href="https://pytorch.org/tutorials">View Tutorials</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Resources</h2>
+          <p>Find development resources and get your questions answered</p>
+          <a class="with-right-arrow" href="https://pytorch.org/resources">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://pytorch.org/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/">PyTorch</a></li>
+            <li><a href="https://pytorch.org/get-started">Get Started</a></li>
+            <li><a href="https://pytorch.org/features">Features</a></li>
+            <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
+            <li><a href="https://pytorch.org/blog/">Blog</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
+            <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
+            <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">Stay up to date</li>
+            <li><a href="https://www.facebook.com/pytorch" target="_blank">Facebook</a></li>
+            <li><a href="https://twitter.com/pytorch" target="_blank">Twitter</a></li>
+            <li><a href="https://www.youtube.com/pytorch" target="_blank">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/company/pytorch" target="_blank">LinkedIn</a></li>
+          </ul>  
+          </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">PyTorch Podcasts</li>
+            <li><a href="https://open.spotify.com/show/6UzHKeiy368jKfQMKKvJY5" target="_blank">Spotify</a></li>
+            <li><a href="https://podcasts.apple.com/us/podcast/pytorch-developer-podcast/id1566080008" target="_blank">Apple</a></li>
+            <li><a href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9PQjVGa0lsOA%3D%3D" target="_blank">Google</a></li>
+            <li><a href="https://music.amazon.com/podcasts/7a4e6f0e-26c2-49e9-a478-41bd244197d0/PyTorch-Developer-Podcast?" target="_blank">Amazon</a></li>
+          </ul>
+         </div>
+        </div>
+        
+        <div class="privacy-policy">
+          <ul>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/terms/" target="_blank">Terms</a></li>
+            <li class="privacy-policy-links">|</li>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/privacy-policy/" target="_blank">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="copyright">
+        <p>© Copyright The Linux Foundation. The PyTorch Foundation is a project of The Linux Foundation.
+          For web site terms of use, trademark policy and other policies applicable to The PyTorch Foundation please see
+          <a href="https://www.linuxfoundation.org/policies/">www.linuxfoundation.org/policies/</a>. The PyTorch Foundation supports the PyTorch open source
+          project, which has been established as PyTorch Project a Series of LF Projects, LLC. For policies applicable to the PyTorch Project a Series of LF Projects, LLC,
+          please see <a href="https://www.lfprojects.org/policies/">www.lfprojects.org/policies/</a>.</p>
+      </div>
+     </div>
+
+  </footer>
+
+  <div class="cookie-banner-wrapper">
+  <div class="container">
+    <p class="gdpr-notice">To analyze traffic and optimize your experience, we serve cookies on this site. By clicking or navigating, you agree to allow our usage of cookies. As the current maintainers of this site, Facebook’s Cookies Policy applies. Learn more, including about available controls: <a href="https://www.facebook.com/policies/cookies/">Cookies Policy</a>.</p>
+    <img class="close-button" src="_static/images/pytorch-x.svg">
+  </div>
+</div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+           <li class="resources-mobile-menu-title">
+             <a>Learn</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/get-started">Get Started</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials">Tutorials</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/recipes/recipes_index.html">PyTorch Recipes</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/introyt.html">Introduction to PyTorch - YouTube Series</a>
+             </li>
+           </ul>
+           <li class="resources-mobile-menu-title">
+             <a>Ecosystem</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/ecosystem">Tools</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/#community-module">Community</a>
+             </li>
+             <li>
+               <a href="https://discuss.pytorch.org/">Forums</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/resources">Developer Resources</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/ecosystem/contributor-awards-2023">Contributor Awards - 2023</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Edge</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/edge">About PyTorch Edge</a>
+             </li>
+             
+             <li>
+               <a href="https://pytorch.org/executorch-overview">ExecuTorch</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Docs</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/pytorch-domains">PyTorch Domains</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            <a>Blog & News</a>
+          </li>
+            
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/blog/">PyTorch Blog</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/community-blog">Community Blog</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/videos">Videos</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/community-stories">Community Stories</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/events">Events</a>
+            </li>
+          </ul>
+          
+          <li class="resources-mobile-menu-title">
+            <a>About</a>
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/foundation">PyTorch Foundation</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/governing-board">Governing Board</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>

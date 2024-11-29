@@ -1,0 +1,885 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Logging in Torchserve &mdash; PyTorch/Serve master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="TorchServe Metrics" href="metrics.html" />
+    <link rel="prev" title="TorchServe default inference handlers" href="default_handlers.html" />
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T8XT4PS');</script>
+    <!-- End Google Tag Manager -->
+  
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+
+      <div class="main-menu">
+        <ul>
+
+          <li class="main-menu-item">
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Learn
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/get-started">
+                  <span class=dropdown-title>Get Started</span>
+                  <p>Run PyTorch locally or get started quickly with one of the supported cloud platforms</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials">
+                  <span class="dropdown-title">Tutorials</span>
+                  <p>Whats new in PyTorch tutorials</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/basics/intro.html">
+                  <span class="dropdown-title">Learn the Basics</span>
+                  <p>Familiarize yourself with PyTorch concepts and modules</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/recipes/recipes_index.html">
+                  <span class="dropdown-title">PyTorch Recipes</span>
+                  <p>Bite-size, ready-to-deploy PyTorch code examples</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/introyt.html">
+                  <span class="dropdown-title">Intro to PyTorch - YouTube Series</span>
+                  <p>Master PyTorch basics with our engaging YouTube tutorial series</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Ecosystem
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem">
+                  <span class="dropdown-title">Tools</span>
+                  <p>Learn about the tools and frameworks in the PyTorch Ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class=dropdown-title>Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class=dropdown-title>Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class=dropdown-title>Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem/contributor-awards-2023">
+                  <span class="dropdown-title">Contributor Awards - 2023</span>
+                  <p>Award winners announced at this year's PyTorch Conference</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Edge
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/edge">
+                  <span class="dropdown-title">About PyTorch Edge</span>
+                  <p>Build innovative and privacy-aware AI experiences for edge devices</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/executorch-overview">
+                  <span class="dropdown-title">ExecuTorch</span>
+                  <p>End-to-end solution for enabling on-device inference capabilities across mobile and edge devices</p>
+                </a>
+              </div>
+            </div>  
+          </li>
+
+          <li class="main-menu-item">
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p>Explore the documentation for comprehensive guidance on how to use PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/pytorch-domains">
+                  <span class="dropdown-title">PyTorch Domains</span>
+                  <p>Read the PyTorch Domains documentation to learn more about domain-specific libraries</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Blogs & News 
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/blog/">
+                  <span class="dropdown-title">PyTorch Blog</span>
+                  <p>Catch up on the latest technical news and happenings</p>
+                </a>
+                 <a class="nav-dropdown-item" href="https://pytorch.org/community-blog">
+                  <span class="dropdown-title">Community Blog</span>
+                  <p>Stories from the PyTorch ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/videos">
+                  <span class="dropdown-title">Videos</span>
+                  <p>Learn about the latest PyTorch tutorials, new, and more </p>
+                <a class="nav-dropdown-item" href="https://pytorch.org/community-stories">
+                  <span class="dropdown-title">Community Stories</span>
+                  <p>Learn how our community solves real, everyday machine learning problems with PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/events">
+                  <span class="dropdown-title">Events</span>
+                  <p>Find events, webinars, and podcasts</p>
+                </a>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                About
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/foundation">
+                  <span class="dropdown-title">PyTorch Foundation</span>
+                  <p>Learn more about the PyTorch Foundation</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/governing-board">
+                  <span class="dropdown-title">Governing Board</span>
+                  <p></p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li class="main-menu-item">
+            <div class="no-dropdown">
+              <a href="https://pytorch.org/join" data-cta="join">
+                Become a Member
+              </a>
+            </div>
+          </li>
+          <li>
+           <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="github-icon">
+             </a>
+           </div>
+          </li>
+          <!--- TODO: This block adds the search icon to the nav bar. We will enable it later. 
+          <li>
+            <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="search-icon">
+             </a>
+            </div>
+          </li>
+          --->
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+      <div class="pytorch-side-scroll">
+        <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="pytorch-left-menu-search">
+            
+
+            
+              
+              
+                <div class="version">
+                  master 
+                </div>
+              
+            
+
+            
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+            
+          </div>
+
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_guide.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_coverage.html">Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_service.html">Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default_handlers.html">TorchServe default inference handlers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nvidia_mps.html">Running TorchServe with NVIDIA MPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snapshot.html">TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/intel_extension_for_pytorch">intel_extension_for_pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_wsl.html">TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">TorchServe Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="large_model_inference.html">Serving large models with Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQ’S</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grpc_api.html">TorchServe gRPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference_api.html">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_management_api.html">Management API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.html">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">serve</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="pytorch-container">
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="contents.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+      <li>Logging in Torchserve</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            <a href="_sources/logging.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+        <div class="pytorch-content-left">
+
+        
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8XT4PS"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+              
+  <section id="logging-in-torchserve">
+<h1>Logging in Torchserve<a class="headerlink" href="#logging-in-torchserve" title="Permalink to this heading">¶</a></h1>
+<p>In this document we explain logging in TorchServe. We also explain how to modify the behavior of logging in the model server.
+Logging in TorchServe also covers metrics, as metrics are logged into a file.
+To further understand how to customize metrics or define custom logging layouts, see <a class="reference internal" href="metrics.html"><span class="doc">Metrics on TorchServe</span></a></p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Be familiar with log4j2 configuration.
+For information on how to configure log4j parameters, see <a class="reference external" href="https://logging.apache.org/log4j/2.x/manual/configuration.html">Logging Services</a>.</p></li>
+<li><p>Be familiar with the default <a class="reference external" href="https://github.com/pytorch/serve/blob/master/frontend/server/src/main/resources/log4j2.xml">log4j2.xml</a> used by TorchServe.</p></li>
+</ul>
+</section>
+<section id="types-of-logs">
+<h2>Types of logs<a class="headerlink" href="#types-of-logs" title="Permalink to this heading">¶</a></h2>
+<p>TorchServe currently provides the following types of logs</p>
+<ol class="simple">
+<li><p>Access logs</p></li>
+<li><p>TorchServe logs</p></li>
+</ol>
+<section id="access-logs">
+<h3>Access Logs<a class="headerlink" href="#access-logs" title="Permalink to this heading">¶</a></h3>
+<p>These logs collect the access pattern to TorchServe. The configuration for access logs are as follows:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="w">		</span><span class="nt">&lt;RollingFile</span>
+<span class="w">				</span><span class="na">name=</span><span class="s">&quot;access_log&quot;</span>
+<span class="w">				</span><span class="na">fileName=</span><span class="s">&quot;${env:LOG_LOCATION:-logs}/access_log.log&quot;</span>
+<span class="w">				</span><span class="na">filePattern=</span><span class="s">&quot;${env:LOG_LOCATION:-logs}/access_log.%d{dd-MMM}.log.gz&quot;</span><span class="nt">&gt;</span>
+<span class="w">			</span><span class="nt">&lt;PatternLayout</span><span class="w"> </span><span class="na">pattern=</span><span class="s">&quot;%d{ISO8601} - %m%n&quot;</span><span class="nt">/&gt;</span>
+<span class="w">			</span><span class="nt">&lt;Policies&gt;</span>
+<span class="w">				</span><span class="nt">&lt;SizeBasedTriggeringPolicy</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;100 MB&quot;</span><span class="nt">/&gt;</span>
+<span class="w">				</span><span class="nt">&lt;TimeBasedTriggeringPolicy/&gt;</span>
+<span class="w">			</span><span class="nt">&lt;/Policies&gt;</span>
+<span class="w">			</span><span class="nt">&lt;DefaultRolloverStrategy</span><span class="w"> </span><span class="na">max=</span><span class="s">&quot;5&quot;</span><span class="nt">/&gt;</span>
+<span class="w">		</span><span class="nt">&lt;/RollingFile&gt;</span>
+</pre></div>
+</div>
+<p>As defined in the properties file, the access logs are collected in {LOG_LOCATION}/access_log.log file.
+When you load TorchServe with a model and run inference against the server, the following logs are collected into the access_log.log:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2018-10-15 13:56:18,976 [INFO ] BackendWorker-9000 ACCESS_LOG - /127.0.0.1:64003 &quot;POST /predictions/resnet-18 HTTP/1.1&quot; 200 118
+</pre></div>
+</div>
+<p>The above log tells us that a successful <code class="docutils literal notranslate"><span class="pre">POST</span></code> call to <code class="docutils literal notranslate"><span class="pre">/predictions/resnet-18</span></code> was made by remote host <code class="docutils literal notranslate"><span class="pre">127.0.0.1:64003</span></code> it took <code class="docutils literal notranslate"><span class="pre">118</span></code>ms to complete this request.</p>
+<p>These logs are useful to determine the current performance of the model-server as well as understand the requests received by model-server.</p>
+</section>
+<section id="torchserve-logs">
+<h3>TorchServe Logs<a class="headerlink" href="#torchserve-logs" title="Permalink to this heading">¶</a></h3>
+<p>These logs collect all the logs from TorchServe and from the backend workers (the custom model code).
+The default configuration pertaining to TorchServe logs are as follows:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="w">		</span><span class="nt">&lt;RollingFile</span>
+<span class="w">				</span><span class="na">name=</span><span class="s">&quot;ts_log&quot;</span>
+<span class="w">				</span><span class="na">fileName=</span><span class="s">&quot;${env:LOG_LOCATION:-logs}/ts_log.log&quot;</span>
+<span class="w">				</span><span class="na">filePattern=</span><span class="s">&quot;${env:LOG_LOCATION:-logs}/ts_log.%d{dd-MMM}.log.gz&quot;</span><span class="nt">&gt;</span>
+<span class="w">			</span><span class="nt">&lt;PatternLayout</span><span class="w"> </span><span class="na">pattern=</span><span class="s">&quot;%d{ISO8601} [%-5p] %t %c - %m%n&quot;</span><span class="nt">/&gt;</span>
+<span class="w">			</span><span class="nt">&lt;Policies&gt;</span>
+<span class="w">				</span><span class="nt">&lt;SizeBasedTriggeringPolicy</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;100 MB&quot;</span><span class="nt">/&gt;</span>
+<span class="w">				</span><span class="nt">&lt;TimeBasedTriggeringPolicy/&gt;</span>
+<span class="w">			</span><span class="nt">&lt;/Policies&gt;</span>
+<span class="w">			</span><span class="nt">&lt;DefaultRolloverStrategy</span><span class="w"> </span><span class="na">max=</span><span class="s">&quot;5&quot;</span><span class="nt">/&gt;</span>
+<span class="w">		</span><span class="nt">&lt;/RollingFile&gt;</span>
+</pre></div>
+</div>
+<p>This configuration by default dumps all the logs above <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> level.</p>
+</section>
+</section>
+<section id="generate-custom-logs">
+<h2>Generate custom logs<a class="headerlink" href="#generate-custom-logs" title="Permalink to this heading">¶</a></h2>
+<p>You might want to generate custom logs. This could be for debugging purposes or to log any errors.
+To do this, print the required logs to <code class="docutils literal notranslate"><span class="pre">stdout/stderr</span></code>.
+TorchServe captures the logs generated by the backend workers and logs it into the log file. Some examples of logs are as follows:</p>
+<ol class="simple">
+<li><p>Messages printed to stderr:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2018-10-14 16:46:51,656 [WARN ] W-9000-stderr org.pytorch.serve.wlm.WorkerLifeCycle - [16:46:51] src/nnvm/legacy_json_util.cc:209: Loading symbol saved by previous version v0.8.0. Attempting to upgrad\
+e...
+2018-10-14 16:46:51,657 [WARN ] W-9000-stderr org.pytorch.serve.wlm.WorkerLifeCycle - [16:46:51] src/nnvm/legacy_json_util.cc:217: Symbol successfully upgraded!
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Messages printed to stdout:</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2018-10-14 16:59:59,926 [INFO ] W-9000-stdout org.pytorch.serve.wlm.WorkerLifeCycle - preprocess time: 3.60
+2018-10-14 16:59:59,926 [INFO ] W-9000-stdout org.pytorch.serve.wlm.WorkerLifeCycle - inference time: 117.31
+2018-10-14 16:59:59,926 [INFO ] W-9000-stdout org.pytorch.serve.wlm.WorkerLifeCycle - postprocess time: 8.52
+</pre></div>
+</div>
+</section>
+<section id="modify-the-behavior-of-the-logs">
+<h2>Modify the behavior of the logs<a class="headerlink" href="#modify-the-behavior-of-the-logs" title="Permalink to this heading">¶</a></h2>
+<p>To modify the default logging behavior, define a <code class="docutils literal notranslate"><span class="pre">log4j2.xml</span></code> file. There are two ways of starting TorchServe with custom logs:</p>
+<section id="provide-with-config-properties">
+<h3>Provide with config.properties<a class="headerlink" href="#provide-with-config-properties" title="Permalink to this heading">¶</a></h3>
+<p>After you define a custom <code class="docutils literal notranslate"><span class="pre">log4j2.xml</span></code> file, add the following to the <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file:</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">vmargs</span><span class="o">=</span><span class="s">-Dlog4j.configurationFile=file:///path/to/custom/log4j2.xml</span>
+</pre></div>
+</div>
+<p>Then start TorchServe as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>torchserve<span class="w"> </span>--start<span class="w"> </span>--ts-config<span class="w"> </span>/path/to/config.properties
+</pre></div>
+</div>
+<p>Alternatively</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>torchserve<span class="w"> </span>--start<span class="w"> </span>--log-config<span class="w"> </span>/path/to/custom/log4j2.xml
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enable-asynchronous-logging">
+<h2>Enable asynchronous logging<a class="headerlink" href="#enable-asynchronous-logging" title="Permalink to this heading">¶</a></h2>
+<p>If your model is super lightweight and you want high throughput, consider enabling asynchronous logging.
+Log output might be delayed, and the most recent log might be lost if TorchServe is terminated unexpectedly.
+Asynchronous logging is disabled by default.
+To enable asynchronous logging, add following property in <code class="docutils literal notranslate"><span class="pre">config.properties</span></code>:</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">async_logging</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="metrics.html" class="btn btn-neutral float-right" title="TorchServe Metrics" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="default_handlers.html" class="btn btn-neutral" title="TorchServe default inference handlers" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
+  
+
+  
+
+    <hr>
+
+  
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, PyTorch Serve Contributors.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">Logging in Torchserve</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#types-of-logs">Types of logs</a><ul>
+<li><a class="reference internal" href="#access-logs">Access Logs</a></li>
+<li><a class="reference internal" href="#torchserve-logs">TorchServe Logs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generate-custom-logs">Generate custom logs</a></li>
+<li><a class="reference internal" href="#modify-the-behavior-of-the-logs">Modify the behavior of the logs</a><ul>
+<li><a class="reference internal" href="#provide-with-config-properties">Provide with config.properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#enable-asynchronous-logging">Enable asynchronous logging</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+         <script src="_static/jquery.js"></script>
+         <script src="_static/underscore.js"></script>
+         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+         <script src="_static/doctools.js"></script>
+         <script src="_static/katex.min.js"></script>
+         <script src="_static/auto-render.min.js"></script>
+         <script src="_static/katex_autorenderer.js"></script>
+     
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Docs</h2>
+          <p>Access comprehensive developer documentation for PyTorch</p>
+          <a class="with-right-arrow" href="https://pytorch.org/docs/stable/index.html">View Docs</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Tutorials</h2>
+          <p>Get in-depth tutorials for beginners and advanced developers</p>
+          <a class="with-right-arrow" href="https://pytorch.org/tutorials">View Tutorials</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Resources</h2>
+          <p>Find development resources and get your questions answered</p>
+          <a class="with-right-arrow" href="https://pytorch.org/resources">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://pytorch.org/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/">PyTorch</a></li>
+            <li><a href="https://pytorch.org/get-started">Get Started</a></li>
+            <li><a href="https://pytorch.org/features">Features</a></li>
+            <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
+            <li><a href="https://pytorch.org/blog/">Blog</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
+            <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
+            <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">Stay up to date</li>
+            <li><a href="https://www.facebook.com/pytorch" target="_blank">Facebook</a></li>
+            <li><a href="https://twitter.com/pytorch" target="_blank">Twitter</a></li>
+            <li><a href="https://www.youtube.com/pytorch" target="_blank">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/company/pytorch" target="_blank">LinkedIn</a></li>
+          </ul>  
+          </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">PyTorch Podcasts</li>
+            <li><a href="https://open.spotify.com/show/6UzHKeiy368jKfQMKKvJY5" target="_blank">Spotify</a></li>
+            <li><a href="https://podcasts.apple.com/us/podcast/pytorch-developer-podcast/id1566080008" target="_blank">Apple</a></li>
+            <li><a href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9PQjVGa0lsOA%3D%3D" target="_blank">Google</a></li>
+            <li><a href="https://music.amazon.com/podcasts/7a4e6f0e-26c2-49e9-a478-41bd244197d0/PyTorch-Developer-Podcast?" target="_blank">Amazon</a></li>
+          </ul>
+         </div>
+        </div>
+        
+        <div class="privacy-policy">
+          <ul>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/terms/" target="_blank">Terms</a></li>
+            <li class="privacy-policy-links">|</li>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/privacy-policy/" target="_blank">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="copyright">
+        <p>© Copyright The Linux Foundation. The PyTorch Foundation is a project of The Linux Foundation.
+          For web site terms of use, trademark policy and other policies applicable to The PyTorch Foundation please see
+          <a href="https://www.linuxfoundation.org/policies/">www.linuxfoundation.org/policies/</a>. The PyTorch Foundation supports the PyTorch open source
+          project, which has been established as PyTorch Project a Series of LF Projects, LLC. For policies applicable to the PyTorch Project a Series of LF Projects, LLC,
+          please see <a href="https://www.lfprojects.org/policies/">www.lfprojects.org/policies/</a>.</p>
+      </div>
+     </div>
+
+  </footer>
+
+  <div class="cookie-banner-wrapper">
+  <div class="container">
+    <p class="gdpr-notice">To analyze traffic and optimize your experience, we serve cookies on this site. By clicking or navigating, you agree to allow our usage of cookies. As the current maintainers of this site, Facebook’s Cookies Policy applies. Learn more, including about available controls: <a href="https://www.facebook.com/policies/cookies/">Cookies Policy</a>.</p>
+    <img class="close-button" src="_static/images/pytorch-x.svg">
+  </div>
+</div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+           <li class="resources-mobile-menu-title">
+             <a>Learn</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/get-started">Get Started</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials">Tutorials</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/recipes/recipes_index.html">PyTorch Recipes</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/introyt.html">Introduction to PyTorch - YouTube Series</a>
+             </li>
+           </ul>
+           <li class="resources-mobile-menu-title">
+             <a>Ecosystem</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/ecosystem">Tools</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/#community-module">Community</a>
+             </li>
+             <li>
+               <a href="https://discuss.pytorch.org/">Forums</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/resources">Developer Resources</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/ecosystem/contributor-awards-2023">Contributor Awards - 2023</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Edge</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/edge">About PyTorch Edge</a>
+             </li>
+             
+             <li>
+               <a href="https://pytorch.org/executorch-overview">ExecuTorch</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Docs</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/pytorch-domains">PyTorch Domains</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            <a>Blog & News</a>
+          </li>
+            
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/blog/">PyTorch Blog</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/community-blog">Community Blog</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/videos">Videos</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/community-stories">Community Stories</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/events">Events</a>
+            </li>
+          </ul>
+          
+          <li class="resources-mobile-menu-title">
+            <a>About</a>
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/foundation">PyTorch Foundation</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/governing-board">Governing Board</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>

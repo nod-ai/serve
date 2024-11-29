@@ -1,0 +1,1309 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ts.torch_handler package &mdash; PyTorch/Serve master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ts.torch_handler.request_envelope package" href="ts.torch_handler.request_envelope.html" />
+    <link rel="prev" title="ts.protocol package" href="ts.protocol.html" />
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T8XT4PS');</script>
+    <!-- End Google Tag Manager -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+
+      <div class="main-menu">
+        <ul>
+
+          <li class="main-menu-item">
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Learn
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/get-started">
+                  <span class=dropdown-title>Get Started</span>
+                  <p>Run PyTorch locally or get started quickly with one of the supported cloud platforms</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials">
+                  <span class="dropdown-title">Tutorials</span>
+                  <p>Whats new in PyTorch tutorials</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/basics/intro.html">
+                  <span class="dropdown-title">Learn the Basics</span>
+                  <p>Familiarize yourself with PyTorch concepts and modules</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/recipes/recipes_index.html">
+                  <span class="dropdown-title">PyTorch Recipes</span>
+                  <p>Bite-size, ready-to-deploy PyTorch code examples</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/introyt.html">
+                  <span class="dropdown-title">Intro to PyTorch - YouTube Series</span>
+                  <p>Master PyTorch basics with our engaging YouTube tutorial series</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Ecosystem
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem">
+                  <span class="dropdown-title">Tools</span>
+                  <p>Learn about the tools and frameworks in the PyTorch Ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class=dropdown-title>Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class=dropdown-title>Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class=dropdown-title>Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem/contributor-awards-2023">
+                  <span class="dropdown-title">Contributor Awards - 2023</span>
+                  <p>Award winners announced at this year's PyTorch Conference</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Edge
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/edge">
+                  <span class="dropdown-title">About PyTorch Edge</span>
+                  <p>Build innovative and privacy-aware AI experiences for edge devices</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/executorch-overview">
+                  <span class="dropdown-title">ExecuTorch</span>
+                  <p>End-to-end solution for enabling on-device inference capabilities across mobile and edge devices</p>
+                </a>
+              </div>
+            </div>  
+          </li>
+
+          <li class="main-menu-item">
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p>Explore the documentation for comprehensive guidance on how to use PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/pytorch-domains">
+                  <span class="dropdown-title">PyTorch Domains</span>
+                  <p>Read the PyTorch Domains documentation to learn more about domain-specific libraries</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Blogs & News 
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/blog/">
+                  <span class="dropdown-title">PyTorch Blog</span>
+                  <p>Catch up on the latest technical news and happenings</p>
+                </a>
+                 <a class="nav-dropdown-item" href="https://pytorch.org/community-blog">
+                  <span class="dropdown-title">Community Blog</span>
+                  <p>Stories from the PyTorch ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/videos">
+                  <span class="dropdown-title">Videos</span>
+                  <p>Learn about the latest PyTorch tutorials, new, and more </p>
+                <a class="nav-dropdown-item" href="https://pytorch.org/community-stories">
+                  <span class="dropdown-title">Community Stories</span>
+                  <p>Learn how our community solves real, everyday machine learning problems with PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/events">
+                  <span class="dropdown-title">Events</span>
+                  <p>Find events, webinars, and podcasts</p>
+                </a>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                About
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/foundation">
+                  <span class="dropdown-title">PyTorch Foundation</span>
+                  <p>Learn more about the PyTorch Foundation</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/governing-board">
+                  <span class="dropdown-title">Governing Board</span>
+                  <p></p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li class="main-menu-item">
+            <div class="no-dropdown">
+              <a href="https://pytorch.org/join" data-cta="join">
+                Become a Member
+              </a>
+            </div>
+          </li>
+          <li>
+           <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="github-icon">
+             </a>
+           </div>
+          </li>
+          <!--- TODO: This block adds the search icon to the nav bar. We will enable it later. 
+          <li>
+            <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="search-icon">
+             </a>
+            </div>
+          </li>
+          --->
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+      <div class="pytorch-side-scroll">
+        <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="pytorch-left-menu-search">
+            
+
+            
+              
+              
+                <div class="version">
+                  master 
+                </div>
+              
+            
+
+            
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+            
+          </div>
+
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance_guide.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../batch_inference_with_ts.html">Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_coverage.html">Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_service.html">Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../default_handlers.html">TorchServe default inference handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logging.html">Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metrics.html">TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../request_envelopes.html">Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server.html">Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nvidia_mps.html">Running TorchServe with NVIDIA MPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snapshot.html">TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/intel_extension_for_pytorch">intel_extension_for_pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../torchserve_on_win_native.html">TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../torchserve_on_wsl.html">TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use_cases.html">Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows.html">TorchServe Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../large_model_inference.html">Serving large models with Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQs.html">FAQ’S</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grpc_api.html">TorchServe gRPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../inference_api.html">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow_management_api.html">Management API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">serve</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="pytorch-container">
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../contents.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+          <li><a href="dev_api.html">&lt;no title&gt;</a> &gt;</li>
+        
+          <li><a href="ts.html">ts package</a> &gt;</li>
+        
+      <li>ts.torch_handler package</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/ts.torch_handler.rst.txt" rel="nofollow"><img src="../_static/images/view-page-source-icon.svg"></a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+        <div class="pytorch-content-left">
+
+        
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8XT4PS"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+              
+  <section id="ts-torch-handler-package">
+<h1>ts.torch_handler package<a class="headerlink" href="#ts-torch-handler-package" title="Permalink to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.request_envelope.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.base">ts.torch_handler.request_envelope.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.body">ts.torch_handler.request_envelope.body module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.json">ts.torch_handler.request_envelope.json module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.kserve">ts.torch_handler.request_envelope.kserve module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.kservev2">ts.torch_handler.request_envelope.kservev2 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ts.torch_handler.unit_tests.html">ts.torch_handler.unit_tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ts.torch_handler.unit_tests.models.html">ts.torch_handler.unit_tests.models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ts.torch_handler.unit_tests.models.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ts.torch_handler.unit_tests.models.html#module-ts.torch_handler.unit_tests.models.base_model">ts.torch_handler.unit_tests.models.base_model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ts.torch_handler.unit_tests.models.html#module-ts.torch_handler.unit_tests.models">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ts.torch_handler.unit_tests.test_utils.html">ts.torch_handler.unit_tests.test_utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ts.torch_handler.unit_tests.test_utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ts.torch_handler.unit_tests.test_utils.html#module-ts.torch_handler.unit_tests.test_utils.mock_context">ts.torch_handler.unit_tests.test_utils.mock_context module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ts.torch_handler.unit_tests.test_utils.html#module-ts.torch_handler.unit_tests.test_utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_base_handler">ts.torch_handler.unit_tests.test_base_handler module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_envelopes">ts.torch_handler.unit_tests.test_envelopes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_image_classifier">ts.torch_handler.unit_tests.test_image_classifier module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_image_segmenter">ts.torch_handler.unit_tests.test_image_segmenter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#ts-torch-handler-unit-tests-test-mnist-kf-module">ts.torch_handler.unit_tests.test_mnist_kf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_object_detector">ts.torch_handler.unit_tests.test_object_detector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-ts.torch_handler.base_handler">
+<span id="ts-torch-handler-base-handler-module"></span><h2>ts.torch_handler.base_handler module<a class="headerlink" href="#module-ts.torch_handler.base_handler" title="Permalink to this heading">¶</a></h2>
+<p>Base default handler to load torchscript or eager mode [state_dict] models
+Also, provides handle method per torch serve custom model specification</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.base_handler.</span></span><span class="sig-name descname"><span class="pre">BaseHandler</span></span><a class="reference internal" href="../_modules/ts/torch_handler/base_handler.html#BaseHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Base default handler to load torchscript or eager mode [state_dict] models
+Also, provides handle method per torch serve custom model specification</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.describe_handle">
+<span class="sig-name descname"><span class="pre">describe_handle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/base_handler.html#BaseHandler.describe_handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.describe_handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Customized describe handler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary response.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.explain_handle">
+<span class="sig-name descname"><span class="pre">explain_handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_preprocess</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/base_handler.html#BaseHandler.explain_handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.explain_handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Captum explanations handler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_preprocess</strong> (<em>Torch Tensor</em>) – Preprocessed data to be used for captum</p></li>
+<li><p><strong>raw_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – The unprocessed data to get target from the request</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary response with the explanations response.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.get_device">
+<span class="sig-name descname"><span class="pre">get_device</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/base_handler.html#BaseHandler.get_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.get_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get device</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>self device</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/base_handler.html#BaseHandler.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.handle" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Entry point for default handler. It takes the data from the input request and returns</dt><dd><p>the predicted outcome for the input.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – The input data that needs to be made a prediction request on.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="ts.html#ts.context.Context" title="ts.context.Context"><em>Context</em></a>) – It is a JSON Object containing information pertaining to
+the model artifacts parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a list of dictionary with the predicted response.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.inference">
+<span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.inference" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/base_handler.html#BaseHandler.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Initialize function loads the model.pt file and initialized the model object.</dt><dd><p>First try to load torchscript else load eager mode state_dict based model.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> (<em>context</em>) – It is a JSON Object containing information</p></li>
+<li><p><strong>parameters.</strong> (<em>pertaining to the model artifacts</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – Raises the Runtime error when the model.py is missing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.postprocess">
+<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.postprocess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.BaseHandler.preprocess">
+<span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ts.torch_handler.base_handler.BaseHandler.preprocess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ts.torch_handler.base_handler.setup_ort_session">
+<span class="sig-prename descclassname"><span class="pre">ts.torch_handler.base_handler.</span></span><span class="sig-name descname"><span class="pre">setup_ort_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_pt_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/base_handler.html#setup_ort_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.base_handler.setup_ort_session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-ts.torch_handler.contractions">
+<span id="ts-torch-handler-contractions-module"></span><h2>ts.torch_handler.contractions module<a class="headerlink" href="#module-ts.torch_handler.contractions" title="Permalink to this heading">¶</a></h2>
+<p>contraction map for text classification models.</p>
+</section>
+<section id="module-ts.torch_handler.densenet_handler">
+<span id="ts-torch-handler-densenet-handler-module"></span><h2>ts.torch_handler.densenet_handler module<a class="headerlink" href="#module-ts.torch_handler.densenet_handler" title="Permalink to this heading">¶</a></h2>
+<p>Module for image classification default handler</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.densenet_handler.DenseNetHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.densenet_handler.</span></span><span class="sig-name descname"><span class="pre">DenseNetHandler</span></span><a class="reference internal" href="../_modules/ts/torch_handler/densenet_handler.html#DenseNetHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.densenet_handler.DenseNetHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DenseNetHandler handler class. This handler takes an image
+and returns the name of object in that image.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.densenet_handler.DenseNetHandler.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/densenet_handler.html#DenseNetHandler.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.densenet_handler.DenseNetHandler.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry point for default handler</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.densenet_handler.DenseNetHandler.inference">
+<span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/densenet_handler.html#DenseNetHandler.inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.densenet_handler.DenseNetHandler.inference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to customize the inference
+:param data: Torch tensor, matching the model input shape
+:return: Prediction output as Torch tensor</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.densenet_handler.DenseNetHandler.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/densenet_handler.html#DenseNetHandler.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.densenet_handler.DenseNetHandler.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>First try to load torchscript else load eager mode state_dict based model</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ts.torch_handler.densenet_handler.list_classes_from_module">
+<span class="sig-prename descclassname"><span class="pre">ts.torch_handler.densenet_handler.</span></span><span class="sig-name descname"><span class="pre">list_classes_from_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/densenet_handler.html#list_classes_from_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.densenet_handler.list_classes_from_module" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse user defined module to get all model service classes in it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module</strong> – </p></li>
+<li><p><strong>parent_class</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of model service class definitions</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-ts.torch_handler.image_classifier">
+<span id="ts-torch-handler-image-classifier-module"></span><h2>ts.torch_handler.image_classifier module<a class="headerlink" href="#module-ts.torch_handler.image_classifier" title="Permalink to this heading">¶</a></h2>
+<p>Module for image classification default handler</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.image_classifier.ImageClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.image_classifier.</span></span><span class="sig-name descname"><span class="pre">ImageClassifier</span></span><a class="reference internal" href="../_modules/ts/torch_handler/image_classifier.html#ImageClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.image_classifier.ImageClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ts.torch_handler.vision_handler.VisionHandler" title="ts.torch_handler.vision_handler.VisionHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">VisionHandler</span></code></a></p>
+<p>ImageClassifier handler class. This handler takes an image
+and returns the name of object in that image.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.image_classifier.ImageClassifier.get_max_result_classes">
+<span class="sig-name descname"><span class="pre">get_max_result_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/image_classifier.html#ImageClassifier.get_max_result_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.image_classifier.ImageClassifier.get_max_result_classes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ts.torch_handler.image_classifier.ImageClassifier.image_processing">
+<span class="sig-name descname"><span class="pre">image_processing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Compose(</span>&#160;&#160;&#160;&#160; <span class="pre">Resize(size=256,</span> <span class="pre">interpolation=bilinear,</span> <span class="pre">max_size=None,</span> <span class="pre">antialias=True)</span>&#160;&#160;&#160;&#160; <span class="pre">CenterCrop(size=(224,</span> <span class="pre">224))</span>&#160;&#160;&#160;&#160; <span class="pre">ToTensor()</span>&#160;&#160;&#160;&#160; <span class="pre">Normalize(mean=[0.485,</span> <span class="pre">0.456,</span> <span class="pre">0.406],</span> <span class="pre">std=[0.229,</span> <span class="pre">0.224,</span> <span class="pre">0.225])</span> <span class="pre">)</span></em><a class="headerlink" href="#ts.torch_handler.image_classifier.ImageClassifier.image_processing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.image_classifier.ImageClassifier.postprocess">
+<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ts.torch_handler.image_classifier.ImageClassifier.postprocess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.image_classifier.ImageClassifier.set_max_result_classes">
+<span class="sig-name descname"><span class="pre">set_max_result_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/image_classifier.html#ImageClassifier.set_max_result_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.image_classifier.ImageClassifier.set_max_result_classes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ts.torch_handler.image_classifier.ImageClassifier.topk">
+<span class="sig-name descname"><span class="pre">topk</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#ts.torch_handler.image_classifier.ImageClassifier.topk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ts.torch_handler.image_segmenter">
+<span id="ts-torch-handler-image-segmenter-module"></span><h2>ts.torch_handler.image_segmenter module<a class="headerlink" href="#module-ts.torch_handler.image_segmenter" title="Permalink to this heading">¶</a></h2>
+<p>Module for image segmentation default handler</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.image_segmenter.ImageSegmenter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.image_segmenter.</span></span><span class="sig-name descname"><span class="pre">ImageSegmenter</span></span><a class="reference internal" href="../_modules/ts/torch_handler/image_segmenter.html#ImageSegmenter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.image_segmenter.ImageSegmenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ts.torch_handler.vision_handler.VisionHandler" title="ts.torch_handler.vision_handler.VisionHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">VisionHandler</span></code></a></p>
+<p>ImageSegmenter handler class. This handler takes a batch of images
+and returns output shape as [N K H W],
+where N - batch size, K - number of classes, H - height and W - width.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ts.torch_handler.image_segmenter.ImageSegmenter.image_processing">
+<span class="sig-name descname"><span class="pre">image_processing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Compose(</span>&#160;&#160;&#160;&#160; <span class="pre">Resize(size=256,</span> <span class="pre">interpolation=bilinear,</span> <span class="pre">max_size=None,</span> <span class="pre">antialias=True)</span>&#160;&#160;&#160;&#160; <span class="pre">CenterCrop(size=(224,</span> <span class="pre">224))</span>&#160;&#160;&#160;&#160; <span class="pre">ToTensor()</span>&#160;&#160;&#160;&#160; <span class="pre">Normalize(mean=[0.485,</span> <span class="pre">0.456,</span> <span class="pre">0.406],</span> <span class="pre">std=[0.229,</span> <span class="pre">0.224,</span> <span class="pre">0.225])</span> <span class="pre">)</span></em><a class="headerlink" href="#ts.torch_handler.image_segmenter.ImageSegmenter.image_processing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.image_segmenter.ImageSegmenter.postprocess">
+<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/image_segmenter.html#ImageSegmenter.postprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.image_segmenter.ImageSegmenter.postprocess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ts.torch_handler.object_detector">
+<span id="ts-torch-handler-object-detector-module"></span><h2>ts.torch_handler.object_detector module<a class="headerlink" href="#module-ts.torch_handler.object_detector" title="Permalink to this heading">¶</a></h2>
+<p>Module for object detection default handler</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.object_detector.ObjectDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.object_detector.</span></span><span class="sig-name descname"><span class="pre">ObjectDetector</span></span><a class="reference internal" href="../_modules/ts/torch_handler/object_detector.html#ObjectDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.object_detector.ObjectDetector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ts.torch_handler.vision_handler.VisionHandler" title="ts.torch_handler.vision_handler.VisionHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">VisionHandler</span></code></a></p>
+<p>ObjectDetector handler class. This handler takes an image
+and returns list of detected classes and bounding boxes respectively</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ts.torch_handler.object_detector.ObjectDetector.image_processing">
+<span class="sig-name descname"><span class="pre">image_processing</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Compose(</span>&#160;&#160;&#160;&#160; <span class="pre">ToTensor()</span> <span class="pre">)</span></em><a class="headerlink" href="#ts.torch_handler.object_detector.ObjectDetector.image_processing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.object_detector.ObjectDetector.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/object_detector.html#ObjectDetector.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.object_detector.ObjectDetector.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Initialize function loads the model.pt file and initialized the model object.</dt><dd><p>First try to load torchscript else load eager mode state_dict based model.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> (<em>context</em>) – It is a JSON Object containing information</p></li>
+<li><p><strong>parameters.</strong> (<em>pertaining to the model artifacts</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – Raises the Runtime error when the model.py is missing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.object_detector.ObjectDetector.postprocess">
+<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/object_detector.html#ObjectDetector.postprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.object_detector.ObjectDetector.postprocess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ts.torch_handler.object_detector.ObjectDetector.threshold">
+<span class="sig-name descname"><span class="pre">threshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#ts.torch_handler.object_detector.ObjectDetector.threshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ts.torch_handler.text_classifier">
+<span id="ts-torch-handler-text-classifier-module"></span><h2>ts.torch_handler.text_classifier module<a class="headerlink" href="#module-ts.torch_handler.text_classifier" title="Permalink to this heading">¶</a></h2>
+<p>Module for text classification default handler
+DOES NOT SUPPORT BATCH!</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.text_classifier.TextClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.text_classifier.</span></span><span class="sig-name descname"><span class="pre">TextClassifier</span></span><a class="reference internal" href="../_modules/ts/torch_handler/text_classifier.html#TextClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_classifier.TextClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ts.torch_handler.text_handler.TextHandler" title="ts.torch_handler.text_handler.TextHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextHandler</span></code></a></p>
+<p>TextClassifier handler class. This handler takes a text (string) and
+as input and returns the classification text based on the model vocabulary.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_classifier.TextClassifier.get_insights">
+<span class="sig-name descname"><span class="pre">get_insights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_preprocess</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_classifier.html#TextClassifier.get_insights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_classifier.TextClassifier.get_insights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the captum insights</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_preprocess</strong> (<em>tensor</em>) – Tensor of the Text Input</p></li>
+<li><p><strong>_</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The Raw text data specified in the input request</p></li>
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Defaults to 0, the user needs to specify the target
+for the captum explanation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a dictionary of the word token importances</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_classifier.TextClassifier.inference">
+<span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_classifier.html#TextClassifier.inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_classifier.TextClassifier.inference" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Inference Request is made through this function and the user
+needs to override the inference function to customize it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch tensor</em>) – <p>The data is in the form of Torch Tensor
+whose shape should match that of the</p>
+<blockquote>
+<div><p>Model Input shape.</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The predicted response from the model is returned</dt><dd><p>in this function.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Torch Tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ts.torch_handler.text_classifier.TextClassifier.ngrams">
+<span class="sig-name descname"><span class="pre">ngrams</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#ts.torch_handler.text_classifier.TextClassifier.ngrams" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_classifier.TextClassifier.postprocess">
+<span class="sig-name descname"><span class="pre">postprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_classifier.html#TextClassifier.postprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_classifier.TextClassifier.postprocess" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>The post process function converts the prediction response into a</dt><dd><p>Torchserve compatible format</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Torch Tensor</em>) – The data parameter comes from the prediction output</p></li>
+<li><p><strong>output_explain</strong> (<em>None</em>) – Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Returns the response containing the predictions and explanations</dt><dd><p>(if the Endpoint is hit).It takes the form of a list of dictionary.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_classifier.TextClassifier.preprocess">
+<span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_classifier.html#TextClassifier.preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_classifier.TextClassifier.preprocess" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Normalizes the input text for PyTorch model using following basic cleanup operations :</dt><dd><ul class="simple">
+<li><p>remove html tags</p></li>
+<li><p>lowercase all text</p></li>
+<li><p>expand contractions [like I’d -&gt; I would, don’t -&gt; do not]</p></li>
+<li><p>remove accented characters</p></li>
+<li><p>remove punctuations</p></li>
+</ul>
+</dd>
+</dl>
+<p>Converts the normalized text to tensor using the source_vocab.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The input data is in the form of a string</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Text Tensor is returned after perfoming the pre-processing operations
+(str): The raw input is also returned in this function</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ts.torch_handler.text_handler">
+<span id="ts-torch-handler-text-handler-module"></span><h2>ts.torch_handler.text_handler module<a class="headerlink" href="#module-ts.torch_handler.text_handler" title="Permalink to this heading">¶</a></h2>
+<p>Base module for all text based default handler.
+Contains various text based utility methods</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.text_handler.TextHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.text_handler.</span></span><span class="sig-name descname"><span class="pre">TextHandler</span></span><a class="reference internal" href="../_modules/ts/torch_handler/text_handler.html#TextHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_handler.TextHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ts.torch_handler.base_handler.BaseHandler" title="ts.torch_handler.base_handler.BaseHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHandler</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Base class for all text based default handler.
+Contains various text based utility methods</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_handler.TextHandler.get_source_vocab_path">
+<span class="sig-name descname"><span class="pre">get_source_vocab_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_handler.html#TextHandler.get_source_vocab_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_handler.TextHandler.get_source_vocab_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_handler.TextHandler.get_word_token">
+<span class="sig-name descname"><span class="pre">get_word_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tokens</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_handler.html#TextHandler.get_word_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_handler.TextHandler.get_word_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs word tokens from text</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_handler.TextHandler.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_handler.html#TextHandler.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_handler.TextHandler.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the model and Initializes the necessary artifacts</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.text_handler.TextHandler.summarize_attributions">
+<span class="sig-name descname"><span class="pre">summarize_attributions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attributions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/text_handler.html#TextHandler.summarize_attributions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.text_handler.TextHandler.summarize_attributions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summarises the attribution across multiple runs</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ts.torch_handler.vision_handler">
+<span id="ts-torch-handler-vision-handler-module"></span><h2>ts.torch_handler.vision_handler module<a class="headerlink" href="#module-ts.torch_handler.vision_handler" title="Permalink to this heading">¶</a></h2>
+<p>Base module for all vision handlers</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ts.torch_handler.vision_handler.VisionHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.torch_handler.vision_handler.</span></span><span class="sig-name descname"><span class="pre">VisionHandler</span></span><a class="reference internal" href="../_modules/ts/torch_handler/vision_handler.html#VisionHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.vision_handler.VisionHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ts.torch_handler.base_handler.BaseHandler" title="ts.torch_handler.base_handler.BaseHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHandler</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Base class for all vision handlers</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.vision_handler.VisionHandler.get_insights">
+<span class="sig-name descname"><span class="pre">get_insights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/vision_handler.html#VisionHandler.get_insights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.vision_handler.VisionHandler.get_insights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.vision_handler.VisionHandler.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/torch_handler/vision_handler.html#VisionHandler.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.torch_handler.vision_handler.VisionHandler.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Initialize function loads the model.pt file and initialized the model object.</dt><dd><p>First try to load torchscript else load eager mode state_dict based model.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> (<em>context</em>) – It is a JSON Object containing information</p></li>
+<li><p><strong>parameters.</strong> (<em>pertaining to the model artifacts</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – Raises the Runtime error when the model.py is missing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ts.torch_handler.vision_handler.VisionHandler.preprocess">
+<span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ts.torch_handler.vision_handler.VisionHandler.preprocess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ts.torch_handler">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ts.torch_handler" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ts.torch_handler.request_envelope.html" class="btn btn-neutral float-right" title="ts.torch_handler.request_envelope package" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="ts.protocol.html" class="btn btn-neutral" title="ts.protocol package" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
+  
+
+  
+
+    <hr>
+
+  
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, PyTorch Serve Contributors.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">ts.torch_handler package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.base_handler">ts.torch_handler.base_handler module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.contractions">ts.torch_handler.contractions module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.densenet_handler">ts.torch_handler.densenet_handler module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.image_classifier">ts.torch_handler.image_classifier module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.image_segmenter">ts.torch_handler.image_segmenter module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.object_detector">ts.torch_handler.object_detector module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.text_classifier">ts.torch_handler.text_classifier module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.text_handler">ts.torch_handler.text_handler module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler.vision_handler">ts.torch_handler.vision_handler module</a></li>
+<li><a class="reference internal" href="#module-ts.torch_handler">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+         <script src="../_static/jquery.js"></script>
+         <script src="../_static/underscore.js"></script>
+         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+         <script src="../_static/doctools.js"></script>
+         <script src="../_static/katex.min.js"></script>
+         <script src="../_static/auto-render.min.js"></script>
+         <script src="../_static/katex_autorenderer.js"></script>
+     
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Docs</h2>
+          <p>Access comprehensive developer documentation for PyTorch</p>
+          <a class="with-right-arrow" href="https://pytorch.org/docs/stable/index.html">View Docs</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Tutorials</h2>
+          <p>Get in-depth tutorials for beginners and advanced developers</p>
+          <a class="with-right-arrow" href="https://pytorch.org/tutorials">View Tutorials</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Resources</h2>
+          <p>Find development resources and get your questions answered</p>
+          <a class="with-right-arrow" href="https://pytorch.org/resources">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://pytorch.org/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/">PyTorch</a></li>
+            <li><a href="https://pytorch.org/get-started">Get Started</a></li>
+            <li><a href="https://pytorch.org/features">Features</a></li>
+            <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
+            <li><a href="https://pytorch.org/blog/">Blog</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
+            <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
+            <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">Stay up to date</li>
+            <li><a href="https://www.facebook.com/pytorch" target="_blank">Facebook</a></li>
+            <li><a href="https://twitter.com/pytorch" target="_blank">Twitter</a></li>
+            <li><a href="https://www.youtube.com/pytorch" target="_blank">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/company/pytorch" target="_blank">LinkedIn</a></li>
+          </ul>  
+          </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">PyTorch Podcasts</li>
+            <li><a href="https://open.spotify.com/show/6UzHKeiy368jKfQMKKvJY5" target="_blank">Spotify</a></li>
+            <li><a href="https://podcasts.apple.com/us/podcast/pytorch-developer-podcast/id1566080008" target="_blank">Apple</a></li>
+            <li><a href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9PQjVGa0lsOA%3D%3D" target="_blank">Google</a></li>
+            <li><a href="https://music.amazon.com/podcasts/7a4e6f0e-26c2-49e9-a478-41bd244197d0/PyTorch-Developer-Podcast?" target="_blank">Amazon</a></li>
+          </ul>
+         </div>
+        </div>
+        
+        <div class="privacy-policy">
+          <ul>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/terms/" target="_blank">Terms</a></li>
+            <li class="privacy-policy-links">|</li>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/privacy-policy/" target="_blank">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="copyright">
+        <p>© Copyright The Linux Foundation. The PyTorch Foundation is a project of The Linux Foundation.
+          For web site terms of use, trademark policy and other policies applicable to The PyTorch Foundation please see
+          <a href="https://www.linuxfoundation.org/policies/">www.linuxfoundation.org/policies/</a>. The PyTorch Foundation supports the PyTorch open source
+          project, which has been established as PyTorch Project a Series of LF Projects, LLC. For policies applicable to the PyTorch Project a Series of LF Projects, LLC,
+          please see <a href="https://www.lfprojects.org/policies/">www.lfprojects.org/policies/</a>.</p>
+      </div>
+     </div>
+
+  </footer>
+
+  <div class="cookie-banner-wrapper">
+  <div class="container">
+    <p class="gdpr-notice">To analyze traffic and optimize your experience, we serve cookies on this site. By clicking or navigating, you agree to allow our usage of cookies. As the current maintainers of this site, Facebook’s Cookies Policy applies. Learn more, including about available controls: <a href="https://www.facebook.com/policies/cookies/">Cookies Policy</a>.</p>
+    <img class="close-button" src="../_static/images/pytorch-x.svg">
+  </div>
+</div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+           <li class="resources-mobile-menu-title">
+             <a>Learn</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/get-started">Get Started</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials">Tutorials</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/recipes/recipes_index.html">PyTorch Recipes</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/introyt.html">Introduction to PyTorch - YouTube Series</a>
+             </li>
+           </ul>
+           <li class="resources-mobile-menu-title">
+             <a>Ecosystem</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/ecosystem">Tools</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/#community-module">Community</a>
+             </li>
+             <li>
+               <a href="https://discuss.pytorch.org/">Forums</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/resources">Developer Resources</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/ecosystem/contributor-awards-2023">Contributor Awards - 2023</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Edge</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/edge">About PyTorch Edge</a>
+             </li>
+             
+             <li>
+               <a href="https://pytorch.org/executorch-overview">ExecuTorch</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Docs</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/pytorch-domains">PyTorch Domains</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            <a>Blog & News</a>
+          </li>
+            
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/blog/">PyTorch Blog</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/community-blog">Community Blog</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/videos">Videos</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/community-stories">Community Stories</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/events">Events</a>
+            </li>
+          </ul>
+          
+          <li class="resources-mobile-menu-title">
+            <a>About</a>
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/foundation">PyTorch Foundation</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/governing-board">Governing Board</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>

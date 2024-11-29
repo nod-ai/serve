@@ -1,0 +1,1841 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Index &mdash; PyTorch/Serve master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T8XT4PS');</script>
+    <!-- End Google Tag Manager -->
+  
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+
+      <div class="main-menu">
+        <ul>
+
+          <li class="main-menu-item">
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Learn
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/get-started">
+                  <span class=dropdown-title>Get Started</span>
+                  <p>Run PyTorch locally or get started quickly with one of the supported cloud platforms</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials">
+                  <span class="dropdown-title">Tutorials</span>
+                  <p>Whats new in PyTorch tutorials</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/basics/intro.html">
+                  <span class="dropdown-title">Learn the Basics</span>
+                  <p>Familiarize yourself with PyTorch concepts and modules</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/recipes/recipes_index.html">
+                  <span class="dropdown-title">PyTorch Recipes</span>
+                  <p>Bite-size, ready-to-deploy PyTorch code examples</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/introyt.html">
+                  <span class="dropdown-title">Intro to PyTorch - YouTube Series</span>
+                  <p>Master PyTorch basics with our engaging YouTube tutorial series</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Ecosystem
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem">
+                  <span class="dropdown-title">Tools</span>
+                  <p>Learn about the tools and frameworks in the PyTorch Ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class=dropdown-title>Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class=dropdown-title>Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class=dropdown-title>Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem/contributor-awards-2023">
+                  <span class="dropdown-title">Contributor Awards - 2023</span>
+                  <p>Award winners announced at this year's PyTorch Conference</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Edge
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/edge">
+                  <span class="dropdown-title">About PyTorch Edge</span>
+                  <p>Build innovative and privacy-aware AI experiences for edge devices</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/executorch-overview">
+                  <span class="dropdown-title">ExecuTorch</span>
+                  <p>End-to-end solution for enabling on-device inference capabilities across mobile and edge devices</p>
+                </a>
+              </div>
+            </div>  
+          </li>
+
+          <li class="main-menu-item">
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p>Explore the documentation for comprehensive guidance on how to use PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/pytorch-domains">
+                  <span class="dropdown-title">PyTorch Domains</span>
+                  <p>Read the PyTorch Domains documentation to learn more about domain-specific libraries</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Blogs & News 
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/blog/">
+                  <span class="dropdown-title">PyTorch Blog</span>
+                  <p>Catch up on the latest technical news and happenings</p>
+                </a>
+                 <a class="nav-dropdown-item" href="https://pytorch.org/community-blog">
+                  <span class="dropdown-title">Community Blog</span>
+                  <p>Stories from the PyTorch ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/videos">
+                  <span class="dropdown-title">Videos</span>
+                  <p>Learn about the latest PyTorch tutorials, new, and more </p>
+                <a class="nav-dropdown-item" href="https://pytorch.org/community-stories">
+                  <span class="dropdown-title">Community Stories</span>
+                  <p>Learn how our community solves real, everyday machine learning problems with PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/events">
+                  <span class="dropdown-title">Events</span>
+                  <p>Find events, webinars, and podcasts</p>
+                </a>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                About
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/foundation">
+                  <span class="dropdown-title">PyTorch Foundation</span>
+                  <p>Learn more about the PyTorch Foundation</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/governing-board">
+                  <span class="dropdown-title">Governing Board</span>
+                  <p></p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li class="main-menu-item">
+            <div class="no-dropdown">
+              <a href="https://pytorch.org/join" data-cta="join">
+                Become a Member
+              </a>
+            </div>
+          </li>
+          <li>
+           <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="github-icon">
+             </a>
+           </div>
+          </li>
+          <!--- TODO: This block adds the search icon to the nav bar. We will enable it later. 
+          <li>
+            <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="search-icon">
+             </a>
+            </div>
+          </li>
+          --->
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+      <div class="pytorch-side-scroll">
+        <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="pytorch-left-menu-search">
+            
+
+            
+              
+              
+                <div class="version">
+                  master 
+                </div>
+              
+            
+
+            
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+            
+          </div>
+
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_guide.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_coverage.html">Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_service.html">Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default_handlers.html">TorchServe default inference handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nvidia_mps.html">Running TorchServe with NVIDIA MPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snapshot.html">TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/intel_extension_for_pytorch">intel_extension_for_pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_wsl.html">TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">TorchServe Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="large_model_inference.html">Serving large models with Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQ’S</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grpc_api.html">TorchServe gRPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference_api.html">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_management_api.html">Management API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.html">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">serve</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="pytorch-container">
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="contents.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+      <li>Index</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+        <div class="pytorch-content-left">
+
+        
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8XT4PS"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+              
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.metrics_store.MetricsStore.add_counter">add_counter() (ts.metrics.metrics_store.MetricsStore method)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.metrics_store.MetricsStore.add_error">add_error() (ts.metrics.metrics_store.MetricsStore method)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.metrics_store.MetricsStore.add_metric">add_metric() (ts.metrics.metrics_store.MetricsStore method)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.metrics_store.MetricsStore.add_percent">add_percent() (ts.metrics.metrics_store.MetricsStore method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.RequestProcessor.add_response_property">add_response_property() (ts.context.RequestProcessor method)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.metrics_store.MetricsStore.add_size">add_size() (ts.metrics.metrics_store.MetricsStore method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.metrics_store.MetricsStore.add_time">add_time() (ts.metrics.metrics_store.MetricsStore method)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.AOT_CUDAGRAPHS">AOT_CUDAGRAPHS (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.AOT_EAGER">AOT_EAGER (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.AOT_NVFUSER">AOT_NVFUSER (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.models.html#ts.torch_handler.unit_tests.models.base_model.ArgmaxModel">ArgmaxModel (class in ts.torch_handler.unit_tests.models.base_model)</a>
+</li>
+      <li><a href="api/ts.html#ts.arg_parser.ArgParser">ArgParser (class in ts.arg_parser)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.base.BaseEnvelope">BaseEnvelope (class in ts.torch_handler.request_envelope.base)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler">BaseHandler (class in ts.torch_handler.base_handler)</a>
+</li>
+      <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.body.BodyEnvelope">BodyEnvelope (class in ts.torch_handler.request_envelope.body)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.process_memory_metric.check_process_mem_usage">check_process_mem_usage() (in module ts.metrics.process_memory_metric)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.check_valid_pt2_backend">check_valid_pt2_backend() (in module ts.utils.util)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.collect_all">collect_all() (in module ts.metrics.system_metrics)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context">Context (class in ts.context)</a>
+</li>
+      <li><a href="api/ts.html#ts.service.Service.context">context (ts.service.Service property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_classifier.context">context() (in module ts.torch_handler.unit_tests.test_image_classifier)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_segmenter.context">(in module ts.torch_handler.unit_tests.test_image_segmenter)</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_object_detector.context">(in module ts.torch_handler.unit_tests.test_object_detector)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.cpu_utilization">cpu_utilization() (in module ts.metrics.system_metrics)</a>
+</li>
+      <li><a href="api/ts.protocol.html#ts.protocol.otf_message_handler.create_load_model_response">create_load_model_response() (in module ts.protocol.otf_message_handler)</a>
+</li>
+      <li><a href="api/ts.protocol.html#ts.protocol.otf_message_handler.create_predict_response">create_predict_response() (in module ts.protocol.otf_message_handler)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.metric_encoder.MetricEncoder.default">default() (ts.metrics.metric_encoder.MetricEncoder method)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.densenet_handler.DenseNetHandler">DenseNetHandler (class in ts.torch_handler.densenet_handler)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.deprecated">deprecated() (in module ts.utils.util)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.describe_handle">describe_handle() (ts.torch_handler.base_handler.BaseHandler method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.dimension.Dimension">Dimension (class in ts.metrics.dimension)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.disk_available">disk_available() (in module ts.metrics.system_metrics)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.disk_used">disk_used() (in module ts.metrics.system_metrics)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.disk_utilization">disk_utilization() (in module ts.metrics.system_metrics)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.EAGER">EAGER (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li><a href="api/ts.html#ts.service.emit_metrics">emit_metrics() (in module ts.service)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.protocol.html#ts.protocol.otf_message_handler.encode_response_headers">encode_response_headers() (in module ts.protocol.otf_message_handler)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.explain_handle">explain_handle() (ts.torch_handler.base_handler.BaseHandler method)</a>
+</li>
+      <li><a href="api/ts.html#ts.arg_parser.ArgParser.extract_args">extract_args() (ts.arg_parser.ArgParser static method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.base.BaseEnvelope.format_output">format_output() (ts.torch_handler.request_envelope.base.BaseEnvelope method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.body.BodyEnvelope.format_output">(ts.torch_handler.request_envelope.body.BodyEnvelope method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.json.JSONEnvelope.format_output">(ts.torch_handler.request_envelope.json.JSONEnvelope method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.kserve.KServeEnvelope.format_output">(ts.torch_handler.request_envelope.kserve.KServeEnvelope method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.kservev2.KServev2Envelope.format_output">(ts.torch_handler.request_envelope.kservev2.KServev2Envelope method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.unit_tests.models.html#ts.torch_handler.unit_tests.models.base_model.ArgmaxModel.forward">forward() (ts.torch_handler.unit_tests.models.base_model.ArgmaxModel method)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.FX2TRT">FX2TRT (ts.utils.util.PT2Backend attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.html#ts.context.Context.get_all_request_header">get_all_request_header() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.process_memory_metric.get_cpu_usage">get_cpu_usage() (in module ts.metrics.process_memory_metric)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.get_device">get_device() (ts.torch_handler.base_handler.BaseHandler method)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_classifier.TextClassifier.get_insights">get_insights() (ts.torch_handler.text_classifier.TextClassifier method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.vision_handler.VisionHandler.get_insights">(ts.torch_handler.vision_handler.VisionHandler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_classifier.ImageClassifier.get_max_result_classes">get_max_result_classes() (ts.torch_handler.image_classifier.ImageClassifier method)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_loader.ModelLoaderFactory.get_model_loader">get_model_loader() (ts.model_loader.ModelLoaderFactory static method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.get_request_header">get_request_header() (ts.context.Context method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.test_utils.html#ts.torch_handler.unit_tests.test_utils.mock_context.MockContext.get_request_header">(ts.torch_handler.unit_tests.test_utils.mock_context.MockContext method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.html#ts.context.Context.get_request_id">get_request_id() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.RequestProcessor.get_request_properties">get_request_properties() (ts.context.RequestProcessor method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.RequestProcessor.get_request_property">get_request_property() (ts.context.RequestProcessor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.html#ts.context.Context.get_response_content_type">get_response_content_type() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.RequestProcessor.get_response_header">get_response_header() (ts.context.RequestProcessor method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.get_response_headers">get_response_headers() (ts.context.Context method)</a>
+
+      <ul>
+        <li><a href="api/ts.html#ts.context.RequestProcessor.get_response_headers">(ts.context.RequestProcessor method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.html#ts.context.Context.get_response_status">get_response_status() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.RequestProcessor.get_response_status_code">get_response_status_code() (ts.context.RequestProcessor method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.RequestProcessor.get_response_status_phrase">get_response_status_phrase() (ts.context.RequestProcessor method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.get_sequence_id">get_sequence_id() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_handler.TextHandler.get_source_vocab_path">get_source_vocab_path() (ts.torch_handler.text_handler.TextHandler method)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_handler.TextHandler.get_word_token">get_word_token() (ts.torch_handler.text_handler.TextHandler method)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.get_yaml_config">get_yaml_config() (in module ts.utils.util)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.gpu_utilization">gpu_utilization() (in module ts.metrics.system_metrics)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.model_service.html#ts.model_service.model_service.ModelService.handle">handle() (ts.model_service.model_service.ModelService method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.handle">(ts.torch_handler.base_handler.BaseHandler method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.densenet_handler.DenseNetHandler.handle">(ts.torch_handler.densenet_handler.DenseNetHandler method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.base.BaseEnvelope.handle">(ts.torch_handler.request_envelope.base.BaseEnvelope method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.html#ts.model_service_worker.TorchModelServiceWorker.handle_connection">handle_connection() (ts.model_service_worker.TorchModelServiceWorker method)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_service_worker.TorchModelServiceWorker.handle_connection_async">handle_connection_async() (ts.model_service_worker.TorchModelServiceWorker method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_envelopes.handle_fn">handle_fn() (in module ts.torch_handler.unit_tests.test_envelopes)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_base_handler.handler">handler() (in module ts.torch_handler.unit_tests.test_base_handler)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_classifier.handler">(in module ts.torch_handler.unit_tests.test_image_classifier)</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_segmenter.handler">(in module ts.torch_handler.unit_tests.test_image_segmenter)</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_object_detector.handler">(in module ts.torch_handler.unit_tests.test_object_detector)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.HPU_BACKEND">HPU_BACKEND (ts.utils.util.PT2Backend attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_classifier.image_bytes">image_bytes() (in module ts.torch_handler.unit_tests.test_image_classifier)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_segmenter.image_bytes">(in module ts.torch_handler.unit_tests.test_image_segmenter)</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_object_detector.image_bytes">(in module ts.torch_handler.unit_tests.test_object_detector)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_classifier.ImageClassifier.image_processing">image_processing (ts.torch_handler.image_classifier.ImageClassifier attribute)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_segmenter.ImageSegmenter.image_processing">(ts.torch_handler.image_segmenter.ImageSegmenter attribute)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.object_detector.ObjectDetector.image_processing">(ts.torch_handler.object_detector.ObjectDetector attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_classifier.ImageClassifier">ImageClassifier (class in ts.torch_handler.image_classifier)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_segmenter.ImageSegmenter">ImageSegmenter (class in ts.torch_handler.image_segmenter)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.INDUCTOR">INDUCTOR (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li><a href="api/ts.model_service.html#ts.model_service.model_service.ModelService.inference">inference() (ts.model_service.model_service.ModelService method)</a>
+
+      <ul>
+        <li><a href="api/ts.model_service.html#ts.model_service.model_service.SingleNodeService.inference">(ts.model_service.model_service.SingleNodeService method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.inference">(ts.torch_handler.base_handler.BaseHandler method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.densenet_handler.DenseNetHandler.inference">(ts.torch_handler.densenet_handler.DenseNetHandler method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_classifier.TextClassifier.inference">(ts.torch_handler.text_classifier.TextClassifier method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.model_service.html#ts.model_service.model_service.ModelService.initialize">initialize() (ts.model_service.model_service.ModelService method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.initialize">(ts.torch_handler.base_handler.BaseHandler method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.densenet_handler.DenseNetHandler.initialize">(ts.torch_handler.densenet_handler.DenseNetHandler method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.object_detector.ObjectDetector.initialize">(ts.torch_handler.object_detector.ObjectDetector method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_handler.TextHandler.initialize">(ts.torch_handler.text_handler.TextHandler method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.vision_handler.VisionHandler.initialize">(ts.torch_handler.vision_handler.VisionHandler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.IPEX">IPEX (ts.utils.util.PT2Backend attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.json.JSONEnvelope">JSONEnvelope (class in ts.torch_handler.request_envelope.json)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.kserve.KServeEnvelope">KServeEnvelope (class in ts.torch_handler.request_envelope.kserve)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.kservev2.KServev2Envelope">KServev2Envelope (class in ts.torch_handler.request_envelope.kservev2)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.densenet_handler.list_classes_from_module">list_classes_from_module() (in module ts.torch_handler.densenet_handler)</a>
+
+      <ul>
+        <li><a href="api/ts.utils.html#ts.utils.util.list_classes_from_module">(in module ts.utils.util)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.html#ts.model_loader.ModelLoader.load">load() (ts.model_loader.ModelLoader method)</a>
+
+      <ul>
+        <li><a href="api/ts.html#ts.model_loader.TsModelLoader.load">(ts.model_loader.TsModelLoader method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.utils.html#ts.utils.util.load_label_mapping">load_label_mapping() (in module ts.utils.util)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_service_worker.TorchModelServiceWorker.load_model">load_model() (ts.model_service_worker.TorchModelServiceWorker method)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_server.load_properties">load_properties() (in module ts.model_server)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.utils.html#ts.utils.util.map_class_to_label">map_class_to_label() (in module ts.utils.util)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.memory_available">memory_available() (in module ts.metrics.system_metrics)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.memory_used">memory_used() (in module ts.metrics.system_metrics)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.system_metrics.memory_utilization">memory_utilization() (in module ts.metrics.system_metrics)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.metric.Metric">Metric (class in ts.metrics.metric)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.metric_encoder.MetricEncoder">MetricEncoder (class in ts.metrics.metric_encoder)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.metrics">metrics (ts.context.Context property)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.metrics_store.MetricsStore">MetricsStore (class in ts.metrics.metrics_store)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.test_utils.html#ts.torch_handler.unit_tests.test_utils.mock_context.MockContext">MockContext (class in ts.torch_handler.unit_tests.test_utils.mock_context)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_classifier.model_dir">model_dir() (in module ts.torch_handler.unit_tests.test_image_classifier)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_segmenter.model_dir">(in module ts.torch_handler.unit_tests.test_image_segmenter)</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_object_detector.model_dir">(in module ts.torch_handler.unit_tests.test_object_detector)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_classifier.model_name">model_name() (in module ts.torch_handler.unit_tests.test_image_classifier)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_segmenter.model_name">(in module ts.torch_handler.unit_tests.test_image_segmenter)</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_object_detector.model_name">(in module ts.torch_handler.unit_tests.test_object_detector)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.html#ts.arg_parser.ArgParser.model_service_worker_args">model_service_worker_args() (ts.arg_parser.ArgParser static method)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_loader.ModelLoader">ModelLoader (class in ts.model_loader)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_loader.ModelLoaderFactory">ModelLoaderFactory (class in ts.model_loader)</a>
+</li>
+      <li><a href="api/ts.model_service.html#ts.model_service.model_service.ModelService">ModelService (class in ts.model_service.model_service)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="api/test.html#module-test">test</a>
+</li>
+        <li><a href="api/ts.html#module-ts">ts</a>
+</li>
+        <li><a href="api/ts.html#module-ts.arg_parser">ts.arg_parser</a>
+</li>
+        <li><a href="api/ts.html#module-ts.context">ts.context</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics">ts.metrics</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.dimension">ts.metrics.dimension</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metric">ts.metrics.metric</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metric_collector">ts.metrics.metric_collector</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metric_encoder">ts.metrics.metric_encoder</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metrics_store">ts.metrics.metrics_store</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.process_memory_metric">ts.metrics.process_memory_metric</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.system_metrics">ts.metrics.system_metrics</a>
+</li>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.unit">ts.metrics.unit</a>
+</li>
+        <li><a href="api/ts.html#module-ts.model_loader">ts.model_loader</a>
+</li>
+        <li><a href="api/ts.html#module-ts.model_server">ts.model_server</a>
+</li>
+        <li><a href="api/ts.model_service.html#module-ts.model_service">ts.model_service</a>
+</li>
+        <li><a href="api/ts.model_service.html#module-ts.model_service.model_service">ts.model_service.model_service</a>
+</li>
+        <li><a href="api/ts.html#module-ts.model_service_worker">ts.model_service_worker</a>
+</li>
+        <li><a href="api/ts.protocol.html#module-ts.protocol">ts.protocol</a>
+</li>
+        <li><a href="api/ts.protocol.html#module-ts.protocol.otf_message_handler">ts.protocol.otf_message_handler</a>
+</li>
+        <li><a href="api/ts.html#module-ts.service">ts.service</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler">ts.torch_handler</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.base_handler">ts.torch_handler.base_handler</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.contractions">ts.torch_handler.contractions</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.densenet_handler">ts.torch_handler.densenet_handler</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.image_classifier">ts.torch_handler.image_classifier</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.image_segmenter">ts.torch_handler.image_segmenter</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.object_detector">ts.torch_handler.object_detector</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope">ts.torch_handler.request_envelope</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.base">ts.torch_handler.request_envelope.base</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.body">ts.torch_handler.request_envelope.body</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.json">ts.torch_handler.request_envelope.json</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.kserve">ts.torch_handler.request_envelope.kserve</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.kservev2">ts.torch_handler.request_envelope.kservev2</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.text_classifier">ts.torch_handler.text_classifier</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.text_handler">ts.torch_handler.text_handler</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests">ts.torch_handler.unit_tests</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.models.html#module-ts.torch_handler.unit_tests.models">ts.torch_handler.unit_tests.models</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.models.html#module-ts.torch_handler.unit_tests.models.base_model">ts.torch_handler.unit_tests.models.base_model</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_base_handler">ts.torch_handler.unit_tests.test_base_handler</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_envelopes">ts.torch_handler.unit_tests.test_envelopes</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_image_classifier">ts.torch_handler.unit_tests.test_image_classifier</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_image_segmenter">ts.torch_handler.unit_tests.test_image_segmenter</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_object_detector">ts.torch_handler.unit_tests.test_object_detector</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.test_utils.html#module-ts.torch_handler.unit_tests.test_utils">ts.torch_handler.unit_tests.test_utils</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.test_utils.html#module-ts.torch_handler.unit_tests.test_utils.mock_context">ts.torch_handler.unit_tests.test_utils.mock_context</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.vision_handler">ts.torch_handler.vision_handler</a>
+</li>
+        <li><a href="api/ts.utils.html#module-ts.utils">ts.utils</a>
+</li>
+        <li><a href="api/ts.utils.html#module-ts.utils.timeit_decorator">ts.utils.timeit_decorator</a>
+</li>
+        <li><a href="api/ts.utils.html#module-ts.utils.util">ts.utils.util</a>
+</li>
+        <li><a href="api/ts.html#module-ts.version">ts.version</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_classifier.TextClassifier.ngrams">ngrams (ts.torch_handler.text_classifier.TextClassifier attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.NVFUSER">NVFUSER (ts.utils.util.PT2Backend attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.object_detector.ObjectDetector">ObjectDetector (class in ts.torch_handler.object_detector)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.OFI">OFI (ts.utils.util.PT2Backend attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.ONNXRT">ONNXRT (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.OPENVINO">OPENVINO (ts.utils.util.PT2Backend attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.base.BaseEnvelope.parse_input">parse_input() (ts.torch_handler.request_envelope.base.BaseEnvelope method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.body.BodyEnvelope.parse_input">(ts.torch_handler.request_envelope.body.BodyEnvelope method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.json.JSONEnvelope.parse_input">(ts.torch_handler.request_envelope.json.JSONEnvelope method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.kserve.KServeEnvelope.parse_input">(ts.torch_handler.request_envelope.kserve.KServeEnvelope method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.request_envelope.html#ts.torch_handler.request_envelope.kservev2.KServev2Envelope.parse_input">(ts.torch_handler.request_envelope.kservev2.KServev2Envelope method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.model_service.html#ts.model_service.model_service.ModelService.ping">ping() (ts.model_service.model_service.ModelService method)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.postprocess">postprocess() (ts.torch_handler.base_handler.BaseHandler method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_classifier.ImageClassifier.postprocess">(ts.torch_handler.image_classifier.ImageClassifier method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_segmenter.ImageSegmenter.postprocess">(ts.torch_handler.image_segmenter.ImageSegmenter method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.object_detector.ObjectDetector.postprocess">(ts.torch_handler.object_detector.ObjectDetector method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_classifier.TextClassifier.postprocess">(ts.torch_handler.text_classifier.TextClassifier method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.html#ts.service.Service.predict">predict() (ts.service.Service method)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PredictionException">PredictionException</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.BaseHandler.preprocess">preprocess() (ts.torch_handler.base_handler.BaseHandler method)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_classifier.TextClassifier.preprocess">(ts.torch_handler.text_classifier.TextClassifier method)</a>
+</li>
+        <li><a href="api/ts.torch_handler.html#ts.torch_handler.vision_handler.VisionHandler.preprocess">(ts.torch_handler.vision_handler.VisionHandler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend">PT2Backend (class in ts.utils.util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.html#ts.context.RequestProcessor.report_status">report_status() (ts.context.RequestProcessor method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.request_processor">request_processor (ts.context.Context property)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.RequestProcessor">RequestProcessor (class in ts.context)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.metric.Metric.reset">reset() (ts.metrics.metric.Metric method)</a>
+</li>
+      <li><a href="api/ts.html#ts.service.Service.retrieve_data_for_inference">retrieve_data_for_inference() (ts.service.Service static method)</a>
+</li>
+      <li><a href="api/ts.protocol.html#ts.protocol.otf_message_handler.retrieve_msg">retrieve_msg() (in module ts.protocol.otf_message_handler)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_service_worker.TorchModelServiceWorker.run_server">run_server() (ts.model_service_worker.TorchModelServiceWorker method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.unit_tests.models.html#ts.torch_handler.unit_tests.models.base_model.save_pt_file">save_pt_file() (in module ts.torch_handler.unit_tests.models.base_model)</a>
+</li>
+      <li><a href="api/ts.protocol.html#ts.protocol.otf_message_handler.send_intermediate_predict_response">send_intermediate_predict_response() (in module ts.protocol.otf_message_handler)</a>
+</li>
+      <li><a href="api/ts.html#ts.service.Service">Service (class in ts.service)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.set_all_response_status">set_all_response_status() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.html#ts.service.Service.set_cl_socket">set_cl_socket() (ts.service.Service method)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_classifier.ImageClassifier.set_max_result_classes">set_max_result_classes() (ts.torch_handler.image_classifier.ImageClassifier method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.set_response_content_type">set_response_content_type() (ts.context.Context method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.html#ts.context.Context.set_response_header">set_response_header() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.set_response_status">set_response_status() (ts.context.Context method)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.base_handler.setup_ort_session">setup_ort_session() (in module ts.torch_handler.base_handler)</a>
+</li>
+      <li><a href="api/ts.model_service.html#ts.model_service.model_service.ModelService.signature">signature() (ts.model_service.model_service.ModelService method)</a>
+</li>
+      <li><a href="api/ts.model_service.html#ts.model_service.model_service.SingleNodeService">SingleNodeService (class in ts.model_service.model_service)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_server.start">start() (in module ts.model_server)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_handler.TextHandler.summarize_attributions">summarize_attributions() (ts.torch_handler.text_handler.TextHandler method)</a>
+</li>
+      <li><a href="api/ts.html#ts.context.Context.system_properties">system_properties (ts.context.Context property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.TENSORRT">TENSORRT (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li>
+    test
+
+      <ul>
+        <li><a href="api/test.html#module-test">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_base_handler.test_batch_handle">test_batch_handle() (in module ts.torch_handler.unit_tests.test_base_handler)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_envelopes.test_binary">test_binary() (in module ts.torch_handler.unit_tests.test_envelopes)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_envelopes.test_body">test_body() (in module ts.torch_handler.unit_tests.test_envelopes)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_classifier.test_handle">test_handle() (in module ts.torch_handler.unit_tests.test_image_classifier)</a>
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_segmenter.test_handle">(in module ts.torch_handler.unit_tests.test_image_segmenter)</a>
+</li>
+        <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_object_detector.test_handle">(in module ts.torch_handler.unit_tests.test_object_detector)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_image_classifier.test_handle_explain">test_handle_explain() (in module ts.torch_handler.unit_tests.test_image_classifier)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_base_handler.test_inference_with_profiler_works_with_custom_initialize_method">test_inference_with_profiler_works_with_custom_initialize_method() (in module ts.torch_handler.unit_tests.test_base_handler)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_envelopes.test_json">test_json() (in module ts.torch_handler.unit_tests.test_envelopes)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_envelopes.test_json_batch">test_json_batch() (in module ts.torch_handler.unit_tests.test_envelopes)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_envelopes.test_json_double_batch">test_json_double_batch() (in module ts.torch_handler.unit_tests.test_envelopes)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.html#ts.torch_handler.unit_tests.test_base_handler.test_single_handle">test_single_handle() (in module ts.torch_handler.unit_tests.test_base_handler)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_classifier.TextClassifier">TextClassifier (class in ts.torch_handler.text_classifier)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.text_handler.TextHandler">TextHandler (class in ts.torch_handler.text_handler)</a>
+</li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.object_detector.ObjectDetector.threshold">threshold (ts.torch_handler.object_detector.ObjectDetector attribute)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.timeit_decorator.timeit">timeit() (in module ts.utils.timeit_decorator)</a>
+</li>
+      <li><a href="api/ts.metrics.html#ts.metrics.dimension.Dimension.to_dict">to_dict() (ts.metrics.dimension.Dimension method)</a>
+
+      <ul>
+        <li><a href="api/ts.metrics.html#ts.metrics.metric.Metric.to_dict">(ts.metrics.metric.Metric method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.image_classifier.ImageClassifier.topk">topk (ts.torch_handler.image_classifier.ImageClassifier attribute)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_service_worker.TorchModelServiceWorker">TorchModelServiceWorker (class in ts.model_service_worker)</a>
+</li>
+      <li><a href="api/ts.utils.html#ts.utils.util.PT2Backend.TORCHXLA_TRACE_ONCE">TORCHXLA_TRACE_ONCE (ts.utils.util.PT2Backend attribute)</a>
+</li>
+      <li><a href="api/ts.torch_handler.unit_tests.models.html#ts.torch_handler.unit_tests.models.base_model.ArgmaxModel.training">training (ts.torch_handler.unit_tests.models.base_model.ArgmaxModel attribute)</a>
+</li>
+      <li>
+    ts
+
+      <ul>
+        <li><a href="api/ts.html#module-ts">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.arg_parser
+
+      <ul>
+        <li><a href="api/ts.html#module-ts.arg_parser">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.context
+
+      <ul>
+        <li><a href="api/ts.html#module-ts.context">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.dimension
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.dimension">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.metric
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metric">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.metric_collector
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metric_collector">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.metric_encoder
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metric_encoder">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.metrics_store
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.metrics_store">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.process_memory_metric
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.process_memory_metric">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.system_metrics
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.system_metrics">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.metrics.unit
+
+      <ul>
+        <li><a href="api/ts.metrics.html#module-ts.metrics.unit">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.model_loader
+
+      <ul>
+        <li><a href="api/ts.html#module-ts.model_loader">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.model_server
+
+      <ul>
+        <li><a href="api/ts.html#module-ts.model_server">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.model_service
+
+      <ul>
+        <li><a href="api/ts.model_service.html#module-ts.model_service">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.model_service.model_service
+
+      <ul>
+        <li><a href="api/ts.model_service.html#module-ts.model_service.model_service">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.model_service_worker
+
+      <ul>
+        <li><a href="api/ts.html#module-ts.model_service_worker">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.protocol
+
+      <ul>
+        <li><a href="api/ts.protocol.html#module-ts.protocol">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.protocol.otf_message_handler
+
+      <ul>
+        <li><a href="api/ts.protocol.html#module-ts.protocol.otf_message_handler">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    ts.service
+
+      <ul>
+        <li><a href="api/ts.html#module-ts.service">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.base_handler
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.base_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.contractions
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.contractions">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.densenet_handler
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.densenet_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.image_classifier
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.image_classifier">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.image_segmenter
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.image_segmenter">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.object_detector
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.object_detector">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.request_envelope
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.request_envelope.base
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.request_envelope.body
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.body">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.request_envelope.json
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.json">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.request_envelope.kserve
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.kserve">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.request_envelope.kservev2
+
+      <ul>
+        <li><a href="api/ts.torch_handler.request_envelope.html#module-ts.torch_handler.request_envelope.kservev2">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.text_classifier
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.text_classifier">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.text_handler
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.text_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.models
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.models.html#module-ts.torch_handler.unit_tests.models">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.models.base_model
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.models.html#module-ts.torch_handler.unit_tests.models.base_model">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.test_base_handler
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_base_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.test_envelopes
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_envelopes">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.test_image_classifier
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_image_classifier">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.test_image_segmenter
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_image_segmenter">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.test_object_detector
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.html#module-ts.torch_handler.unit_tests.test_object_detector">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.test_utils
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.test_utils.html#module-ts.torch_handler.unit_tests.test_utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.unit_tests.test_utils.mock_context
+
+      <ul>
+        <li><a href="api/ts.torch_handler.unit_tests.test_utils.html#module-ts.torch_handler.unit_tests.test_utils.mock_context">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.torch_handler.vision_handler
+
+      <ul>
+        <li><a href="api/ts.torch_handler.html#module-ts.torch_handler.vision_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.utils
+
+      <ul>
+        <li><a href="api/ts.utils.html#module-ts.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.utils.timeit_decorator
+
+      <ul>
+        <li><a href="api/ts.utils.html#module-ts.utils.timeit_decorator">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.utils.util
+
+      <ul>
+        <li><a href="api/ts.utils.html#module-ts.utils.util">module</a>
+</li>
+      </ul></li>
+      <li>
+    ts.version
+
+      <ul>
+        <li><a href="api/ts.html#module-ts.version">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/ts.html#ts.arg_parser.ArgParser.ts_parser">ts_parser() (ts.arg_parser.ArgParser static method)</a>
+</li>
+      <li><a href="api/ts.html#ts.model_loader.TsModelLoader">TsModelLoader (class in ts.model_loader)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.unit.Units">Units (class in ts.metrics.unit)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.metrics.html#ts.metrics.metric.Metric.update">update() (ts.metrics.metric.Metric method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/ts.torch_handler.html#ts.torch_handler.vision_handler.VisionHandler">VisionHandler (class in ts.torch_handler.vision_handler)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+
+  
+
+    <hr>
+
+  
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, PyTorch Serve Contributors.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+         <script src="_static/jquery.js"></script>
+         <script src="_static/underscore.js"></script>
+         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+         <script src="_static/doctools.js"></script>
+         <script src="_static/katex.min.js"></script>
+         <script src="_static/auto-render.min.js"></script>
+         <script src="_static/katex_autorenderer.js"></script>
+     
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Docs</h2>
+          <p>Access comprehensive developer documentation for PyTorch</p>
+          <a class="with-right-arrow" href="https://pytorch.org/docs/stable/index.html">View Docs</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Tutorials</h2>
+          <p>Get in-depth tutorials for beginners and advanced developers</p>
+          <a class="with-right-arrow" href="https://pytorch.org/tutorials">View Tutorials</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Resources</h2>
+          <p>Find development resources and get your questions answered</p>
+          <a class="with-right-arrow" href="https://pytorch.org/resources">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://pytorch.org/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/">PyTorch</a></li>
+            <li><a href="https://pytorch.org/get-started">Get Started</a></li>
+            <li><a href="https://pytorch.org/features">Features</a></li>
+            <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
+            <li><a href="https://pytorch.org/blog/">Blog</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
+            <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
+            <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">Stay up to date</li>
+            <li><a href="https://www.facebook.com/pytorch" target="_blank">Facebook</a></li>
+            <li><a href="https://twitter.com/pytorch" target="_blank">Twitter</a></li>
+            <li><a href="https://www.youtube.com/pytorch" target="_blank">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/company/pytorch" target="_blank">LinkedIn</a></li>
+          </ul>  
+          </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">PyTorch Podcasts</li>
+            <li><a href="https://open.spotify.com/show/6UzHKeiy368jKfQMKKvJY5" target="_blank">Spotify</a></li>
+            <li><a href="https://podcasts.apple.com/us/podcast/pytorch-developer-podcast/id1566080008" target="_blank">Apple</a></li>
+            <li><a href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9PQjVGa0lsOA%3D%3D" target="_blank">Google</a></li>
+            <li><a href="https://music.amazon.com/podcasts/7a4e6f0e-26c2-49e9-a478-41bd244197d0/PyTorch-Developer-Podcast?" target="_blank">Amazon</a></li>
+          </ul>
+         </div>
+        </div>
+        
+        <div class="privacy-policy">
+          <ul>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/terms/" target="_blank">Terms</a></li>
+            <li class="privacy-policy-links">|</li>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/privacy-policy/" target="_blank">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="copyright">
+        <p>© Copyright The Linux Foundation. The PyTorch Foundation is a project of The Linux Foundation.
+          For web site terms of use, trademark policy and other policies applicable to The PyTorch Foundation please see
+          <a href="https://www.linuxfoundation.org/policies/">www.linuxfoundation.org/policies/</a>. The PyTorch Foundation supports the PyTorch open source
+          project, which has been established as PyTorch Project a Series of LF Projects, LLC. For policies applicable to the PyTorch Project a Series of LF Projects, LLC,
+          please see <a href="https://www.lfprojects.org/policies/">www.lfprojects.org/policies/</a>.</p>
+      </div>
+     </div>
+
+  </footer>
+
+  <div class="cookie-banner-wrapper">
+  <div class="container">
+    <p class="gdpr-notice">To analyze traffic and optimize your experience, we serve cookies on this site. By clicking or navigating, you agree to allow our usage of cookies. As the current maintainers of this site, Facebook’s Cookies Policy applies. Learn more, including about available controls: <a href="https://www.facebook.com/policies/cookies/">Cookies Policy</a>.</p>
+    <img class="close-button" src="_static/images/pytorch-x.svg">
+  </div>
+</div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+           <li class="resources-mobile-menu-title">
+             <a>Learn</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/get-started">Get Started</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials">Tutorials</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/recipes/recipes_index.html">PyTorch Recipes</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/introyt.html">Introduction to PyTorch - YouTube Series</a>
+             </li>
+           </ul>
+           <li class="resources-mobile-menu-title">
+             <a>Ecosystem</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/ecosystem">Tools</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/#community-module">Community</a>
+             </li>
+             <li>
+               <a href="https://discuss.pytorch.org/">Forums</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/resources">Developer Resources</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/ecosystem/contributor-awards-2023">Contributor Awards - 2023</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Edge</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/edge">About PyTorch Edge</a>
+             </li>
+             
+             <li>
+               <a href="https://pytorch.org/executorch-overview">ExecuTorch</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Docs</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/pytorch-domains">PyTorch Domains</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            <a>Blog & News</a>
+          </li>
+            
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/blog/">PyTorch Blog</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/community-blog">Community Blog</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/videos">Videos</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/community-stories">Community Stories</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/events">Events</a>
+            </li>
+          </ul>
+          
+          <li class="resources-mobile-menu-title">
+            <a>About</a>
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/foundation">PyTorch Foundation</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/governing-board">Governing Board</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>

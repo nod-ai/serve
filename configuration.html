@@ -1,0 +1,1116 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Advanced configuration &mdash; PyTorch/Serve master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Custom Service" href="custom_service.html" />
+    <link rel="prev" title="Code Coverage" href="code_coverage.html" />
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T8XT4PS');</script>
+    <!-- End Google Tag Manager -->
+  
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+
+      <div class="main-menu">
+        <ul>
+
+          <li class="main-menu-item">
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Learn
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/get-started">
+                  <span class=dropdown-title>Get Started</span>
+                  <p>Run PyTorch locally or get started quickly with one of the supported cloud platforms</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials">
+                  <span class="dropdown-title">Tutorials</span>
+                  <p>Whats new in PyTorch tutorials</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/basics/intro.html">
+                  <span class="dropdown-title">Learn the Basics</span>
+                  <p>Familiarize yourself with PyTorch concepts and modules</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/recipes/recipes_index.html">
+                  <span class="dropdown-title">PyTorch Recipes</span>
+                  <p>Bite-size, ready-to-deploy PyTorch code examples</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/introyt.html">
+                  <span class="dropdown-title">Intro to PyTorch - YouTube Series</span>
+                  <p>Master PyTorch basics with our engaging YouTube tutorial series</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Ecosystem
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem">
+                  <span class="dropdown-title">Tools</span>
+                  <p>Learn about the tools and frameworks in the PyTorch Ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class=dropdown-title>Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class=dropdown-title>Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class=dropdown-title>Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem/contributor-awards-2023">
+                  <span class="dropdown-title">Contributor Awards - 2023</span>
+                  <p>Award winners announced at this year's PyTorch Conference</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Edge
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/edge">
+                  <span class="dropdown-title">About PyTorch Edge</span>
+                  <p>Build innovative and privacy-aware AI experiences for edge devices</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/executorch-overview">
+                  <span class="dropdown-title">ExecuTorch</span>
+                  <p>End-to-end solution for enabling on-device inference capabilities across mobile and edge devices</p>
+                </a>
+              </div>
+            </div>  
+          </li>
+
+          <li class="main-menu-item">
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p>Explore the documentation for comprehensive guidance on how to use PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/pytorch-domains">
+                  <span class="dropdown-title">PyTorch Domains</span>
+                  <p>Read the PyTorch Domains documentation to learn more about domain-specific libraries</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Blogs & News 
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/blog/">
+                  <span class="dropdown-title">PyTorch Blog</span>
+                  <p>Catch up on the latest technical news and happenings</p>
+                </a>
+                 <a class="nav-dropdown-item" href="https://pytorch.org/community-blog">
+                  <span class="dropdown-title">Community Blog</span>
+                  <p>Stories from the PyTorch ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/videos">
+                  <span class="dropdown-title">Videos</span>
+                  <p>Learn about the latest PyTorch tutorials, new, and more </p>
+                <a class="nav-dropdown-item" href="https://pytorch.org/community-stories">
+                  <span class="dropdown-title">Community Stories</span>
+                  <p>Learn how our community solves real, everyday machine learning problems with PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/events">
+                  <span class="dropdown-title">Events</span>
+                  <p>Find events, webinars, and podcasts</p>
+                </a>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                About
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/foundation">
+                  <span class="dropdown-title">PyTorch Foundation</span>
+                  <p>Learn more about the PyTorch Foundation</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/governing-board">
+                  <span class="dropdown-title">Governing Board</span>
+                  <p></p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li class="main-menu-item">
+            <div class="no-dropdown">
+              <a href="https://pytorch.org/join" data-cta="join">
+                Become a Member
+              </a>
+            </div>
+          </li>
+          <li>
+           <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="github-icon">
+             </a>
+           </div>
+          </li>
+          <!--- TODO: This block adds the search icon to the nav bar. We will enable it later. 
+          <li>
+            <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="search-icon">
+             </a>
+            </div>
+          </li>
+          --->
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+      <div class="pytorch-side-scroll">
+        <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="pytorch-left-menu-search">
+            
+
+            
+              
+              
+                <div class="version">
+                  master 
+                </div>
+              
+            
+
+            
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+            
+          </div>
+
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_guide.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_coverage.html">Code Coverage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_service.html">Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default_handlers.html">TorchServe default inference handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nvidia_mps.html">Running TorchServe with NVIDIA MPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snapshot.html">TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/intel_extension_for_pytorch">intel_extension_for_pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_wsl.html">TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">TorchServe Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="large_model_inference.html">Serving large models with Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQ’S</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grpc_api.html">TorchServe gRPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference_api.html">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_management_api.html">Management API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.html">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">serve</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="pytorch-container">
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="contents.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+      <li>Advanced configuration</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            <a href="_sources/configuration.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+        <div class="pytorch-content-left">
+
+        
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8XT4PS"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+              
+  <section id="advanced-configuration">
+<h1>Advanced configuration<a class="headerlink" href="#advanced-configuration" title="Permalink to this heading">¶</a></h1>
+<p>The default settings form TorchServe should be sufficient for most use cases. However, if you want to customize TorchServe, the configuration options described in this topic are available.</p>
+<p>There are three ways to configure TorchServe. In order of priority, they are:</p>
+<ol class="simple">
+<li><p>Environment variables</p></li>
+<li><p>Command line arguments</p></li>
+<li><p>Configuration file</p></li>
+</ol>
+<p>For example, the value of an environment variable overrides both command line arguments and
+a property in the configuration file. The value of a command line argument overrides
+a value in the configuration file.</p>
+<section id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h2>
+<p>You can change TorchServe behavior by setting the following environment variables:</p>
+<ul class="simple">
+<li><p>JAVA_HOME</p></li>
+<li><p>PYTHONPATH</p></li>
+<li><p>TS_CONFIG_FILE</p></li>
+<li><p>LOG_LOCATION</p></li>
+<li><p>METRICS_LOCATION</p></li>
+</ul>
+<p><strong>Note:</strong> Environment variables have higher priority than command line or config.properties.
+The value of an environment variable overrides other property values.</p>
+</section>
+<section id="command-line-parameters">
+<h2>Command line parameters<a class="headerlink" href="#command-line-parameters" title="Permalink to this heading">¶</a></h2>
+<p>Customize TorchServe behavior by using the following command line arguments when you call <code class="docutils literal notranslate"><span class="pre">torchserve</span></code>:</p>
+<ul class="simple">
+<li><p><strong>–ts-config</strong> TorchServe loads the specified configuration file if <code class="docutils literal notranslate"><span class="pre">TS_CONFIG_FILE</span></code> environment variable is not set</p></li>
+<li><p><strong>–model-store</strong> Overrides the <code class="docutils literal notranslate"><span class="pre">model_store</span></code> property in config.properties file</p></li>
+<li><p><strong>–models</strong> Overrides the <code class="docutils literal notranslate"><span class="pre">load_models</span></code> property in config.properties</p></li>
+<li><p><strong>–log-config</strong> Overrides the default log4j2.xml</p></li>
+<li><p><strong>–foreground</strong> Runs TorchServe in the foreground. If this option is
+disabled, TorchServe runs in the background</p></li>
+</ul>
+<p>For more detailed information about <code class="docutils literal notranslate"><span class="pre">torchserve</span></code> command line options, see <a class="reference internal" href="server.html"><span class="doc">Serve Models with TorchServe</span></a>.</p>
+</section>
+<section id="config-properties-file">
+<h2>config.properties file<a class="headerlink" href="#config-properties-file" title="Permalink to this heading">¶</a></h2>
+<p>TorchServe uses a <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file to store configurations. TorchServe uses following, in order of priority, to locate this <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file:</p>
+<ol class="simple">
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">TS_CONFIG_FILE</span></code> environment variable is set, TorchServe loads the configuration from the path specified by the environment variable.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">--ts-config</span></code> parameter is passed to <code class="docutils literal notranslate"><span class="pre">torchserve</span></code>, TorchServe loads the configuration from the path specified by the parameter.</p></li>
+<li><p>If there is a <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> in the folder where you call <code class="docutils literal notranslate"><span class="pre">torchserve</span></code>, TorchServe loads the <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file from the current working directory.</p></li>
+<li><p>If none of the above is specified, TorchServe loads a built-in configuration with default values.</p></li>
+</ol>
+<section id="customize-jvm-options">
+<h3>Customize JVM options<a class="headerlink" href="#customize-jvm-options" title="Permalink to this heading">¶</a></h3>
+<p>To control TorchServe frontend memory footprint, configure the <strong>vmargs</strong> property in the <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file</p>
+<ul class="simple">
+<li><p>default: N/A, use JVM default options</p></li>
+</ul>
+<p>Adjust JVM options to fit your memory requirement.</p>
+</section>
+<section id="load-models-at-startup">
+<h3>Load models at startup<a class="headerlink" href="#load-models-at-startup" title="Permalink to this heading">¶</a></h3>
+<p>You can configure TorchServe to load models during startup by setting the <code class="docutils literal notranslate"><span class="pre">model_store</span></code> and <code class="docutils literal notranslate"><span class="pre">load_models</span></code> properties.
+The following values are valid:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load_models</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">standalone</span></code>: default: N/A, No models are loaded at start up.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code>: Load all models present in <code class="docutils literal notranslate"><span class="pre">model_store</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model1.mar,</span> <span class="pre">model2.mar</span></code>: Load models in the specified MAR files from <code class="docutils literal notranslate"><span class="pre">model_store</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model1=model1.mar,</span> <span class="pre">model2=model2.mar</span></code>: Load models with the specified names and MAR files from <code class="docutils literal notranslate"><span class="pre">model_store</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_store</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">standalone</span></code>: default: N/A, Loading models from the local disk is disabled.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pathname</span></code>: The model store location is specified by the value of <code class="docutils literal notranslate"><span class="pre">pathname</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Note:</strong> <code class="docutils literal notranslate"><span class="pre">model_store</span></code> and <code class="docutils literal notranslate"><span class="pre">load_models</span></code> properties are overridden by command line parameters, if specified.</p>
+</section>
+<section id="configure-torchserve-listening-address-and-port">
+<h3>Configure TorchServe listening address and port<a class="headerlink" href="#configure-torchserve-listening-address-and-port" title="Permalink to this heading">¶</a></h3>
+<p>TorchServe doesn’t support authentication natively. To avoid unauthorized access, TorchServe only allows localhost access by default.
+The inference API is listening on port 8080. The management API is listening on port 8081. Both expect HTTP requests. These are the default ports.
+See <a class="reference external" href="#enable-ssl">Enable SSL</a> to configure HTTPS.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inference_address</span></code>: Inference API binding address. Default: <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8080</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">management_address</span></code>: Management API binding address. Default: <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8081</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metrics_address</span></code>: Metrics API binding address. Default: <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8082</span></code></p></li>
+<li><p>To run predictions on models on a specific IP address, specify the IP address and port.</p></li>
+</ul>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># bind inference API to localhost with SSL enabled</span>
+<span class="na">inference_address</span><span class="o">=</span><span class="s">https://127.0.0.1:8443</span>
+</pre></div>
+</div>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># bind inference API to private network interfaces with SSL enabled</span>
+<span class="na">inference_address</span><span class="o">=</span><span class="s">https://172.16.1.10:8080</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-torchserve-grpc-listening-addresses-ports-and-max-connection-age">
+<h3>Configure TorchServe gRPC listening addresses, ports and max connection age<a class="headerlink" href="#configure-torchserve-grpc-listening-addresses-ports-and-max-connection-age" title="Permalink to this heading">¶</a></h3>
+<p>The inference gRPC API is listening on port 7070, and the management gRPC API is listening on port 7071 on localhost by default.</p>
+<p>To configure different addresses use following properties</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_inference_address</span></code>: Inference gRPC API IP address. Default: 127.0.0.1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_management_address</span></code>: Management gRPC API IP address. Default: 127.0.0.1</p></li>
+</ul>
+<p>To configure different ports use following properties</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_inference_port</span></code>: Inference gRPC API binding port. Default: 7070</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_management_port</span></code>: management gRPC API binding port. Default: 7071</p></li>
+</ul>
+<p>To configure <a class="reference external" href="https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#maxConnectionAge(long,java.util.concurrent.TimeUnit)">max connection age</a> (milliseconds)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_inference_max_connection_age_ms</span></code>: Inference gRPC max connection age. Default: Infinite</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_management_max_connection_age_ms</span></code>: Management gRPC max connection age. Default: Infinite</p></li>
+</ul>
+<p>To configure <a class="reference external" href="https://grpc.github.io/grpc-java/javadoc/io/grpc/netty/NettyServerBuilder.html#maxConnectionAgeGrace(long,java.util.concurrent.TimeUnit)">max connection age grace</a> (milliseconds)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_inference_max_connection_age_grace_ms</span></code>: Inference gRPC max connection age grace. Default: Infinite</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grpc_management_max_connection_age_grace_ms</span></code>: Management gRPC max connection age grace. Default: Infinite</p></li>
+</ul>
+</section>
+<section id="enable-ssl">
+<h3>Enable SSL<a class="headerlink" href="#enable-ssl" title="Permalink to this heading">¶</a></h3>
+<p>To enable HTTPs, you can change <code class="docutils literal notranslate"><span class="pre">inference_address</span></code>, <code class="docutils literal notranslate"><span class="pre">management_address</span></code> or <code class="docutils literal notranslate"><span class="pre">metrics_address</span></code> protocol from http to https. For example: <code class="docutils literal notranslate"><span class="pre">inference_address=https://127.0.0.1</span></code>.
+The default is port 443, but you can make TorchServe listen on whatever port you set to accept https requests.
+For example, to receive https traffic on port 8443, you would use: <code class="docutils literal notranslate"><span class="pre">inference_address=https://127.0.0.1:8443</span></code>.</p>
+<p>You must also provide a certificate and private key to enable SSL. TorchServe supports two ways to configure SSL:</p>
+<ol class="simple">
+<li><p>Use a keystore:</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>keystore:</strong> the keystore file location. If multiple private key entries exist in the keystore, the first one will be used.</p></li>
+<li><p><strong>keystore_pass</strong>: the keystore password. The password (if applicable) MUST be the same as keystore password.</p></li>
+<li><p><strong>keystore_type</strong>: the type of keystore. Default: PKCS12.</p></li>
+</ul>
+<ol class="simple">
+<li><p>Use private-key/certificate files:</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>private_key_file</strong>: the private key file location. Supports both PKCS8 and OpenSSL private keys.</p></li>
+<li><p><strong>certificate_file</strong>: the X509 certificate chain file location.</p></li>
+</ul>
+<section id="examples">
+<h4>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h4>
+<p><strong>Option 1</strong>: Use a keystore; generate a keystore with Java’s keytool. Note the <code class="docutils literal notranslate"><span class="pre">storepass</span></code> argument expects you to create your own password.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>keytool<span class="w"> </span>-genkey<span class="w"> </span>-keyalg<span class="w"> </span>RSA<span class="w"> </span>-alias<span class="w"> </span>ts<span class="w"> </span>-keystore<span class="w"> </span>keystore.p12<span class="w"> </span>-storepass<span class="w"> </span>changeit<span class="w"> </span>-storetype<span class="w"> </span>PKCS12<span class="w"> </span>-validity<span class="w"> </span><span class="m">3600</span><span class="w"> </span>-keysize<span class="w"> </span><span class="m">2048</span><span class="w"> </span>-dname<span class="w"> </span><span class="s2">&quot;CN=www.MY_TS.com, OU=Cloud Service, O=model server, L=Palo Alto, ST=California, C=US&quot;</span>
+</pre></div>
+</div>
+<p>Configure the following properties in config.properties:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">inference_address</span><span class="o">=</span>https://127.0.0.1:8443
+<span class="nv">management_address</span><span class="o">=</span>https://127.0.0.1:8444
+<span class="nv">metrics_address</span><span class="o">=</span>https://127.0.0.1:8445
+<span class="nv">keystore</span><span class="o">=</span>keystore.p12
+<span class="nv">keystore_pass</span><span class="o">=</span>changeit
+<span class="nv">keystore_type</span><span class="o">=</span>PKCS12
+</pre></div>
+</div>
+<p><strong>Option 2</strong>: Use private-key/certificate files; generate your self signed cert and key with OpenSSL:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-keyout<span class="w"> </span>mykey.key<span class="w"> </span>-out<span class="w"> </span>mycert.pem
+</pre></div>
+</div>
+<p>Config following property in config.properties:</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">inference_address</span><span class="o">=</span><span class="s">https://127.0.0.1:8443</span>
+<span class="na">management_address</span><span class="o">=</span><span class="s">https://127.0.0.1:8444</span>
+<span class="na">metrics_address</span><span class="o">=</span><span class="s">https://127.0.0.1:8445</span>
+<span class="na">private_key_file</span><span class="o">=</span><span class="s">mykey.key</span>
+<span class="na">certificate_file</span><span class="o">=</span><span class="s">mycert.pem</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configure-cross-origin-resource-sharing-cors">
+<h3>Configure Cross-Origin Resource Sharing (CORS)<a class="headerlink" href="#configure-cross-origin-resource-sharing-cors" title="Permalink to this heading">¶</a></h3>
+<p>CORS is a mechanism that uses additional HTTP headers to tell a browser to let a
+web application running at one origin (domain) have permission to access selected
+resources from a server at a different origin.</p>
+<p>CORS is disabled by default. Configure following properties in config.properties file to enable CORS:</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># cors_allowed_origin is required to enable CORS, use &#39;*&#39; or your domain name</span>
+<span class="na">cors_allowed_origin</span><span class="o">=</span><span class="s">https://yourdomain.com</span>
+<span class="c1"># required if you want to use preflight request</span>
+<span class="na">cors_allowed_methods</span><span class="o">=</span><span class="s">GET, POST, PUT, OPTIONS</span>
+<span class="c1"># required if the request has an Access-Control-Request-Headers header</span>
+<span class="na">cors_allowed_headers</span><span class="o">=</span><span class="s">X-Custom-Header</span>
+</pre></div>
+</div>
+</section>
+<section id="prefer-direct-buffer">
+<h3>Prefer direct buffer<a class="headerlink" href="#prefer-direct-buffer" title="Permalink to this heading">¶</a></h3>
+<p>Configuration parameter prefer_direct_buffer controls if the model server will be using direct memory specified by -XX:MaxDirectMemorySize. This parameter is for model server only and  doesn’t affect other packages’ usage of direct memory buffer. Default: false</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">prefer_direct_buffer</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</section>
+<section id="allow-model-specific-custom-python-packages">
+<h3>Allow model specific custom python packages.<a class="headerlink" href="#allow-model-specific-custom-python-packages" title="Permalink to this heading">¶</a></h3>
+<p>Custom models/handlers may depend on different python packages which are not installed by-default as a part of <code class="docutils literal notranslate"><span class="pre">TorchServe</span></code> setup. User can supply a requirements.txt file containing the required list of python packages to be installed by <code class="docutils literal notranslate"><span class="pre">TorchServe</span></code> for seamless model serving.
+Configuration parameter <code class="docutils literal notranslate"><span class="pre">install_py_dep_per_model</span></code> controls if the model server will install the python packages using the <code class="docutils literal notranslate"><span class="pre">requirements</span></code> file supplied with the model archive. Default: false</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">install_py_dep_per_model</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+<p>User can also supply custom python packages in zip or tar.gz format using the <code class="docutils literal notranslate"><span class="pre">--extra-files</span></code> flag while creating the model-archive and make an entry of the file name in the <code class="docutils literal notranslate"><span class="pre">requirements</span></code> file.</p>
+</section>
+<section id="restrict-backend-worker-to-access-environment-variables">
+<h3>Restrict backend worker to access environment variables<a class="headerlink" href="#restrict-backend-worker-to-access-environment-variables" title="Permalink to this heading">¶</a></h3>
+<p>Environment variables might contain sensitive information, like AWS credentials. Backend workers execute an arbitrary model’s custom code,
+which might expose a security risk. TorchServe provides a <code class="docutils literal notranslate"><span class="pre">blacklist_env_vars</span></code> property that allows you to restrict which environment variables can be accessed by backend workers.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">blacklist_env_vars</span></code>: a regular expression to filter out environment variable names. Default: all environment variables are visible to backend workers.</p></li>
+</ul>
+</section>
+<section id="limit-gpu-usage">
+<h3>Limit GPU usage<a class="headerlink" href="#limit-gpu-usage" title="Permalink to this heading">¶</a></h3>
+<p>By default, TorchServe uses all available GPUs for inference. Use <code class="docutils literal notranslate"><span class="pre">number_of_gpu</span></code> to limit the usage of GPUs.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">number_of_gpu</span></code>: Maximum number of GPUs that TorchServe can use for inference. Default: all available GPUs in system.</p></li>
+</ul>
+</section>
+<section id="nvidia-control-visibility">
+<h3>Nvidia control Visibility<a class="headerlink" href="#nvidia-control-visibility" title="Permalink to this heading">¶</a></h3>
+<p>Set nvidia environment variables. For example:</p>
+<ul class="simple">
+<li><p>export CUDA_DEVICE_ORDER=”PCI_BUS_ID”</p></li>
+<li><p>export CUDA_VISIBLE_DEVICES=”1,3”</p></li>
+</ul>
+</section>
+<section id="enable-metrics-api">
+<h3>Enable metrics api<a class="headerlink" href="#enable-metrics-api" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">enable_metrics_api</span></code> : Enable or disable metric apis i.e. it can be either <code class="docutils literal notranslate"><span class="pre">true</span></code> or <code class="docutils literal notranslate"><span class="pre">false</span></code>. Default: true (Enabled)</p></li>
+</ul>
+</section>
+<section id="config-model">
+<h3>Config model<a class="headerlink" href="#config-model" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">models</span></code>: Use this to set configurations specific to a model. The value is presented in json format.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;modelName&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;parameterName1&quot;</span><span class="p">:</span> <span class="n">parameterValue1</span><span class="p">,</span>
+            <span class="s2">&quot;parameterName2&quot;</span><span class="p">:</span> <span class="n">parameterValue2</span><span class="p">,</span>
+            <span class="s2">&quot;parameterNameN&quot;</span><span class="p">:</span> <span class="n">parameterValueN</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A model’s parameters are defined in <a class="reference external" href="https://github.com/pytorch/serve/blob/a9e218ae95fe7690c84b555d0fb9021322c9b049/frontend/archive/src/main/java/org/pytorch/serve/archive/model/ModelConfig.java#L11">model source code</a></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">minWorkers</span></code>: the minimum number of workers of a model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxWorkers</span></code>: the maximum number of workers of a model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">batchSize</span></code>: the batch size of a model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxBatchDelay</span></code>: the maximum delay in msec of a batch of a model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">startupTimeout</span></code>: the timeout in sec of a specific model’s startup. This setting takes priority over <code class="docutils literal notranslate"><span class="pre">default_startup_timeout</span></code> which is a default timeout over all models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">responseTimeout</span></code>: the timeout in sec of a specific model’s response. This setting takes priority over <code class="docutils literal notranslate"><span class="pre">default_response_timeout</span></code> which is a default timeout over all models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">defaultVersion</span></code>: the default version of a model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">marName</span></code>: the mar file name of a model</p></li>
+</ul>
+<p>A model’s configuration example</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">models</span><span class="o">=</span><span class="s">{</span><span class="se">\</span>
+<span class="w">  </span><span class="s">&quot;noop&quot;: {</span><span class="se">\</span>
+<span class="w">    </span><span class="s">&quot;1.0&quot;: {</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;defaultVersion&quot;: true,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;marName&quot;: &quot;noop.mar&quot;,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;minWorkers&quot;: 1,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;maxWorkers&quot;: 1,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;batchSize&quot;: 4,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;maxBatchDelay&quot;: 100,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;responseTimeout&quot;: 120</span><span class="se">\</span>
+<span class="w">    </span><span class="s">}</span><span class="se">\</span>
+<span class="w">  </span><span class="s">},</span><span class="se">\</span>
+<span class="w">  </span><span class="s">&quot;vgg16&quot;: {</span><span class="se">\</span>
+<span class="w">    </span><span class="s">&quot;1.0&quot;: {</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;defaultVersion&quot;: true,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;marName&quot;: &quot;vgg16.mar&quot;,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;minWorkers&quot;: 1,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;maxWorkers&quot;: 4,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;batchSize&quot;: 8,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;maxBatchDelay&quot;: 100,</span><span class="se">\</span>
+<span class="w">        </span><span class="s">&quot;responseTimeout&quot;: 120</span><span class="se">\</span>
+<span class="w">    </span><span class="s">}</span><span class="se">\</span>
+<span class="w">  </span><span class="s">}</span><span class="se">\</span>
+<span class="s">}</span>
+</pre></div>
+</div>
+<p>Starting from version 0.8.0, TorchServe allows for model configuration using a YAML file embedded in the MAR file. This YAML file contains two distinct parts that determine how a model is configured: frontend parameters and backend parameters. (see <a class="reference external" href="https://github.com/pytorch/serve/tree/master/model-archiver#config-file">details</a>)</p>
+<ul class="simple">
+<li><p>The frontend parameters are controlled by TorchServe’s frontend and specify the parameter name and default values. TorchServe now uses a priority order to determine the final value of a model’s parameters in frontend. Specifically, the config.property file has the lowest priority, followed by the model configuration YAML file, and finally, the REST or gRPC model management API has the highest priority.</p></li>
+<li><p>The backend parameters are fully controlled by the user. Users customized handler can access the backend parameters via the <code class="docutils literal notranslate"><span class="pre">model_yaml_config</span></code> property of the <a class="reference external" href="https://github.com/pytorch/serve/blob/a9e218ae95fe7690c84b555d0fb9021322c9b049/ts/context.py#L24">context object</a>. For example, context.model_yaml_config[”pippy”][”rpc_timeout”].</p></li>
+<li><p>User can allocate specific GPU device IDs to a model by defining “deviceIds” in the frontend parameters in the YAML file. TorchServe uses a round-robin strategy to assign device IDs to a model’s worker. If specified in the YAML file, it round-robins the device IDs listed; otherwise, it uses all visible device IDs on the host.</p></li>
+</ul>
+</section>
+<section id="other-properties">
+<h3>Other properties<a class="headerlink" href="#other-properties" title="Permalink to this heading">¶</a></h3>
+<p>Most of the following properties are designed for performance tuning. Adjusting these numbers will impact scalability and throughput.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">enable_envvars_config</span></code>: Enable configuring TorchServe through environment variables. When this option is set to “true”, all the static configurations of TorchServe can come through environment variables as well. Default: false</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">number_of_netty_threads</span></code>: Number frontend netty thread. This specifies the number of threads in the child <a class="reference external" href="https://livebook.manning.com/book/netty-in-action/chapter-8">EventLoopGroup</a> of the frontend netty server. This group provides EventLoops for processing Netty Channel events (namely inference and management requests) from accepted connections. Default: number of logical processors available to the JVM.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">netty_client_threads</span></code>: Number of backend netty thread. This specifies the number of threads in the WorkerThread <a class="reference external" href="https://livebook.manning.com/book/netty-in-action/chapter-8">EventLoopGroup</a> which writes inference responses to the frontend. Default: number of logical processors available to the JVM.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default_workers_per_model</span></code>: Number of workers to create for each model that loaded at startup time. Default: available GPUs in system or number of logical processors available to the JVM.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">job_queue_size</span></code>: Number inference jobs that frontend will queue before backend can serve. Default: 100.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">async_logging</span></code>: Enable asynchronous logging for higher throughput, log output may be delayed if this is enabled. Default: false.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default_response_timeout</span></code>: Timeout, in seconds, used for all models backend workers before they are deemed unresponsive and rebooted. Default: 120 seconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default_startup_timeout</span></code>: Specifies the maximum time, in seconds, allowed for model backend workers to initialize and become ready. If a worker fails to start within this timeframe, it is considered unresponsive and will be restarted. Default: 120 seconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unregister_model_timeout</span></code>: Timeout, in seconds, used when handling an unregister model request when cleaning a process before it is deemed unresponsive and an error response is sent. Default: 120 seconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">decode_input_request</span></code>: Configuration to let backend workers to decode requests, when the content type is known.
+If this is set to “true”, backend workers do “Bytearray to JSON object” conversion when the content type is “application/json” and
+the backend workers convert “Bytearray to utf-8 string” when the Content-Type of the request is set to “text*”. Default: true</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initial_worker_port</span></code> : This is the initial port number for auto assigning port to worker process.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_store</span></code> : Path of model store directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_server_home</span></code> : Torchserve home directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_request_size</span></code> : The maximum allowable request size that the Torchserve accepts, in bytes. Default: 6553500</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_response_size</span></code> : The maximum allowable response size that the Torchserve sends, in bytes. Default: 6553500</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limit_max_image_pixels</span></code> : Default value is true (Use default <a class="reference external" href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.MAX_IMAGE_PIXELS">PIL.Image.MAX_IMAGE_PIXELS</a>). If this is set to “false”, set PIL.Image.MAX_IMAGE_PIXELS = None in backend default vision handler for large image payload.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allowed_urls</span></code> : Comma separated regex of allowed source URL(s) from where models can be registered. Default: <code class="docutils literal notranslate"><span class="pre">file://.*|http(s)?://.*</span></code> (all URLs and local file system)
+e.g. : To allow base URLs <code class="docutils literal notranslate"><span class="pre">https://s3.amazonaws.com/</span></code> and <code class="docutils literal notranslate"><span class="pre">https://torchserve.pytorch.org/</span></code> use the following regex string <code class="docutils literal notranslate"><span class="pre">allowed_urls=https://s3.amazonaws.com/.*,https://torchserve.pytorch.org/.*</span></code></p>
+<ul>
+<li><p>For security reason, <code class="docutils literal notranslate"><span class="pre">use_env_allowed_urls=true</span></code> is required in config.properties to read <code class="docutils literal notranslate"><span class="pre">allowed_urls</span></code> from environment variable.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">workflow_store</span></code> : Path of workflow store directory. Defaults to model store directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disable_system_metrics</span></code> : Disable collection of system metrics when set to “true”. Default value is “false”.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">system_metrics_cmd</span></code>: The customized system metrics python script name with arguments. For example:<code class="docutils literal notranslate"><span class="pre">ts/metrics/metric_collector.py</span> <span class="pre">--gpu</span> <span class="pre">0</span></code>. Default: empty which means TorchServe collects system metrics via “ts/metrics/metric_collector.py –gpu $CUDA_VISIBLE_DEVICES”.</p></li>
+</ul>
+<p><strong>NOTE</strong></p>
+<p>All the above config properties can be set using environment variable as follows.</p>
+<ul>
+<li><p>set <code class="docutils literal notranslate"><span class="pre">enable_envvars_config</span></code> to true in config.properties</p></li>
+<li><p>export environment variable for property as<code class="docutils literal notranslate"><span class="pre">TS_&lt;PROPERTY_NAME&gt;</span></code>.</p>
+<p>e.g.: to set inference_address property run cmd
+<code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">TS_INFERENCE_ADDRESS=&quot;http://127.0.0.1:8082&quot;</span></code>.</p>
+</li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="custom_service.html" class="btn btn-neutral float-right" title="Custom Service" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="code_coverage.html" class="btn btn-neutral" title="Code Coverage" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
+  
+
+  
+
+    <hr>
+
+  
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, PyTorch Serve Contributors.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">Advanced configuration</a><ul>
+<li><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+<li><a class="reference internal" href="#command-line-parameters">Command line parameters</a></li>
+<li><a class="reference internal" href="#config-properties-file">config.properties file</a><ul>
+<li><a class="reference internal" href="#customize-jvm-options">Customize JVM options</a></li>
+<li><a class="reference internal" href="#load-models-at-startup">Load models at startup</a></li>
+<li><a class="reference internal" href="#configure-torchserve-listening-address-and-port">Configure TorchServe listening address and port</a></li>
+<li><a class="reference internal" href="#configure-torchserve-grpc-listening-addresses-ports-and-max-connection-age">Configure TorchServe gRPC listening addresses, ports and max connection age</a></li>
+<li><a class="reference internal" href="#enable-ssl">Enable SSL</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configure-cross-origin-resource-sharing-cors">Configure Cross-Origin Resource Sharing (CORS)</a></li>
+<li><a class="reference internal" href="#prefer-direct-buffer">Prefer direct buffer</a></li>
+<li><a class="reference internal" href="#allow-model-specific-custom-python-packages">Allow model specific custom python packages.</a></li>
+<li><a class="reference internal" href="#restrict-backend-worker-to-access-environment-variables">Restrict backend worker to access environment variables</a></li>
+<li><a class="reference internal" href="#limit-gpu-usage">Limit GPU usage</a></li>
+<li><a class="reference internal" href="#nvidia-control-visibility">Nvidia control Visibility</a></li>
+<li><a class="reference internal" href="#enable-metrics-api">Enable metrics api</a></li>
+<li><a class="reference internal" href="#config-model">Config model</a></li>
+<li><a class="reference internal" href="#other-properties">Other properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+         <script src="_static/jquery.js"></script>
+         <script src="_static/underscore.js"></script>
+         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+         <script src="_static/doctools.js"></script>
+         <script src="_static/katex.min.js"></script>
+         <script src="_static/auto-render.min.js"></script>
+         <script src="_static/katex_autorenderer.js"></script>
+     
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Docs</h2>
+          <p>Access comprehensive developer documentation for PyTorch</p>
+          <a class="with-right-arrow" href="https://pytorch.org/docs/stable/index.html">View Docs</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Tutorials</h2>
+          <p>Get in-depth tutorials for beginners and advanced developers</p>
+          <a class="with-right-arrow" href="https://pytorch.org/tutorials">View Tutorials</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Resources</h2>
+          <p>Find development resources and get your questions answered</p>
+          <a class="with-right-arrow" href="https://pytorch.org/resources">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://pytorch.org/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/">PyTorch</a></li>
+            <li><a href="https://pytorch.org/get-started">Get Started</a></li>
+            <li><a href="https://pytorch.org/features">Features</a></li>
+            <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
+            <li><a href="https://pytorch.org/blog/">Blog</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
+            <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
+            <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">Stay up to date</li>
+            <li><a href="https://www.facebook.com/pytorch" target="_blank">Facebook</a></li>
+            <li><a href="https://twitter.com/pytorch" target="_blank">Twitter</a></li>
+            <li><a href="https://www.youtube.com/pytorch" target="_blank">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/company/pytorch" target="_blank">LinkedIn</a></li>
+          </ul>  
+          </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">PyTorch Podcasts</li>
+            <li><a href="https://open.spotify.com/show/6UzHKeiy368jKfQMKKvJY5" target="_blank">Spotify</a></li>
+            <li><a href="https://podcasts.apple.com/us/podcast/pytorch-developer-podcast/id1566080008" target="_blank">Apple</a></li>
+            <li><a href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9PQjVGa0lsOA%3D%3D" target="_blank">Google</a></li>
+            <li><a href="https://music.amazon.com/podcasts/7a4e6f0e-26c2-49e9-a478-41bd244197d0/PyTorch-Developer-Podcast?" target="_blank">Amazon</a></li>
+          </ul>
+         </div>
+        </div>
+        
+        <div class="privacy-policy">
+          <ul>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/terms/" target="_blank">Terms</a></li>
+            <li class="privacy-policy-links">|</li>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/privacy-policy/" target="_blank">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="copyright">
+        <p>© Copyright The Linux Foundation. The PyTorch Foundation is a project of The Linux Foundation.
+          For web site terms of use, trademark policy and other policies applicable to The PyTorch Foundation please see
+          <a href="https://www.linuxfoundation.org/policies/">www.linuxfoundation.org/policies/</a>. The PyTorch Foundation supports the PyTorch open source
+          project, which has been established as PyTorch Project a Series of LF Projects, LLC. For policies applicable to the PyTorch Project a Series of LF Projects, LLC,
+          please see <a href="https://www.lfprojects.org/policies/">www.lfprojects.org/policies/</a>.</p>
+      </div>
+     </div>
+
+  </footer>
+
+  <div class="cookie-banner-wrapper">
+  <div class="container">
+    <p class="gdpr-notice">To analyze traffic and optimize your experience, we serve cookies on this site. By clicking or navigating, you agree to allow our usage of cookies. As the current maintainers of this site, Facebook’s Cookies Policy applies. Learn more, including about available controls: <a href="https://www.facebook.com/policies/cookies/">Cookies Policy</a>.</p>
+    <img class="close-button" src="_static/images/pytorch-x.svg">
+  </div>
+</div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+           <li class="resources-mobile-menu-title">
+             <a>Learn</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/get-started">Get Started</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials">Tutorials</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/recipes/recipes_index.html">PyTorch Recipes</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/introyt.html">Introduction to PyTorch - YouTube Series</a>
+             </li>
+           </ul>
+           <li class="resources-mobile-menu-title">
+             <a>Ecosystem</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/ecosystem">Tools</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/#community-module">Community</a>
+             </li>
+             <li>
+               <a href="https://discuss.pytorch.org/">Forums</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/resources">Developer Resources</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/ecosystem/contributor-awards-2023">Contributor Awards - 2023</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Edge</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/edge">About PyTorch Edge</a>
+             </li>
+             
+             <li>
+               <a href="https://pytorch.org/executorch-overview">ExecuTorch</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Docs</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/pytorch-domains">PyTorch Domains</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            <a>Blog & News</a>
+          </li>
+            
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/blog/">PyTorch Blog</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/community-blog">Community Blog</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/videos">Videos</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/community-stories">Community Stories</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/events">Events</a>
+            </li>
+          </ul>
+          
+          <li class="resources-mobile-menu-title">
+            <a>About</a>
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/foundation">PyTorch Foundation</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/governing-board">Governing Board</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>

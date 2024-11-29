@@ -1,0 +1,1077 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Serving large models with Torchserve &mdash; PyTorch/Serve master documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FAQ’S" href="FAQs.html" />
+    <link rel="prev" title="TorchServe Workflows" href="workflows.html" />
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T8XT4PS');</script>
+    <!-- End Google Tag Manager -->
+  
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+
+      <div class="main-menu">
+        <ul>
+
+          <li class="main-menu-item">
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Learn
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/get-started">
+                  <span class=dropdown-title>Get Started</span>
+                  <p>Run PyTorch locally or get started quickly with one of the supported cloud platforms</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials">
+                  <span class="dropdown-title">Tutorials</span>
+                  <p>Whats new in PyTorch tutorials</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/basics/intro.html">
+                  <span class="dropdown-title">Learn the Basics</span>
+                  <p>Familiarize yourself with PyTorch concepts and modules</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/recipes/recipes_index.html">
+                  <span class="dropdown-title">PyTorch Recipes</span>
+                  <p>Bite-size, ready-to-deploy PyTorch code examples</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/tutorials/beginner/introyt.html">
+                  <span class="dropdown-title">Intro to PyTorch - YouTube Series</span>
+                  <p>Master PyTorch basics with our engaging YouTube tutorial series</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Ecosystem
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem">
+                  <span class="dropdown-title">Tools</span>
+                  <p>Learn about the tools and frameworks in the PyTorch Ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class=dropdown-title>Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class=dropdown-title>Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class=dropdown-title>Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/ecosystem/contributor-awards-2023">
+                  <span class="dropdown-title">Contributor Awards - 2023</span>
+                  <p>Award winners announced at this year's PyTorch Conference</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+          <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Edge
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/edge">
+                  <span class="dropdown-title">About PyTorch Edge</span>
+                  <p>Build innovative and privacy-aware AI experiences for edge devices</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/executorch-overview">
+                  <span class="dropdown-title">ExecuTorch</span>
+                  <p>End-to-end solution for enabling on-device inference capabilities across mobile and edge devices</p>
+                </a>
+              </div>
+            </div>  
+          </li>
+
+          <li class="main-menu-item">
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p>Explore the documentation for comprehensive guidance on how to use PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/pytorch-domains">
+                  <span class="dropdown-title">PyTorch Domains</span>
+                  <p>Read the PyTorch Domains documentation to learn more about domain-specific libraries</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                Blogs & News 
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/blog/">
+                  <span class="dropdown-title">PyTorch Blog</span>
+                  <p>Catch up on the latest technical news and happenings</p>
+                </a>
+                 <a class="nav-dropdown-item" href="https://pytorch.org/community-blog">
+                  <span class="dropdown-title">Community Blog</span>
+                  <p>Stories from the PyTorch ecosystem</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/videos">
+                  <span class="dropdown-title">Videos</span>
+                  <p>Learn about the latest PyTorch tutorials, new, and more </p>
+                <a class="nav-dropdown-item" href="https://pytorch.org/community-stories">
+                  <span class="dropdown-title">Community Stories</span>
+                  <p>Learn how our community solves real, everyday machine learning problems with PyTorch</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/events">
+                  <span class="dropdown-title">Events</span>
+                  <p>Find events, webinars, and podcasts</p>
+                </a>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="with-down-arrow">
+                About
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/foundation">
+                  <span class="dropdown-title">PyTorch Foundation</span>
+                  <p>Learn more about the PyTorch Foundation</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/governing-board">
+                  <span class="dropdown-title">Governing Board</span>
+                  <p></p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li class="main-menu-item">
+            <div class="no-dropdown">
+              <a href="https://pytorch.org/join" data-cta="join">
+                Become a Member
+              </a>
+            </div>
+          </li>
+          <li>
+           <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="github-icon">
+             </a>
+           </div>
+          </li>
+          <!--- TODO: This block adds the search icon to the nav bar. We will enable it later. 
+          <li>
+            <div class="main-menu-item">
+             <a href="https://github.com/pytorch/pytorch" class="search-icon">
+             </a>
+            </div>
+          </li>
+          --->
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+      <div class="pytorch-side-scroll">
+        <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="pytorch-left-menu-search">
+            
+
+            
+              
+              
+                <div class="version">
+                  master 
+                </div>
+              
+            
+
+            
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+            
+          </div>
+
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_guide.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_coverage.html">Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_service.html">Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default_handlers.html">TorchServe default inference handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_zoo.html">Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nvidia_mps.html">Running TorchServe with NVIDIA MPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snapshot.html">TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/intel_extension_for_pytorch">intel_extension_for_pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_wsl.html">TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">TorchServe Workflows</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Serving large models with Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQ’S</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grpc_api.html">TorchServe gRPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference_api.html">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_management_api.html">Management API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.html">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">serve</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="pytorch-container">
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="contents.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+      <li>Serving large models with Torchserve</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            <a href="_sources/large_model_inference.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+        <div class="pytorch-content-left">
+
+        
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8XT4PS"
+          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+              
+  <section id="serving-large-models-with-torchserve">
+<h1>Serving large models with Torchserve<a class="headerlink" href="#serving-large-models-with-torchserve" title="Permalink to this heading">¶</a></h1>
+<p>This document explain how Torchserve supports large model serving, here large model refers to the models that are not able to fit into one gpu so they need be split in multiple partitions over multiple gpus.
+This page is split into the following sections:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="#how-it-works">How it works</a></p></li>
+<li><p><a class="reference external" href="#pippy-pytorch-native-solution-for-large-model-inference">Large Model Inference with vLLM</a></p></li>
+<li><p><a class="reference external" href="#pippy-pytorch-native-solution-for-large-model-inference">Large Model Inference with PiPPy</a></p></li>
+<li><p><a class="reference external" href="#deepspeed">Large Model Inference with Deep Speed</a></p></li>
+<li><p><a class="reference external" href="#deepspeed-mii">Deep Speed MII</a></p></li>
+<li><p><a class="reference external" href="#serving-large-hugging-face-models-using-accelerate">Large Hugging Face Models</a></p></li>
+<li><p><a class="reference external" href="#large-model-inference-tips">Large Model Inference Tips</a></p></li>
+</ul>
+<section id="how-it-works">
+<h2>How it works?<a class="headerlink" href="#how-it-works" title="Permalink to this heading">¶</a></h2>
+<p>For GPU inference of smaller models TorchServe executes a single process per worker which gets assigned a single GPU.
+For large model inference the model needs to be split over multiple GPUs.
+There are different modes to achieve this split which usually include pipeline parallel (PP), tensor parallel or a combination of these.
+Which mode is selected and how the split is implemented depends on the implementation in the utilized framework.
+TorchServe allows users to utilize any framework for their model deployment and tries to accommodate the needs of the frameworks through flexible configurations.
+Some frameworks require to execute a separate process for each of the GPUs (PiPPy, Deep Speed) while others require a single process which get assigned all GPUs (vLLM).
+In case multiple processes are required TorchServe utilizes <a class="reference external" href="https://pytorch.org/docs/stable/elastic/run.html">torchrun</a> to set up the distributed environment for the worker.
+During the setup <code class="docutils literal notranslate"><span class="pre">torchrun</span></code> will start a new process for each GPU assigned to the worker.
+If torchrun is utilized or not depends on the parameter parallelType which can be set in the <code class="docutils literal notranslate"><span class="pre">model-config.yaml</span></code> to one of the following options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pp</span></code> - for pipeline parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tp</span></code> - for tensor parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pptp</span></code> - for pipeline + tensor parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">custom</span></code></p></li>
+</ul>
+<p>The first three options setup the environment using torchrun while the “custom” option leaves the way of parallelization to the user and assigned the GPUs assigned to a worker to a single process.
+The number of assigned GPUs is determined either by the number of processes started by torchrun i.e. configured through nproc-per-node OR the parameter parallelLevel.
+Meaning that the parameter parallelLevel should NOT be set if nproc-per-node is set and vice versa.</p>
+<p>By default, TorchServe uses a round-robin algorithm to assign GPUs to a worker on a host.
+In case of large models inference GPUs assigned to each worker is automatically calculated based on the number of GPUs specified in the model_config.yaml.
+CUDA_VISIBLE_DEVICES is set based this number.</p>
+<p>For instance, suppose there are eight GPUs on a node and one worker needs 4 GPUs (ie, nproc-per-node=4 OR parallelLevel=4) on a node.
+In this case, TorchServe would assign CUDA_VISIBLE_DEVICES=”0,1,2,3” to worker1 and CUDA_VISIBLE_DEVICES=”4,5,6,7” to worker2.</p>
+<p>In addition to this default behavior, TorchServe provides the flexibility for users to specify GPUs for a worker. For instance, if the user sets “deviceIds: [2,3,4,5]” in the <a class="reference external" href="https://github.com/pytorch/serve/blob/5ee02e4f050c9b349025d87405b246e970ee710b/model-archiver/README.md?plain=1#L164">model config YAML file</a>, and nproc-per-node (OR parallelLevel) is set to 2, then TorchServe would assign CUDA_VISIBLE_DEVICES=”2,3” to worker1 and CUDA_VISIBLE_DEVICES=”4,5” to worker2.</p>
+<p>Using Pippy integration as an example, the image below illustrates the internals of the TorchServe large model inference.
+For an example using vLLM see <a class="reference external" href="../examples/large_models/vllm/">this example</a>.</p>
+<p><img alt="ts-lmi-internal" src="https://raw.githubusercontent.com/pytorch/serve/master/docs/images/ts-lmi-internal.png" /></p>
+</section>
+<section id="pippy-pytorch-native-solution-for-large-model-inference">
+<h2>PiPPy (PyTorch Native solution for large model inference)<a class="headerlink" href="#pippy-pytorch-native-solution-for-large-model-inference" title="Permalink to this heading">¶</a></h2>
+<p>PiPPy provides pipeline parallelism for serving large models that would not fit into one gpu. It takes your model and splits it into equal sizes (stages) partitioned over the number devices you specify. Then uses microbatching to run your batched input for inference ( its is more optimal for batch sizes &gt;1).</p>
+<section id="how-to-use-pippy-in-torchserve">
+<h3>How to use PiPPy in Torchserve<a class="headerlink" href="#how-to-use-pippy-in-torchserve" title="Permalink to this heading">¶</a></h3>
+<p>To use Pippy in Torchserve, we need to use a custom handler which inherits from base_pippy_handler and put our setting in model-config.yaml.</p>
+<p>Customer handler in Torchserve is simply a python script that defines model loading, preprocess, inference and postprocess logic specific to your workflow.</p>
+<p>It would look like below:</p>
+<p>Create <code class="docutils literal notranslate"><span class="pre">custom_handler.py</span></code> or any other descriptive name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#DO import the necessary packages along with following</span>
+<span class="kn">from</span> <span class="nn">ts.torch_handler.distributed.base_pippy_handler</span> <span class="kn">import</span> <span class="n">BasePippyHandler</span>
+<span class="kn">from</span> <span class="nn">ts.handler_utils.distributed.pt_pippy</span> <span class="kn">import</span> <span class="n">initialize_rpc_workers</span><span class="p">,</span> <span class="n">get_pipline_driver</span>
+<span class="k">class</span> <span class="nc">ModelHandler</span><span class="p">(</span><span class="n">BasePippyHandler</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ModelHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="c1"># load your model from model_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_rank</span> <span class="o">%</span>  <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span><span class="c1"># being used to move model inputs to (self.device)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">get_pipline_driver</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">world_size</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here is what your <code class="docutils literal notranslate"><span class="pre">model-config.yaml</span></code> needs, this config file is very flexible, you can add setting related to frontend, backend and handler.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1">#frontend settings</span>
+<span class="nt">minWorkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">maxWorkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">maxBatchDelay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="nt">responseTimeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
+<span class="nt">deviceType</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gpu&quot;</span>
+<span class="nt">parallelType</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pp&quot;</span><span class="w"> </span><span class="c1"># options depending on the solution, pp(pipeline parallelism), tp(tensor parallelism), pptp ( pipeline and tensor parallelism)</span>
+<span class="w">                   </span><span class="c1"># This will be used to route input to either rank0 or all ranks from fontend based on the solution (e.g. DeepSpeed support tp, PiPPy support pp)</span>
+<span class="nt">torchrun</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">nproc-per-node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w"> </span><span class="c1"># specifies the number of processes torchrun starts to serve your model, set to world_size or number of</span>
+<span class="w">                      </span><span class="c1"># gpus you wish to split your model</span>
+<span class="c1">#backend settings</span>
+<span class="nt">pippy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">chunks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"> </span><span class="c1"># This sets the microbatch sizes, microbatch = batch size/ chunks</span>
+<span class="w">    </span><span class="nt">input_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;input_ids&#39;</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># input arg names to the model, this is required for FX tracing</span>
+<span class="w">    </span><span class="nt">model_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HF&quot;</span><span class="w"> </span><span class="c1"># set the model type to HF if you are using Huggingface model other wise leave it blank or any other model you use.</span>
+<span class="w">    </span><span class="nt">rpc_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1800</span>
+<span class="w">    </span><span class="nt">num_worker_threads</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512</span><span class="w"> </span><span class="c1">#set number of threads for rpc worker init.</span>
+
+<span class="nt">handler</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">max_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span><span class="w"> </span><span class="c1"># max length of tokens for tokenizer in the handler</span>
+</pre></div>
+</div>
+<p><strong>How to access it in the handler?</strong> here is an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+    <span class="n">model_type</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">model_yaml_config</span><span class="p">[</span><span class="s2">&quot;pippy&quot;</span><span class="p">][</span><span class="s2">&quot;model_type&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The rest is as usual in Torchserve, basically packaging your model and starting the server.</p>
+<p>Example of the command for packaging your model, make sure you pass model-config.yaml</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>torch-model-archiver<span class="w"> </span>--model-name<span class="w"> </span>bloom<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--handler<span class="w"> </span>pippy_handler.py<span class="w"> </span>--extra-files<span class="w"> </span><span class="nv">$MODEL_CHECKPOINTS_PATH</span><span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span>--config-file<span class="w"> </span>model-config.yaml<span class="w"> </span>--archive-format<span class="w"> </span>tgz
+</pre></div>
+</div>
+<p>Tensor Parallel support in progress and will be added as soon as ready.</p>
+</section>
+</section>
+<section id="deepspeed">
+<h2>DeepSpeed<a class="headerlink" href="#deepspeed" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="https://www.deepspeed.ai/inference/">DeepSpeed-Inference</a> is an open source project of MicroSoft. It provides model parallelism for serving large transformer based PyTorch models that would not fit into one gpu memory.</p>
+<section id="how-to-use-deepspeed-in-torchserve">
+<h3>How to use DeepSpeed in TorchServe<a class="headerlink" href="#how-to-use-deepspeed-in-torchserve" title="Permalink to this heading">¶</a></h3>
+<p>To use DeepSpeed in TorchServe, we need to use a custom handler which inherits from base_deepspeed_handler and put our setting in model-config.yaml.</p>
+<p>It would look like below:</p>
+<p>Create <code class="docutils literal notranslate"><span class="pre">custom_handler.py</span></code> or any other descriptive name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#DO import the necessary packages along with following</span>
+<span class="kn">from</span> <span class="nn">ts.handler_utils.distributed.deepspeed</span> <span class="kn">import</span> <span class="n">get_ds_engine</span>
+<span class="kn">from</span> <span class="nn">ts.torch_handler.distributed.base_deepspeed_handler</span> <span class="kn">import</span> <span class="n">BaseDeepSpeedHandler</span>
+<span class="k">class</span> <span class="nc">ModelHandler</span><span class="p">(</span><span class="n">BaseDeepSpeedHandler</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ModelHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="c1"># load your model from model_dir</span>
+        <span class="n">ds_engine</span> <span class="o">=</span> <span class="n">get_ds_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">ds_engine</span><span class="o">.</span><span class="n">module</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>Here is what your <code class="docutils literal notranslate"><span class="pre">model-config.yaml</span></code> needs, this config file is very flexible, you can add setting related to frontend, backend and handler.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1">#frontend settings</span>
+<span class="nt">minWorkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">maxWorkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">maxBatchDelay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="nt">responseTimeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">120</span>
+<span class="nt">deviceType</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gpu&quot;</span>
+<span class="nt">parallelType</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tp&quot;</span><span class="w"> </span><span class="c1"># options depending on the solution, pp(pipeline parallelism), tp(tensor parallelism), pptp ( pipeline and tensor parallelism)</span>
+<span class="w">                   </span><span class="c1"># This will be used to route input to either rank0 or all ranks from fontend based on the solution (e.g. DeepSpeed support tp, PiPPy support pp)</span>
+<span class="nt">torchrun</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">nproc-per-node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w"> </span><span class="c1"># specifies the number of processes torchrun starts to serve your model, set to world_size or number of</span>
+<span class="w">                      </span><span class="c1"># gpus you wish to split your model</span>
+<span class="c1">#backend settings</span>
+<span class="nt">deepspeed</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ds-config.json</span><span class="w"> </span><span class="c1"># DeepSpeed config json filename.</span>
+<span class="w">                           </span><span class="c1"># Details:https://www.deepspeed.ai/docs/config-json/</span>
+<span class="nt">handler</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">max_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span><span class="w"> </span><span class="c1"># max length of tokens for tokenizer in the handler</span>
+</pre></div>
+</div>
+<p>Here is an example of <code class="docutils literal notranslate"><span class="pre">ds-config.json</span></code></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;dtype&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;torch.float16&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;replace_with_kernel_inject&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tensor_parallel&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;tp_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Install DeepSpeed</strong></p>
+<p><em>Method1</em>: requirements.txt</p>
+<p><em>Method2</em>: pre-install via command (Recommended to speed up model loading)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># See https://www.deepspeed.ai/tutorials/advanced-install/</span>
+<span class="nv">DS_BUILD_OPS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>deepspeed
+</pre></div>
+</div>
+<p>The rest is as usual in Torchserve, basically packaging your model and starting the server.</p>
+<p>Example of the command for packaging your model, make sure you pass model-config.yaml</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># option 1: Using model_dir</span>
+torch-model-archiver<span class="w"> </span>--model-name<span class="w"> </span>bloom<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--handler<span class="w"> </span>deepspeed_handler.py<span class="w"> </span>--extra-files<span class="w"> </span><span class="nv">$MODEL_CHECKPOINTS_PATH</span>,ds-config.json<span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span>--config-file<span class="w"> </span>model-config.yaml<span class="w"> </span>--archive-format<span class="w"> </span>tgz
+
+<span class="c1"># option 2: Using HF model_name</span>
+torch-model-archiver<span class="w"> </span>--model-name<span class="w"> </span>bloom<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>--handler<span class="w"> </span>deepspeed_handler.py<span class="w"> </span>--extra-files<span class="w"> </span>ds-config.json<span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span>--config-file<span class="w"> </span>model-config.yaml<span class="w"> </span>--archive-format
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deepspeed-mii">
+<h2>DeepSpeed MII<a class="headerlink" href="#deepspeed-mii" title="Permalink to this heading">¶</a></h2>
+<p>If working with one of the supported models shown <a class="reference external" href="https://github.com/microsoft/deepspeed-mii#supported-models-and-tasks">here</a> you can take advantage of Deep Speed MII. Deep Speed MII uses Deep Speed Inference along with further advances in deep learning to minimize latency and maximize throughput. It does this for specific model types, model sizes, batch sizes and available hardware resources.</p>
+<p>For more information on how to take advantage of Deep Speed MII on supported models, see the information <a class="reference external" href="https://github.com/microsoft/DeepSpeed-MII">here</a>.
+You can also find an example of how to apply this to TorchServe <a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/large_models/deepspeed_mii">here</a>.</p>
+</section>
+<section id="serving-large-hugging-face-models-using-accelerate">
+<h2>Serving Large Hugging Face Models Using Accelerate<a class="headerlink" href="#serving-large-hugging-face-models-using-accelerate" title="Permalink to this heading">¶</a></h2>
+<p>If working with large Hugging Face models but have limited resources, you can use accelerate to serve these models. To achieve this, you would need to set <code class="docutils literal notranslate"><span class="pre">low_cpu_mem_usage=True</span></code> and set the `device_map=”auto” in the setup_config.json file.</p>
+<p>For more information on using accelerate with large Hugging Face models, see <a class="reference external" href="https://github.com/pytorch/serve/tree/master/examples/large_models/Huggingface_accelerate">this example</a>.</p>
+</section>
+<section id="large-model-inference-tips">
+<h2>Large Model Inference Tips<a class="headerlink" href="#large-model-inference-tips" title="Permalink to this heading">¶</a></h2>
+<section id="reducing-model-loading-latency">
+<h3>Reducing model loading latency<a class="headerlink" href="#reducing-model-loading-latency" title="Permalink to this heading">¶</a></h3>
+<p>To reduce model latency we recommend:</p>
+<ul class="simple">
+<li><p>Pre-installing the model parallel library such as Deepspeed on the container or host.</p></li>
+<li><p>Pre-downloading the model checkpoints. For example, if using HuggingFace, a pretrained model can be pre-downloaded via <a class="reference external" href="https://github.com/pytorch/serve/blob/75f66dc557b3b67a3ab56536a37d7aa21582cc04/examples/large_models/deepspeed/opt/Readme.md#loading-large-huggingface-models-on-multiple-gpus">Download_model.py</a></p>
+<ul>
+<li><p>Set environment variable <a class="reference external" href="https://huggingface.co/docs/huggingface_hub/guides/manage-cache#understand-caching">HUGGINGFACE_HUB_CACHE</a> and <a class="reference external" href="https://huggingface.co/transformers/v4.0.1/installation.html#caching-models">TRANSFORMERS_CACHE</a></p></li>
+<li><p>Download model to the HuggingFace cache dir via tool <a class="reference external" href="https://github.com/pytorch/serve/blob/4fe5273cd6f98fb5abc570f802b402ac32ecd105/examples/large_models/Huggingface_pippy/Readme.md?plain=1#L20">Download_model.py</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="tune-model-config-yaml-file">
+<h3>Tune <a class="reference external" href="https://github.com/pytorch/serve/blob/5ee02e4f050c9b349025d87405b246e970ee710b/model-archiver/README">model config YAML file</a><a class="headerlink" href="#tune-model-config-yaml-file" title="Permalink to this heading">¶</a></h3>
+<p>You can tune the model config YAML file to get better performance in the following ways:</p>
+<ul class="simple">
+<li><p>Update the <a class="reference external" href="https://github.com/pytorch/serve/blob/5ee02e4f050c9b349025d87405b246e970ee710b/docs/configuration.md?plain=1#L216">responseTimeout</a> if high model inference latency causes response timeout.</p></li>
+<li><p>Update the <a class="reference external" href="https://github.com/pytorch/serve/blob/5ee02e4f050c9b349025d87405b246e970ee710b/docs/configuration.md?plain=1#L216">startupTimeout</a> if high model loading latency causes startup timeout.</p></li>
+<li><p>Tune the <a class="reference external" href="https://github.com/pytorch/serve/blob/2f1f52f553e83703b5c380c2570a36708ee5cafa/model-archiver/README.md?plain=1#L179">torchrun parameters</a>. The supported parameters are defined at <a class="reference external" href="https://github.com/pytorch/serve/blob/2f1f52f553e83703b5c380c2570a36708ee5cafa/frontend/archive/src/main/java/org/pytorch/serve/archive/model/ModelConfig.java#L329">here</a>. For example, by default, <code class="docutils literal notranslate"><span class="pre">OMP_NUMBER_THREADS</span></code> is 1. This can be modified in the YAML file.</p></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1">#frontend settings</span>
+<span class="nt">torchrun</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">nproc-per-node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w"> </span><span class="c1"># specifies the number of processes torchrun starts to serve your model, set to world_size or number of</span>
+<span class="w">                      </span><span class="c1"># gpus you wish to split your model</span>
+<span class="w">    </span><span class="nt">OMP_NUMBER_THREADS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</pre></div>
+</div>
+</section>
+<section id="latency-sensitive-applications">
+<h3>Latency Sensitive Applications<a class="headerlink" href="#latency-sensitive-applications" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="job-ticket">
+<h3>Job Ticket<a class="headerlink" href="#job-ticket" title="Permalink to this heading">¶</a></h3>
+<p>The job ticket feature is recommended for the use case of latency sensitive inference. When job ticket is enabled, TorchServe verifies the availability of a model’s active worker for processing a client’s request. If an active worker is available, the request is accepted and processed immediately without the waiting time incurred from the job queue or dynamic batching; otherwise, a 503 response is sent back to the client.</p>
+<p>This feature helps with use cases where inference latency can be high, such as generative models, auto regressive decoder models like chatGPT. This feature helps such applications take effective actions, for example, routing the rejected request to a different server, or scaling up model server capacity, based on the business requirements. Here is an example of enabling job ticket.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">minWorkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">maxWorkers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">jobQueueSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">useJobTicket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+<p>In this example, a model has 2 workers with job queue size 2. An inference request will be either processed by TorchServe immediately, or rejected with response code 503.</p>
+</section>
+<section id="streaming-response-via-http-1-1-chunked-encoding">
+<h3>Streaming response via HTTP 1.1 chunked encoding<a class="headerlink" href="#streaming-response-via-http-1-1-chunked-encoding" title="Permalink to this heading">¶</a></h3>
+<p>TorchServe’s inference API supports streaming response to allow a sequence of inference responses to be sent over HTTP 1.1 chunked encoding. This feature is only recommended for the use case when the inference latency of the full response is high and the inference intermediate results are sent to the client. An example could be LLMs for generative applications, where generating “n” number of tokens can have high latency. In this case,  the user can receive each generated token once ready until the full response completes. To achieve streaming response, the backend handler calls “send_intermediate_predict_response” to send one intermediate result to the frontend, and returns the last result as the existing style. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ts.handler_utils.utils</span> <span class="kn">import</span> <span class="n">send_intermediate_predict_response</span>
+<span class="sd">&#39;&#39;&#39; Note: TorchServe v1.0.0 will deprecate</span>
+<span class="sd">&quot;from ts.protocol.otf_message_handler import send_intermediate_predict_response&quot;.</span>
+<span class="sd">Please replace it with &quot;from ts.handler_utils.utils import send_intermediate_predict_response&quot;.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">send_intermediate_predict_response</span><span class="p">([</span><span class="s2">&quot;intermediate_response&quot;</span><span class="p">],</span> <span class="n">context</span><span class="o">.</span><span class="n">request_ids</span><span class="p">,</span> <span class="s2">&quot;Intermediate Prediction success&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;hello world &quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Client side receives the chunked data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">test_utils</span>
+
+<span class="k">def</span> <span class="nf">test_echo_stream_inference</span><span class="p">():</span>
+    <span class="n">test_utils</span><span class="o">.</span><span class="n">start_torchserve</span><span class="p">(</span><span class="n">no_config_snapshots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gen_mar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">test_utils</span><span class="o">.</span><span class="n">register_model</span><span class="p">(</span><span class="s1">&#39;echo_stream&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;https://torchserve.pytorch.org/mar_files/echo_stream.mar&#39;</span><span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">TF_INFERENCE_API</span> <span class="o">+</span> <span class="s1">&#39;/predictions/echo_stream&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Transfer-Encoding&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;chunked&#39;</span>
+
+    <span class="n">prediction</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
+            <span class="n">prediction</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+    <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prediction</span><span class="p">))</span> <span class="o">==</span> <span class="s2">&quot;hello hello hello hello world &quot;</span>
+    <span class="n">test_utils</span><span class="o">.</span><span class="n">unregister_model</span><span class="p">(</span><span class="s1">&#39;echo_stream&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="grpc-server-side-streaming">
+<h3>GRPC Server Side Streaming<a class="headerlink" href="#grpc-server-side-streaming" title="Permalink to this heading">¶</a></h3>
+<p>TorchServe <a class="reference internal" href="grpc_api.html"><span class="doc">GRPC API</span></a> adds server side streaming of the inference API “StreamPredictions” to allow a sequence of inference responses to be sent over the same GRPC stream. This API is only recommended for use case when the inference latency of the full response is high and the inference intermediate results are sent to the client. An example could be LLMs for generative applications, where generating “n” number of tokens can have high latency. Similar to the HTTP 1.1 chunked encoding, with this feature the user can receive each generated token once ready until the full response completes. This API automatically forces the batchSize to be one.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">InferenceAPIsService</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Check</span> <span class="n">health</span> <span class="n">status</span> <span class="n">of</span> <span class="n">the</span> <span class="n">TorchServe</span> <span class="n">server</span><span class="o">.</span>
+    <span class="n">rpc</span> <span class="n">Ping</span><span class="p">(</span><span class="n">google</span><span class="o">.</span><span class="n">protobuf</span><span class="o">.</span><span class="n">Empty</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">TorchServeHealthResponse</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="o">//</span> <span class="n">Predictions</span> <span class="n">entry</span> <span class="n">point</span> <span class="n">to</span> <span class="n">get</span> <span class="n">inference</span> <span class="n">using</span> <span class="n">default</span> <span class="n">model</span> <span class="n">version</span><span class="o">.</span>
+    <span class="n">rpc</span> <span class="n">Predictions</span><span class="p">(</span><span class="n">PredictionsRequest</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">PredictionResponse</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="o">//</span> <span class="n">Streaming</span> <span class="n">response</span> <span class="k">for</span> <span class="n">an</span> <span class="n">inference</span> <span class="n">request</span><span class="o">.</span>
+    <span class="n">rpc</span> <span class="n">StreamPredictions</span><span class="p">(</span><span class="n">PredictionsRequest</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">stream</span> <span class="n">PredictionResponse</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Backend handler calls “send_intermediate_predict_response” to send one intermediate result to frontend, and return the last result as the existing style. For example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ts.handler_utils.utils</span> <span class="kn">import</span> <span class="n">send_intermediate_predict_response</span>
+<span class="sd">&#39;&#39;&#39; Note: TorchServe v1.0.0 will deprecate</span>
+<span class="sd">&quot;from ts.protocol.otf_message_handler import send_intermediate_predict_response&quot;.</span>
+<span class="sd">Please replace it with &quot;from ts.handler_utils.utils import send_intermediate_predict_response&quot;.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">send_intermediate_predict_response</span><span class="p">([</span><span class="s2">&quot;intermediate_response&quot;</span><span class="p">],</span> <span class="n">context</span><span class="o">.</span><span class="n">request_ids</span><span class="p">,</span> <span class="s2">&quot;Intermediate Prediction success&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;hello world &quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="FAQs.html" class="btn btn-neutral float-right" title="FAQ’S" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="workflows.html" class="btn btn-neutral" title="TorchServe Workflows" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
+  
+
+  
+
+    <hr>
+
+  
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, PyTorch Serve Contributors.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">Serving large models with Torchserve</a><ul>
+<li><a class="reference internal" href="#how-it-works">How it works?</a></li>
+<li><a class="reference internal" href="#pippy-pytorch-native-solution-for-large-model-inference">PiPPy (PyTorch Native solution for large model inference)</a><ul>
+<li><a class="reference internal" href="#how-to-use-pippy-in-torchserve">How to use PiPPy in Torchserve</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deepspeed">DeepSpeed</a><ul>
+<li><a class="reference internal" href="#how-to-use-deepspeed-in-torchserve">How to use DeepSpeed in TorchServe</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deepspeed-mii">DeepSpeed MII</a></li>
+<li><a class="reference internal" href="#serving-large-hugging-face-models-using-accelerate">Serving Large Hugging Face Models Using Accelerate</a></li>
+<li><a class="reference internal" href="#large-model-inference-tips">Large Model Inference Tips</a><ul>
+<li><a class="reference internal" href="#reducing-model-loading-latency">Reducing model loading latency</a></li>
+<li><a class="reference internal" href="#tune-model-config-yaml-file">Tune model config YAML file</a></li>
+<li><a class="reference internal" href="#latency-sensitive-applications">Latency Sensitive Applications</a></li>
+<li><a class="reference internal" href="#job-ticket">Job Ticket</a></li>
+<li><a class="reference internal" href="#streaming-response-via-http-1-1-chunked-encoding">Streaming response via HTTP 1.1 chunked encoding</a></li>
+<li><a class="reference internal" href="#grpc-server-side-streaming">GRPC Server Side Streaming</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+         <script src="_static/jquery.js"></script>
+         <script src="_static/underscore.js"></script>
+         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+         <script src="_static/doctools.js"></script>
+         <script src="_static/katex.min.js"></script>
+         <script src="_static/auto-render.min.js"></script>
+         <script src="_static/katex_autorenderer.js"></script>
+     
+
+  
+
+  <script type="text/javascript" src="_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Docs</h2>
+          <p>Access comprehensive developer documentation for PyTorch</p>
+          <a class="with-right-arrow" href="https://pytorch.org/docs/stable/index.html">View Docs</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Tutorials</h2>
+          <p>Get in-depth tutorials for beginners and advanced developers</p>
+          <a class="with-right-arrow" href="https://pytorch.org/tutorials">View Tutorials</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Resources</h2>
+          <p>Find development resources and get your questions answered</p>
+          <a class="with-right-arrow" href="https://pytorch.org/resources">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://pytorch.org/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/">PyTorch</a></li>
+            <li><a href="https://pytorch.org/get-started">Get Started</a></li>
+            <li><a href="https://pytorch.org/features">Features</a></li>
+            <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
+            <li><a href="https://pytorch.org/blog/">Blog</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
+            <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
+            <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">Stay up to date</li>
+            <li><a href="https://www.facebook.com/pytorch" target="_blank">Facebook</a></li>
+            <li><a href="https://twitter.com/pytorch" target="_blank">Twitter</a></li>
+            <li><a href="https://www.youtube.com/pytorch" target="_blank">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/company/pytorch" target="_blank">LinkedIn</a></li>
+          </ul>  
+          </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title">PyTorch Podcasts</li>
+            <li><a href="https://open.spotify.com/show/6UzHKeiy368jKfQMKKvJY5" target="_blank">Spotify</a></li>
+            <li><a href="https://podcasts.apple.com/us/podcast/pytorch-developer-podcast/id1566080008" target="_blank">Apple</a></li>
+            <li><a href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9PQjVGa0lsOA%3D%3D" target="_blank">Google</a></li>
+            <li><a href="https://music.amazon.com/podcasts/7a4e6f0e-26c2-49e9-a478-41bd244197d0/PyTorch-Developer-Podcast?" target="_blank">Amazon</a></li>
+          </ul>
+         </div>
+        </div>
+        
+        <div class="privacy-policy">
+          <ul>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/terms/" target="_blank">Terms</a></li>
+            <li class="privacy-policy-links">|</li>
+            <li class="privacy-policy-links"><a href="https://www.linuxfoundation.org/privacy-policy/" target="_blank">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="copyright">
+        <p>© Copyright The Linux Foundation. The PyTorch Foundation is a project of The Linux Foundation.
+          For web site terms of use, trademark policy and other policies applicable to The PyTorch Foundation please see
+          <a href="https://www.linuxfoundation.org/policies/">www.linuxfoundation.org/policies/</a>. The PyTorch Foundation supports the PyTorch open source
+          project, which has been established as PyTorch Project a Series of LF Projects, LLC. For policies applicable to the PyTorch Project a Series of LF Projects, LLC,
+          please see <a href="https://www.lfprojects.org/policies/">www.lfprojects.org/policies/</a>.</p>
+      </div>
+     </div>
+
+  </footer>
+
+  <div class="cookie-banner-wrapper">
+  <div class="container">
+    <p class="gdpr-notice">To analyze traffic and optimize your experience, we serve cookies on this site. By clicking or navigating, you agree to allow our usage of cookies. As the current maintainers of this site, Facebook’s Cookies Policy applies. Learn more, including about available controls: <a href="https://www.facebook.com/policies/cookies/">Cookies Policy</a>.</p>
+    <img class="close-button" src="_static/images/pytorch-x.svg">
+  </div>
+</div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+           <li class="resources-mobile-menu-title">
+             <a>Learn</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/get-started">Get Started</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials">Tutorials</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/recipes/recipes_index.html">PyTorch Recipes</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/tutorials/beginner/introyt.html">Introduction to PyTorch - YouTube Series</a>
+             </li>
+           </ul>
+           <li class="resources-mobile-menu-title">
+             <a>Ecosystem</a>
+           </li>
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/ecosystem">Tools</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/#community-module">Community</a>
+             </li>
+             <li>
+               <a href="https://discuss.pytorch.org/">Forums</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/resources">Developer Resources</a>
+             </li>
+             <li>
+               <a href="https://pytorch.org/ecosystem/contributor-awards-2023">Contributor Awards - 2023</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Edge</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+             <li>
+               <a href="https://pytorch.org/edge">About PyTorch Edge</a>
+             </li>
+             
+             <li>
+               <a href="https://pytorch.org/executorch-overview">ExecuTorch</a>
+             </li>
+           </ul>
+
+           <li class="resources-mobile-menu-title">
+             <a>Docs</a>
+           </li>
+
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/pytorch-domains">PyTorch Domains</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            <a>Blog & News</a>
+          </li>
+            
+           <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/blog/">PyTorch Blog</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/community-blog">Community Blog</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/videos">Videos</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/community-stories">Community Stories</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/events">Events</a>
+            </li>
+          </ul>
+          
+          <li class="resources-mobile-menu-title">
+            <a>About</a>
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/foundation">PyTorch Foundation</a>
+            </li>
+            <li>
+              <a href="https://pytorch.org/governing-board">Governing Board</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>
