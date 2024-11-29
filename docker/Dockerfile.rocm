@@ -148,6 +148,12 @@ COPY --chown=model-server --from=compile-image /home/venv /home/venv
 COPY --from=compile-image /usr/local/bin/dockerd-entrypoint.sh /usr/local/bin/dockerd-entrypoint.sh
 ENV PATH="/home/venv/bin:$PATH"
 
+RUN \
+    if [ -n "$USE_ROCM_VERSION" ]; then \
+        python$PYTHON_VERSION -m pip install -U pip setuptools \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
 RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh \
     && chown -R model-server /home/model-server
 
@@ -205,12 +211,17 @@ RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
         echo "Skip ROCm installation"; \
     fi
 
-
 COPY --from=compile-image /home/venv /home/venv
 
 ENV PATH="/home/venv/bin:$PATH"
 
-RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
+RUN \
+    if [ -n "$USE_ROCM_VERSION" ]; then \
+        python$PYTHON_VERSION -m pip install -U pip setuptools \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
+
+RUN python$PYTHON_VERSION -m pip install --no-cache-dir -r https://raw.githubusercontent.com/pytorch/serve/$BRANCH_NAME/requirements/developer.txt
 
 RUN mkdir /serve
 ENV TS_RUN_IN_DOCKER True
@@ -282,6 +293,12 @@ RUN \
 
 COPY --from=compile-image /home/venv /home/venv
 ENV PATH="/home/venv/bin:$PATH"
+
+RUN \
+    if [ -n "$USE_ROCM_VERSION" ]; then \
+        python$PYTHON_VERSION -m pip install -U pip setuptools \
+        && python -m pip install /opt/rocm/share/amd_smi; \
+    fi
 
 WORKDIR "serve"
 
