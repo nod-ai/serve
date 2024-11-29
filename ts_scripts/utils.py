@@ -3,8 +3,10 @@ import platform
 import subprocess
 import sys
 
+
 REPO_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 sys.path.append(REPO_ROOT)
+
 
 nvidia_smi_cmd = {
     "Windows": "nvidia-smi.exe",
@@ -12,9 +14,18 @@ nvidia_smi_cmd = {
     "Linux": "nvidia-smi",
 }
 
+amd_smi_cmd = {
+    "Linux": "amd-smi",
+}
+
 
 def is_gpu_instance():
-    return True if os.system(nvidia_smi_cmd[platform.system()]) == 0 else False
+    return (
+        True
+        if os.system(nvidia_smi_cmd[platform.system()]) == 0
+        or os.system(amd_smi_cmd[platform.system()]) == 0
+        else False
+    )
 
 
 def is_conda_build_env():

@@ -17,7 +17,7 @@ if __name__ == '__main__':
     parser.add_argument(
         "--gpu",
         action="store",
-        help="number of GPU",
+        help="number of GPUs",
         type=int
     )
     arguments = parser.parse_args()
