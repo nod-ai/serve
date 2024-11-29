@@ -36,8 +36,6 @@ ARG BRANCH_NAME
 ARG REPO_URL=https://github.com/pytorch/serve.git
 ENV PYTHONUNBUFFERED TRUE
 
-RUN apt-cache rdepends python-pip python3-pip
-
 RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
