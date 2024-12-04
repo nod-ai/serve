@@ -55,6 +55,13 @@ RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
         git \
     && rm -rf /var/lib/apt/lists/*
 
+RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y rocm-dev amd-smi-lib \
+        && rm -rf /var/lib/apt/lists/* ; \
+    fi
+
 # Make the virtual environment and "activating" it by adding it first to the path.
 # From here on the python$PYTHON_VERSION interpreter is used and the packages
 # are installed in /home/venv which is what we need for the "runtime-image"
@@ -139,6 +146,13 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
+RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y rocm-dev amd-smi-lib \
+        && rm -rf /var/lib/apt/lists/* ; \
+    fi
+
 RUN useradd -m model-server \
     && mkdir -p /home/model-server/tmp
 
@@ -148,9 +162,7 @@ ENV PATH="/home/venv/bin:$PATH"
 
 RUN \
     if [ "$USE_ROCM_VERSION" ]; then \
-        apt-get update && \
-        apt install -y amd-smi-lib \
-        && python -m pip install /opt/rocm/share/amd_smi; \
+        python -m pip install /opt/rocm/share/amd_smi; \
     fi
 
 RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh \
@@ -200,6 +212,13 @@ RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     && rm -rf /var/lib/apt/lists/* \
     && cd /tmp
 
+RUN --mount=type=cache,sharing=locked,id=apt-dev,target=/var/cache/apt \
+    if [ "$USE_ROCM_VERSION" ]; then \
+        apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y rocm-dev amd-smi-lib \
+        && rm -rf /var/lib/apt/lists/* ; \
+    fi
+
 COPY --from=compile-image /home/venv /home/venv
 
 ENV PATH="/home/venv/bin:$PATH"
@@ -208,9 +227,7 @@ RUN python -m pip install --no-cache-dir -r https://raw.githubusercontent.com/py
 
 RUN \
     if [ "$USE_ROCM_VERSION" ]; then \
-        apt-get update && \
-        apt install -y amd-smi-lib \
-        && python -m pip install /opt/rocm/share/amd_smi; \
+        python -m pip install /opt/rocm/share/amd_smi; \
     fi
 
 RUN mkdir /home/serve
@@ -231,6 +248,7 @@ ARG BUILD_WITH_IPEX
 ARG IPEX_VERSION=1.11.0
 ARG IPEX_URL=https://software.intel.com/ipex-whl-stable
 ENV PYTHONUNBUFFERED TRUE
+
 RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
     apt-get update && \
     apt-get upgrade -y && \
@@ -276,9 +294,7 @@ ENV PATH="/home/venv/bin:$PATH"
 
 RUN \
     if [ "$USE_ROCM_VERSION" ]; then \
-        apt-get update && \
-        apt install -y amd-smi-lib \
-        && python -m pip install /opt/rocm/share/amd_smi; \
+        python -m pip install /opt/rocm/share/amd_smi; \
     fi
 
 WORKDIR "serve"
