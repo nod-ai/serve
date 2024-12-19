@@ -90,8 +90,8 @@ def collect_gpu_metrics(num_of_gpus):
                     logging.error("Could not shut down AMD-SMI library.")
         elif torch.backends.mps.is_available():
             try:
-                total_memory = torch.backends.mps.driver_allocated_memory()
-                mem_used = torch.backends.mps.current_allocated_memory()
+                total_memory = torch.mps.driver_allocated_memory()
+                mem_used = torch.mps.current_allocated_memory()
                 gpu_mem_utilization = (
                     (mem_used / total_memory * 100) if total_memory > 0 else 0
                 )
