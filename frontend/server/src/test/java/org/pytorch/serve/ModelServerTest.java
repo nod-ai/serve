@@ -1375,7 +1375,7 @@ public class ModelServerTest {
         // Wait till first value is read in
         int count = 0;
         while (metrics.isEmpty()) {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             metrics = metricManager.getMetrics();
             Assert.assertTrue(++count < 5);
         }
