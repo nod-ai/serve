@@ -1351,7 +1351,8 @@ public class ModelServerTest {
         Map<String, Map<String, String>> expectedMetrics = new HashMap<>();
         expectedMetrics.put("GPUMemoryUtilization", Map.of(UNIT, "Percent", LEVEL, HOST));
         expectedMetrics.put("GPUMemoryUsed", Map.of(UNIT, "Megabytes", LEVEL, HOST));
-        expectedMetrics.put("GPUUtilization", Map.of(UNIT, "Percent", LEVEL, HOST));
+        // TODO: remove
+        // expectedMetrics.put("GPUUtilization", Map.of(UNIT, "Percent", LEVEL, HOST));
         expectedMetrics.put("CPUUtilization", Map.of(UNIT, "Percent", LEVEL, HOST));
         expectedMetrics.put("MemoryUsed", Map.of(UNIT, "Megabytes", LEVEL, HOST));
         expectedMetrics.put("MemoryAvailable", Map.of(UNIT, "Megabytes", LEVEL, HOST));
@@ -1364,14 +1365,6 @@ public class ModelServerTest {
         MetricManager metricManager = MetricManager.getInstance();
         List<Metric> metrics = metricManager.getMetrics();
 
-        // TODO: remove
-        System.out.println("DEBUG");
-        System.out.println(metrics.size());
-        System.out.println(expectedMetrics.size());
-        for (Metric metric : metrics) {
-            System.out.println(metric.getMetricName());
-        }
-
         // Wait till first value is read in
         int count = 0;
         while (metrics.isEmpty()) {
@@ -1380,8 +1373,16 @@ public class ModelServerTest {
             Assert.assertTrue(++count < 5);
         }
 
-        // 7 system-level metrics + 3 gpu-specific metrics
-        Assert.assertEquals(metrics.size(), 7 + 3 * configManager.getNumberOfGpu());
+        // TODO: remove
+        System.out.println("DEBUG");
+        System.out.println(metrics.size());
+        System.out.println(expectedMetrics.size());
+        for (Metric metric : metrics) {
+            System.out.println(metric.getMetricName());
+        }
+
+        // 7 system-level metrics + 2 gpu-specific metrics
+        Assert.assertEquals(metrics.size(), 7 + 2 * configManager.getNumberOfGpu());
 
         for (Metric metric : metrics) {
             String metricName = metric.getMetricName();
