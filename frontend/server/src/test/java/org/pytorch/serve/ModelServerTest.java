@@ -1364,10 +1364,18 @@ public class ModelServerTest {
         MetricManager metricManager = MetricManager.getInstance();
         List<Metric> metrics = metricManager.getMetrics();
 
+        // TODO: remove
+        System.out.println("DEBUG");
+        System.out.println(metrics.size());
+        System.out.println(expectedMetrics.size());
+        for (Metric metric : metrics) {
+            System.out.println(metric.getMetricName());
+        }
+
         // Wait till first value is read in
         int count = 0;
         while (metrics.isEmpty()) {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             metrics = metricManager.getMetrics();
             Assert.assertTrue(++count < 5);
         }
