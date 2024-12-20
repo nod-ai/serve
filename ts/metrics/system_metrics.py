@@ -95,12 +95,10 @@ def collect_gpu_metrics(num_of_gpus):
                 gpu_mem_utilization = (
                     (mem_used / total_memory * 100) if total_memory > 0 else 0
                 )
-                # Currently there is no way to calculate GPU utilization in MPS.
+                # Currently there is no way to calculate GPU utilization with MPS.
                 gpu_utilization = None
             except Exception as e:
                 logging.error(f"Could not capture MPS memory metrics")
-                # TODO: remove
-                print(f"Exception: {e}")
                 mem_used = 0
                 gpu_mem_utilization = 0
                 gpu_utilization = None

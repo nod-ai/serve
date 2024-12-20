@@ -1351,7 +1351,7 @@ public class ModelServerTest {
         Map<String, Map<String, String>> expectedMetrics = new HashMap<>();
         expectedMetrics.put("GPUMemoryUtilization", Map.of(UNIT, "Percent", LEVEL, HOST));
         expectedMetrics.put("GPUMemoryUsed", Map.of(UNIT, "Megabytes", LEVEL, HOST));
-        // TODO: remove
+        // torch.mps does not allow to calculate GPUUtilization, see ts/metrics/system_metrics.py
         // expectedMetrics.put("GPUUtilization", Map.of(UNIT, "Percent", LEVEL, HOST));
         expectedMetrics.put("CPUUtilization", Map.of(UNIT, "Percent", LEVEL, HOST));
         expectedMetrics.put("MemoryUsed", Map.of(UNIT, "Megabytes", LEVEL, HOST));
@@ -1371,14 +1371,6 @@ public class ModelServerTest {
             Thread.sleep(1000);
             metrics = metricManager.getMetrics();
             Assert.assertTrue(++count < 5);
-        }
-
-        // TODO: remove
-        System.out.println("DEBUG");
-        System.out.println(metrics.size());
-        System.out.println(expectedMetrics.size());
-        for (Metric metric : metrics) {
-            System.out.println(metric.getMetricName());
         }
 
         // 7 system-level metrics + 2 gpu-specific metrics
