@@ -60,6 +60,33 @@ If you have 8 accelerators but only want TorchServe to see the last four of them
 > ⚠️  Setting both `CUDA_VISIBLE_DEVICES` and `HIP_VISIBLE_DEVICES` may cause unintended behaviour and should be avoided.
 > Doing so may cause an exception in the future.
 
+## Docker¨
+
+**In Development**
+
+`Dockerfile` and `build_image.sh` provides ROCm support for TorchServe.
+
+Building and running `dev-image`:
+
+```bash
+./build_image.sh -bt dev -g -rv rocm62 -t torch-serve-dev-image-rocm
+docker run -it --rm -device=/dev/kfd --device=/dev/dri torch-serve-dev-image-rocm bash
+```
+
+Building and running `ci-image`:
+
+```bash
+./build_image.sh -bt ci -g -rv rocm62 -t torch-serve-ci-image-rocm
+docker run -it --rm --device=/dev/kfd --device=/dev/dri torch-serve-ci-image-rocm
+```
+
+Building and running `production-image`:
+
+```bash
+./build_image.sh -bt production -g -rv rocm62 -t torch-serve-production-image-rocm
+docker run -it --rm --device=/dev/kfd --device=/dev/dri torch-serve-production-image-rocm
+```
+
 ## Example Usage
 
 After installing TorchServe with the required dependencies for ROCm you should be ready to serve your model.

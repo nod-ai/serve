@@ -65,7 +65,7 @@ Creates a docker image with publicly available `torchserve` and `torch-model-arc
 
  - To create a GPU based image with cuda 10.2. Options are `cu92`, `cu101`, `cu102`, `cu111`, `cu113`, `cu116`, `cu117`, `cu118` for CUDA and `rocm60`, `rocm61`, `rocm62` for ROCm.
 
-    - GPU images are built with either NVIDIA CUDA base image amd AMD ROCm base image. If you want to use ONNX, please specify the base image as shown in the next section.
+    - GPU images are built with either NVIDIA CUDA base image or AMD ROCm base image. If you want to use ONNX, please specify the base image as shown in the next section.
 
   ```bash
   ./build_image.sh -g -cv cu117
@@ -183,6 +183,7 @@ Creates a docker image with `torchserve` and `torch-model-archiver` installed fr
 ./build_image.sh -bt dev -g [-cv cu121|cu118] -cpp
 ```
 
+- For more ROCm support (*experimental*), refer to [this documentation](../docs/hardware_support/amd_support.md).
 
 ## Start a container with a TorchServe image
 
